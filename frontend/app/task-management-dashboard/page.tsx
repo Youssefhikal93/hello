@@ -1,5 +1,7 @@
 import React from "react";
 import Image from "next/image";
+import lock from "../public/lock-icon.svg";
+import projects from "../public/projects-icon.svg";
 
 const TaskManagementNavbar = () => {
   return (
@@ -51,9 +53,44 @@ export default function TaskManagementDashboard() {
           <div className="col-span-1 bg-amber-100 h-full rounded-bl-[40px]">
             left
           </div>
-          {/* Right div */}
+          {/* Right container */}
           <div className="col-span-4 flex flex-col h-full rounded-br-[40px]">
-            <div className="h-[55px] bg-[rgba(42,45,75,0.5)]">top</div>
+            {/* Rigt top div */}
+            <div className="h-[55px] bg-[rgba(42,45,75,0.5)]">
+              <div className="flex items-center h-full px-3 flex-wrap">
+                <div className="flex items-center">
+                  <h1 className="text-white text-xl font-extrabold md:text-2xl">
+                    Project name A
+                  </h1>
+                </div>
+
+                <div className="flex items-center px-4 pl-8">
+                  <Image
+                    src={lock}
+                    alt="lock icon"
+                    className="w-5 h-5 md:w-6 md:h-6"
+                  />
+
+                  <p className="text-white ml-2 text-sm md:text-base">
+                    Private
+                  </p>
+                </div>
+
+                <button className="border border-black rounded-[40px] bg-white w-28 h-[29px] md:w-36">
+                  <div className="flex items-center justify-center">
+                    <Image
+                      src={projects}
+                      alt="projects button icon"
+                      className="w-5 h-5 "
+                    />
+
+                    <p className="text-black ml-2 text-sm md:text-base">
+                      Projects
+                    </p>
+                  </div>
+                </button>
+              </div>
+            </div>
             <div className="bg-white flex-1">bottom</div>
           </div>
         </div>
