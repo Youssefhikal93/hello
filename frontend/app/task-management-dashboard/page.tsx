@@ -17,7 +17,7 @@ const TaskManagementNavbar = () => {
       <div className="flex px-4">
         <div className="bg-slate-400 h-12 w-[140px] rounded-3xl border border-white">
           <div className="relative bg-slate-700 rounded-full px-3 py-2">
-            <div className="absolute inset-[1px] bg-gray-200/30 rounded-full"></div>
+            <div className="absolute inset-[1px] bg-gray-200/20 rounded-full"></div>
 
             <div className="flex items-center h-[30px] space-x-[-20px] ml-1">
               <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center">
@@ -43,8 +43,21 @@ const TaskManagementNavbar = () => {
 
 export default function TaskManagementDashboard() {
   return (
-    <div className="flex flex-col justify-center items-center lg:gap-4 lg:px-14 lg:py-5 md:gap-4 md:px-14 md:py-5">
+    <div className="flex flex-col justify-center items-center lg:px-8 lg:py-5 md:px-8 md:py-5 ">
       <TaskManagementNavbar />
+
+      <div className="w-full h-[75vh]">
+        <div className="grid grid-cols-5 w-full h-full ">
+          <div className="col-span-1 bg-amber-100 h-full rounded-bl-[40px]">
+            left
+          </div>
+          {/* Right div */}
+          <div className="col-span-4 flex flex-col h-full rounded-br-[40px]">
+            <div className="h-[55px] bg-[rgba(42,45,75,0.5)]">top</div>
+            <div className="bg-white flex-1">bottom</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
