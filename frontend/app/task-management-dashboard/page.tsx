@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
+
+// Icon imports
 import lock from "../public/lock-icon.svg";
 import projects from "../public/projects-icon.svg";
 import leftArrow from "../public/left-arrow.svg";
@@ -13,6 +15,8 @@ import overview from "../public/overview.svg";
 import members from "../public/members.svg";
 import settings from "../public/settings.svg";
 import plus from "../public/plus-icon.svg";
+import leftDarkArrow from "../public/left-dark-icon.svg";
+import xIcon from "../public/x-icon.svg";
 
 const TaskManagementNavbar = () => {
   return (
@@ -60,6 +64,29 @@ export default function TaskManagementDashboard() {
   const toggleLeftDiv = () => {
     setIsLeftDivRetracted(!isLeftDivRetracted); // Toggle retraction
   };
+
+  // Collapse sidebar when resizing window
+  const handleResize = () => {
+    if (window.innerWidth < 1400) {
+      setIsLeftDivRetracted(true);
+    } else {
+      setIsLeftDivRetracted(false);
+    }
+  };
+
+  useEffect(() => {
+    // Set initial state based on window size
+    handleResize();
+
+    // Add event listener for window resize
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <div className="flex flex-col justify-center items-center lg:px-8 lg:py-5 md:px-8 md:py-5 ">
       <TaskManagementNavbar />
@@ -67,8 +94,8 @@ export default function TaskManagementDashboard() {
       <div className="w-full h-[85vh] flex">
         {/* Left sidebar */}
         <div
-          className={`bg-[#171929] h-full rounded-b-[20px] transition-all duration-1300 p-4 ${
-            isLeftDivRetracted ? "w-1/20" : "w-1/6"
+          className={`bg-[#171929] h-full rounded-b-[20px] transition-all duration-1300 p-4 min-w-[240px] ${
+            isLeftDivRetracted ? "w-1/20 min-w-0" : "w-1/6"
           } relative`}
         >
           {isLeftDivRetracted && (
@@ -184,7 +211,7 @@ export default function TaskManagementDashboard() {
         <div
           className={`flex flex-col h-full rounded-br-[40px] transition-all duration-300 w-full`}
         >
-          {/* Right top div */}
+          {/* Right top inside navbar */}
           <div className="h-[55px] bg-[rgba(42,45,75,0.5)]">
             <div className="flex items-center h-full px-3 flex-wrap">
               <div className="flex items-center">
@@ -218,7 +245,50 @@ export default function TaskManagementDashboard() {
               </button>
             </div>
           </div>
-          <div className="bg-white flex-1">bottom</div>
+
+          {/* Right bottom container */}
+          <div className="flex-1 pt-5 pl-5">
+            <div className="grid grid-cols-3 gap-4 h-auto">
+              {/* To Do container */}
+              <div className="bg-gray-200 h-auto  rounded-[20px] px-4 py-4 text-xl font-bold">
+                <div className="flex items-center justify-between">
+                  <Image
+                    src={leftDarkArrow}
+                    alt="left dark arrow icon"
+                    className=""
+                  />
+                  <p>To Do</p>
+                  <Image src={xIcon} alt="x icon" className="" />
+                </div>
+              </div>
+
+              {/* In Progress container */}
+              <div className="bg-gray-200 h-auto rounded-[20px] px-4 py-4 text-xl font-bold">
+                <div className="  flex items-center justify-between">
+                  <Image
+                    src={leftDarkArrow}
+                    alt="left dark arrow icon"
+                    className=""
+                  />
+                  <p>In Progress</p>
+                  <Image src={xIcon} alt="x icon" className="" />
+                </div>
+              </div>
+
+              {/* Completed container */}
+              <div className="bg-gray-200 h-auto  rounded-[20px] px-4 py-4 text-xl font-bold">
+                <div className="  flex items-center justify-between">
+                  <Image
+                    src={leftDarkArrow}
+                    alt="left dark arrow icon"
+                    className=""
+                  />
+                  <p>Completed</p>
+                  <Image src={xIcon} alt="x icon" className="" />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
