@@ -18,6 +18,9 @@ import plus from "../public/plus-icon.svg";
 import leftDarkArrow from "../public/left-dark-icon.svg";
 import xIcon from "../public/x-icon.svg";
 
+// Other imports
+import TaskCard from "../components/ui/taskCard";
+
 const TaskManagementNavbar = () => {
   return (
     <div className="flex w-full h-[80px] justify-between items-center bg-[#2A2D4B] rounded-t-[40px] lg:gap-2 px-2">
@@ -40,15 +43,19 @@ const TaskManagementNavbar = () => {
               <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center">
                 <span className="text-white font-bold text-sm">S1</span>
               </div>
+
               <div className="w-10 h-10 rounded-full bg-rose-500 flex items-center justify-center">
                 <span className="text-white font-bold text-sm">BIO</span>
               </div>
+
               <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
                 <span className="text-white font-bold text-sm">OM</span>
               </div>
+
               <div className="w-10 h-10 rounded-full bg-lime-400 flex items-center justify-center">
                 <span className="text-white font-bold text-sm">MP</span>
               </div>
+
               <div className="absolute right-[20px] bottom-[2px] w-[11px] h-[11px] rounded-full bg-green-400 border border-black"></div>
             </div>
           </div>
@@ -94,8 +101,8 @@ export default function TaskManagementDashboard() {
       <div className="w-full h-[85vh] flex">
         {/* Left sidebar */}
         <div
-          className={`bg-[#171929] h-full rounded-b-[20px] transition-all duration-1300 p-4 min-w-[240px] ${
-            isLeftDivRetracted ? "w-1/20 min-w-0" : "w-1/6"
+          className={`bg-[#171929] h-full rounded-b-[20px] transition-all duration-1300 p-4 ${
+            isLeftDivRetracted ? "min-w-0 w-1/20" : "min-w-[240px] w-1/6"
           } relative`}
         >
           {isLeftDivRetracted && (
@@ -287,6 +294,18 @@ export default function TaskManagementDashboard() {
                   <Image src={xIcon} alt="x icon" className="" />
                 </div>
               </div>
+
+              <TaskCard
+                labelNames={["Low", "Medium", "High"]} // Example labels
+                taskName="Design the new dashboard" // Example task name
+                position={3} // Example count of attachments
+                members={[
+                  { id: 1, name: "Alice Maria" },
+                  { id: 2, name: "Bob Taylor" },
+                ]} // Example members with IDs
+                date={new Date("2023-10-30")} // Example date
+                checklist={3} // Example checklist count
+              />
             </div>
           </div>
         </div>
