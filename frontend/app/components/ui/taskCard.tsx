@@ -1,3 +1,29 @@
+/**
+ * TaskCard Component
+ *
+ * A component that displays a task card with labels, task name, members, date, and checklist.
+ *
+ * Props:
+ * - labelNames: Array of labels associated with the task.
+ * - taskName: Name of the task.
+ * - position: Count of attachments.
+ * - members: Array of member objects with IDs.
+ * - date: Date of the task.
+ * - checklist: Count of checklist items.
+ *
+ * Usage:
+ * <TaskCard
+ *   labelNames={['Urgent', 'Important']}
+ *   taskName="Finish Documentation"
+ *   position={3}
+ *   members={[{ id: 1, name: 'Alice' }, { id: 2, name: 'Bob' }]}
+ *   date={new Date()}
+ *   checklist={5}
+ * />
+ */
+
+"use client";
+
 import React, { useState } from "react";
 import Image from "next/image";
 
@@ -10,8 +36,8 @@ type Member = {
 };
 
 type TaskCardProps = {
-  labelNames: string[];
-  taskName: string;
+  labelNames: string[]; // Array of labels associated with the task
+  taskName: string; // Name of the task
   position: number; // Count of attachments
   members: Member[]; // Array of member objects with IDs
   date: Date; // Date of the task
@@ -26,7 +52,9 @@ const TaskCard: React.FC<TaskCardProps> = ({
   date,
   checklist,
 }) => {
-  const [checklistCount, setChecklistCount] = useState(checklist);
+  const [checklistCount, setChecklistCount] = useState<number | null>(
+    checklist
+  );
 
   // Members icons colors
   const colors = [
@@ -57,7 +85,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
   ];
 
   return (
-    <div className="flex flex-col bg-gray-50 w-[310px] h-[200px] rounded-[20px] py-5 gap-3 shadow-left-heavy px-4">
+    <div className="flex flex-col bg-gray-50 w-[330px] h-[200px] rounded-[20px] py-5 gap-3 shadow-left-heavy px-4">
       {/* Label container */}
       <div className="flex gap-1">
         {labelNames.map((label, index) => (
@@ -133,7 +161,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
             <div
               key={index}
               className={`h-4 w-4 ${
-                index < checklistCount ? "bg-[#2A2D4B]" : "bg-gray-300"
+                index < (checklistCount ?? 0) ? "bg-[#2A2D4B]" : "bg-gray-300"
               } ${
                 index === 0
                   ? "rounded-l-full"

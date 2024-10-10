@@ -99,7 +99,7 @@ export default function TaskManagementDashboard() {
       <TaskManagementNavbar />
 
       <div className="w-full h-[85vh] flex">
-        {/* Left sidebar */}
+        {/* LEFT SIDEBAR */}
         <div
           className={`bg-[#171929] h-full rounded-b-[20px] transition-all duration-1300 p-4 ${
             isLeftDivRetracted ? "min-w-0 w-1/20" : "min-w-[240px] w-1/6"
@@ -119,7 +119,7 @@ export default function TaskManagementDashboard() {
               isLeftDivRetracted ? "hidden" : "flex"
             }`}
           >
-            {/* Top container */}
+            {/* Top sidebar container */}
             <div>
               <h1 className="font-bold text-xl py-2">Workspaces</h1>
 
@@ -136,7 +136,7 @@ export default function TaskManagementDashboard() {
                 />
               </div>
 
-              {/* Mid container  */}
+              {/* Mid sidebar container  */}
               <div>
                 <div className="flex items-center justify-between pb-1 px-1">
                   <h1 className="text-2xl font-bold">BUSINESS SUITE</h1>
@@ -173,7 +173,7 @@ export default function TaskManagementDashboard() {
               </div>
             </div>
 
-            {/* Bottom container */}
+            {/* Bottom sidebar container */}
             <div className="text-xl font-light">
               <hr className="-mr-4" />
               <div className="flex items-center py-2 px-2">
@@ -214,12 +214,12 @@ export default function TaskManagementDashboard() {
           </div>
         </div>
 
-        {/* Right container */}
+        {/* RIGHT SIDE CONTAINER */}
         <div
-          className={`flex flex-col h-full rounded-br-[40px] transition-all duration-300 w-full`}
+          className={`flex flex-col flex-1 h-auto rounded-br-[40px] transition-all duration-300 w-full`}
         >
-          {/* Right top inside navbar */}
-          <div className="h-[55px] bg-[rgba(42,45,75,0.5)]">
+          {/* RIGHT SIDE TOP CONTAINER */}
+          <div className="h-[55px] py-2 bg-[rgba(42,45,75,0.5)]">
             <div className="flex items-center h-full px-3 flex-wrap">
               <div className="flex items-center">
                 <h1 className="text-white text-xl font-extrabold md:text-2xl">
@@ -253,59 +253,191 @@ export default function TaskManagementDashboard() {
             </div>
           </div>
 
-          {/* Right bottom container */}
-          <div className="flex-1 pt-5 pl-5">
-            <div className="grid grid-cols-3 gap-4 h-auto">
+          {/* RIGHT SIDE BOTTOM CONTAINER */}
+          <div className="flex pt-5 pl-5">
+            <div className="grid grid-cols-3 gap-4 ">
               {/* To Do container */}
-              <div className="bg-gray-200 h-auto  rounded-[20px] px-4 py-4 text-xl font-bold">
-                <div className="flex items-center justify-between">
-                  <Image
-                    src={leftDarkArrow}
-                    alt="left dark arrow icon"
-                    className=""
-                  />
-                  <p>To Do</p>
-                  <Image src={xIcon} alt="x icon" className="" />
+              <div>
+                <div className="bg-gray-100 rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy ">
+                  <div className="flex items-center justify-between">
+                    <Image
+                      src={leftDarkArrow}
+                      alt="left dark arrow icon"
+                      className=""
+                    />
+                    <p>To Do</p>
+                    <Image src={xIcon} alt="x icon" className="" />
+                  </div>
+
+                  <div className="py-4">
+                    <hr className="bg-gray-300 h-[2px]" />
+                  </div>
+                  {/* Task cards container  */}
+                  <div className="flex flex-col gap-2">
+                    {/* --- Add task card components here ----  */}
+                    <TaskCard
+                      labelNames={["Low", "Medium", "High"]}
+                      taskName="Task name A"
+                      position={1}
+                      members={[
+                        { id: 1, name: "Alice Maria" },
+                        { id: 2, name: "Bob Taylor" },
+                      ]}
+                      date={new Date("2023-10-30")}
+                      checklist={0}
+                    />
+
+                    <TaskCard
+                      labelNames={["Low", "Medium", "High"]}
+                      taskName="Task name B"
+                      position={3}
+                      members={[
+                        { id: 1, name: "Alice Maria" },
+                        { id: 2, name: "Bob Taylor" },
+                      ]}
+                      date={new Date("2023-10-30")}
+                      checklist={0}
+                    />
+                    {/* --- End task card component here --- */}
+                  </div>
+
+                  {/* TO-DO container button */}
+                  <div className="flex justify-end mt-4">
+                    <button className="flex items-center justify-center rounded-[40px] text-white text-lg font-semibold bg-[#2A2D4B] w-28 h-[29px] md:w-36 py-4">
+                      <Image
+                        src={plus}
+                        alt="plus icon"
+                        className="cursor-pointer mr-2"
+                      />
+                      Add Task
+                    </button>
+                  </div>
                 </div>
               </div>
 
               {/* In Progress container */}
-              <div className="bg-gray-200 h-auto rounded-[20px] px-4 py-4 text-xl font-bold">
-                <div className="  flex items-center justify-between">
-                  <Image
-                    src={leftDarkArrow}
-                    alt="left dark arrow icon"
-                    className=""
-                  />
-                  <p>In Progress</p>
-                  <Image src={xIcon} alt="x icon" className="" />
+              <div>
+                <div className="bg-gray-100 rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy">
+                  <div className="flex items-center justify-between">
+                    <Image
+                      src={leftDarkArrow}
+                      alt="left dark arrow icon"
+                      className=""
+                    />
+                    <p>In Progress</p>
+                    <Image src={xIcon} alt="x icon" className="" />
+                  </div>
+
+                  <div className="py-4">
+                    <hr className="bg-gray-300 h-[2px]" />
+                  </div>
+
+                  {/* Task cards container  */}
+                  <div className="flex flex-col gap-2">
+                    {/* --- Add task card components here ----  */}
+                    <TaskCard
+                      labelNames={["Low", "Medium", "High"]}
+                      taskName="Task name C"
+                      position={2}
+                      members={[
+                        { id: 1, name: "Alice Maria" },
+                        { id: 2, name: "Bob Taylor" },
+                      ]}
+                      date={new Date("2023-10-30")}
+                      checklist={7}
+                    />
+
+                    {/* --- End task card component here --- */}
+                  </div>
+
+                  {/* IN PROGRESS container button */}
+                  <div className="flex justify-end mt-4">
+                    <button className="flex items-center justify-center rounded-[40px] text-white text-lg font-semibold bg-[#2A2D4B] w-28 h-[29px] md:w-36 py-4">
+                      <Image
+                        src={plus}
+                        alt="plus icon"
+                        className="cursor-pointer mr-2"
+                      />
+                      Add Task
+                    </button>
+                  </div>
                 </div>
               </div>
 
               {/* Completed container */}
-              <div className="bg-gray-200 h-auto  rounded-[20px] px-4 py-4 text-xl font-bold">
-                <div className="  flex items-center justify-between">
-                  <Image
-                    src={leftDarkArrow}
-                    alt="left dark arrow icon"
-                    className=""
-                  />
-                  <p>Completed</p>
-                  <Image src={xIcon} alt="x icon" className="" />
+              <div>
+                <div className="bg-gray-100 h-auto  rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy ">
+                  <div className="  flex items-center justify-between">
+                    <Image
+                      src={leftDarkArrow}
+                      alt="left dark arrow icon"
+                      className=""
+                    />
+                    <p>Completed</p>
+                    <Image src={xIcon} alt="x icon" className="" />
+                  </div>
+
+                  <div className="py-4">
+                    <hr className="bg-gray-300 h-[2px]" />
+                  </div>
+
+                  {/* Task cards container  */}
+                  <div className="flex flex-col gap-2">
+                    {/* --- Add task card components here ----  */}
+                    <TaskCard
+                      labelNames={["Low", "Medium", "High"]}
+                      taskName="Task name D"
+                      position={1}
+                      members={[
+                        { id: 1, name: "Alice Maria" },
+                        { id: 2, name: "Bob Taylor" },
+                      ]}
+                      date={new Date("2023-10-30")}
+                      checklist={5}
+                    />
+
+                    <TaskCard
+                      labelNames={["Low", "Medium", "High"]}
+                      taskName="Task name E"
+                      position={3}
+                      members={[
+                        { id: 1, name: "Parry Parot" },
+                        { id: 1, name: "Alice Maria" },
+                        { id: 2, name: "Bob Taylor" },
+                      ]}
+                      date={new Date("2023-10-30")}
+                      checklist={3}
+                    />
+
+                    <TaskCard
+                      labelNames={["Low", "Medium", "High"]}
+                      taskName="Task name F"
+                      position={2}
+                      members={[
+                        { id: 1, name: "Alice Maria" },
+                        { id: 2, name: "Bob Taylor" },
+                        { id: 2, name: "Jane Janson" },
+                      ]}
+                      date={new Date("2023-10-30")}
+                      checklist={2}
+                    />
+
+                    {/* --- End task card component here --- */}
+                  </div>
+
+                  {/* COMPLETED container button */}
+                  <div className="flex justify-end mt-4">
+                    <button className="flex items-center justify-center rounded-[40px] text-white text-lg font-semibold bg-[#2A2D4B] w-28 h-[29px] md:w-36 py-4">
+                      <Image
+                        src={plus}
+                        alt="plus icon"
+                        className="cursor-pointer mr-2"
+                      />
+                      Add Task
+                    </button>
+                  </div>
                 </div>
               </div>
-
-              <TaskCard
-                labelNames={["Low", "Medium", "High"]} // Example labels
-                taskName="Design the new dashboard" // Example task name
-                position={3} // Example count of attachments
-                members={[
-                  { id: 1, name: "Alice Maria" },
-                  { id: 2, name: "Bob Taylor" },
-                ]} // Example members with IDs
-                date={new Date("2023-10-30")} // Example date
-                checklist={3} // Example checklist count
-              />
             </div>
           </div>
         </div>
