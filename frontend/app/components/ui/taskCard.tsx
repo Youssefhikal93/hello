@@ -24,11 +24,13 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
+import { useDrag } from "react-dnd";
 
 import attachementsIcon from "../../public/attachments-icon.svg";
 import bellIcon from "../../public/bell-icon.svg";
+import { TaskList } from "@/app/components/dropContainer/DropContainer";
 
 type Member = {
   id: number;
@@ -42,6 +44,9 @@ type TaskCardProps = {
   members: Member[]; // Array of member objects with IDs
   date: Date; // Date of the task
   checklist: number; // Count of checklist items
+  id: string; // Unique identifier for the task
+  moveTask: (id: string, from: keyof TaskList, to: keyof TaskList) => void; // Function to move the task
+  currentContainer: string; // Current container of the task
 };
 
 const TaskCard: React.FC<TaskCardProps> = ({
@@ -51,10 +56,17 @@ const TaskCard: React.FC<TaskCardProps> = ({
   members,
   date,
   checklist,
+  id,
+  moveTask,
+  currentContainer,
 }) => {
-  const [checklistCount, setChecklistCount] = useState<number | null>(
-    checklist
-  );
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "TASK",
+    item: { id, currentContainer },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  }));
 
   // Members icons colors
   const colors = [
@@ -84,8 +96,17 @@ const TaskCard: React.FC<TaskCardProps> = ({
     "#9370DB", // Medium Purple
   ];
 
+  // Create a ref with useRef
+  const ref = useRef<HTMLDivElement>(null);
+  drag(ref);
+
   return (
-    <div className="flex flex-col bg-gray-50 w-[330px] h-[200px] rounded-[20px] py-5 gap-3 shadow-left-heavy px-4">
+    <div
+      ref={ref}
+      className={`flex flex-col bg-gray-50 w-[330px] h-[205px] rounded-[20px] py-5 gap-3 shadow-left-heavy px-4 mb-3 ${
+        isDragging ? "opacity-50" : ""
+      }`}
+    >
       {/* Label container */}
       <div className="flex gap-1">
         {labelNames.map((label, index) => (
@@ -154,14 +175,14 @@ const TaskCard: React.FC<TaskCardProps> = ({
       </div>
 
       {/* Checklist container  */}
-      <div className="flex items-center gap-1 -mt-2">
+      <div className="flex items-center gap-1 -mt-3">
         <h1 className="font-bold">Checklist:</h1>
         <div className="flex gap-1">
           {Array.from({ length: 10 }).map((_, index) => (
             <div
               key={index}
               className={`h-4 w-4 ${
-                index < (checklistCount ?? 0) ? "bg-[#2A2D4B]" : "bg-gray-300"
+                index < Number(checklist) ? "bg-[#2A2D4B]" : "bg-gray-300"
               } ${
                 index === 0
                   ? "rounded-l-full"

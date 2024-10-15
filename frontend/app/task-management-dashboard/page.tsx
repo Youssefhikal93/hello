@@ -19,7 +19,12 @@ import leftDarkArrow from "../public/left-dark-icon.svg";
 import xIcon from "../public/x-icon.svg";
 
 // Other imports
-import TaskCard from "../components/ui/taskCard";
+
+import initialTasks from "../sampleData/initialTasks";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import DropContainer from "../components/dropContainer/DropContainer";
+import { TaskList } from "../components/dropContainer/DropContainer";
 
 const TaskManagementNavbar = () => {
   return (
@@ -66,10 +71,38 @@ const TaskManagementNavbar = () => {
 };
 
 export default function TaskManagementDashboard() {
-  const [isLeftDivRetracted, setIsLeftDivRetracted] = useState(false); // State to control retraction
+  const [isLeftDivRetracted, setIsLeftDivRetracted] = useState<boolean>(false);
+  const [tasks, setTasks] = useState<TaskList>(initialTasks);
 
+  // Drag and drop move task function
+  const moveTask = (
+    id: string,
+    currentContainer: keyof TaskList,
+    newContainer: keyof TaskList
+  ) => {
+    setTasks((prevTasks) => {
+      const taskToMove = prevTasks[currentContainer].find(
+        (task) => task.id === id
+      );
+
+      if (!taskToMove) return prevTasks; // Handle case where task is not found
+
+      const updatedFromTasks = prevTasks[currentContainer].filter(
+        (task) => task.id !== id
+      );
+      const updatedToTasks = [...prevTasks[newContainer], taskToMove];
+
+      return {
+        ...prevTasks,
+        [currentContainer]: updatedFromTasks,
+        [newContainer]: updatedToTasks,
+      };
+    });
+  };
+
+  // Toggle retraction
   const toggleLeftDiv = () => {
-    setIsLeftDivRetracted(!isLeftDivRetracted); // Toggle retraction
+    setIsLeftDivRetracted(!isLeftDivRetracted);
   };
 
   // Collapse sidebar when resizing window
@@ -95,346 +128,332 @@ export default function TaskManagementDashboard() {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center items-center lg:px-8 lg:py-5 md:px-8 md:py-5 ">
-      <TaskManagementNavbar />
+    <DndProvider backend={HTML5Backend}>
+      <div className="flex flex-col justify-center items-center lg:px-8 lg:py-5 md:px-8 md:py-5 ">
+        <TaskManagementNavbar />
 
-      <div className="w-full h-[85vh] flex">
-        {/* LEFT SIDEBAR */}
-        <div
-          className={`bg-[#171929] h-full rounded-b-[20px] transition-all duration-1300 p-4 ${
-            isLeftDivRetracted ? "min-w-0 w-1/20" : "min-w-[240px] w-1/6"
-          } relative`}
-        >
-          {isLeftDivRetracted && (
-            <Image
-              src={rightArrow}
-              alt="right arrow icon"
-              className="cursor-pointer absolute -right-5 top-24 transform -translate-y-1/2 z-50 block"
-              onClick={toggleLeftDiv}
-            />
-          )}
-
+        <div className="w-full h-[85vh] flex">
+          {/* LEFT SIDEBAR */}
           <div
-            className={`text-white flex flex-col justify-between h-full ${
-              isLeftDivRetracted ? "hidden" : "flex"
-            }`}
+            className={`bg-[#171929] h-full rounded-b-[20px] transition-all duration-1300 p-4 ${
+              isLeftDivRetracted ? "min-w-0 w-1/20" : "min-w-[240px] w-1/6"
+            } relative`}
           >
-            {/* Top sidebar container */}
-            <div>
-              <h1 className="font-bold text-xl py-2">Workspaces</h1>
+            {isLeftDivRetracted && (
+              <Image
+                src={rightArrow}
+                alt="right arrow icon"
+                className="cursor-pointer absolute -right-5 top-24 transform -translate-y-1/2 z-50 block"
+                onClick={toggleLeftDiv}
+                style={{ width: "auto", height: "auto" }}
+              />
+            )}
 
-              <div className="flex items-center pb-10 px-1">
-                <Image src={userIcon} alt="user icon" className="w-16 h-16" />
-
-                <h1 className="font-bold text-2xl ml-2">Workspace name</h1>
-
-                <Image
-                  src={leftArrow}
-                  alt="left arrow icon"
-                  className="cursor-pointer "
-                  onClick={toggleLeftDiv}
-                />
-              </div>
-
-              {/* Mid sidebar container  */}
+            <div
+              className={`text-white flex flex-col justify-between h-full ${
+                isLeftDivRetracted ? "hidden" : "flex"
+              }`}
+            >
+              {/* Top sidebar container */}
               <div>
-                <div className="flex items-center justify-between pb-1 px-1">
-                  <h1 className="text-2xl font-bold">BUSINESS SUITE</h1>
+                <h1 className="font-bold text-xl py-2">Workspaces</h1>
+
+                <div className="flex items-center pb-10 px-1">
+                  <Image
+                    src={userIcon}
+                    alt="user icon"
+                    className="w-16 h-16"
+                    style={{ width: "auto", height: "auto" }}
+                  />
+
+                  <h1 className="font-bold text-2xl ml-2">Workspace name</h1>
 
                   <Image
-                    src={upArrow}
-                    alt="up arrow"
+                    src={leftArrow}
+                    alt="left arrow icon"
+                    className="cursor-pointer "
+                    onClick={toggleLeftDiv}
+                    style={{ width: "auto", height: "auto" }}
+                  />
+                </div>
+
+                {/* Mid sidebar container  */}
+                <div>
+                  <div className="flex items-center justify-between pb-1 px-1">
+                    <h1 className="text-2xl font-bold">BUSINESS SUITE</h1>
+
+                    <Image
+                      src={upArrow}
+                      alt="up arrow"
+                      className="cursor-pointer"
+                      style={{ width: "auto", height: "auto" }}
+                    />
+                  </div>
+
+                  <hr />
+
+                  <div className="pl-5">
+                    <div className="flex flex-col items-end">
+                      <h1 className="font-bold text-xl py-2">
+                        Project planning and management
+                        <span className="text-xs font-light ml-1">
+                          (Trello, ClickUp)
+                        </span>
+                      </h1>
+
+                      <p className="text-sm font-light">
+                        Task creation & management
+                      </p>
+                    </div>
+
+                    <p className="py-3 text-xl font-light">Outsourcing</p>
+
+                    <p className="pb-4 text-xl font-light">Overview</p>
+
+                    <hr />
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom sidebar container */}
+              <div className="text-xl font-light">
+                <hr className="-mr-4" />
+                <div className="flex items-center py-2 px-2">
+                  <Image
+                    src={notifications}
+                    alt="notifications"
+                    className="w-5 h-5 md:w-6 md:h-6" // Ensure to set width and height
+                    style={{ width: "auto", height: "auto" }} // Add this line
+                  />
+                  <p className="ml-4">Notifications</p>
+                  <div className="right-[20px] bottom-[2px] w-[11px] h-[11px] rounded-full bg-green-400 border border-white ml-3"></div>
+                </div>
+
+                <hr />
+
+                <div className="flex items-center py-2 px-2">
+                  <Image
+                    src={overview}
+                    alt="overview icon"
+                    style={{ width: "auto", height: "auto" }}
+                  />
+                  <p className="ml-4">Overview</p>
+                </div>
+
+                <hr />
+
+                <div className="flex items-center justify-between py-2 px-2">
+                  <div className="flex items-center">
+                    <Image
+                      src={members}
+                      alt="members icon"
+                      style={{ width: "auto", height: "auto" }}
+                    />
+                    <span className="flex ml-3">
+                      <p>Members </p>
+                      <p className="ml-1">(3)</p>
+                    </span>
+                  </div>
+                  <Image
+                    src={plus}
+                    alt="plus icon"
                     className="cursor-pointer"
+                    style={{ width: "auto", height: "auto" }}
                   />
                 </div>
 
                 <hr />
 
-                <div className="pl-5">
-                  <div className="flex flex-col items-end">
-                    <h1 className="font-bold text-xl py-2">
-                      Project planning and management
-                      <span className="text-xs font-light ml-1">
-                        (Trello, ClickUp)
-                      </span>
-                    </h1>
-
-                    <p className="text-sm font-light">
-                      Task creation & management
-                    </p>
-                  </div>
-
-                  <p className="py-3 text-xl font-light">Outsourcing</p>
-
-                  <p className="pb-4 text-xl font-light">Overview</p>
-
-                  <hr />
+                <div className="flex items-center py-2 px-2">
+                  <Image
+                    src={settings}
+                    alt="settings icon"
+                    style={{ width: "auto", height: "auto" }}
+                  />
+                  <p className="ml-4">Settings</p>
                 </div>
+
+                <hr />
               </div>
-            </div>
-
-            {/* Bottom sidebar container */}
-            <div className="text-xl font-light">
-              <hr className="-mr-4" />
-              <div className="flex items-center py-2 px-2">
-                <Image src={notifications} alt="notifications" />
-                <p className="ml-4">Notifications</p>
-                <div className="right-[20px] bottom-[2px] w-[11px] h-[11px] rounded-full bg-green-400 border border-white ml-3"></div>
-              </div>
-
-              <hr />
-
-              <div className="flex items-center py-2 px-2">
-                <Image src={overview} alt="overview icon" />
-                <p className="ml-4">Overview</p>
-              </div>
-
-              <hr />
-
-              <div className="flex items-center justify-between py-2 px-2">
-                <div className="flex items-center">
-                  <Image src={members} alt="members icon" />
-                  <span className="flex ml-3">
-                    <p>Members </p>
-                    <p className="ml-1">(3)</p>
-                  </span>
-                </div>
-                <Image src={plus} alt="plus icon" className="cursor-pointer" />
-              </div>
-
-              <hr />
-
-              <div className="flex items-center py-2 px-2">
-                <Image src={settings} alt="settings icon" />
-                <p className="ml-4">Settings</p>
-              </div>
-
-              <hr />
             </div>
           </div>
-        </div>
 
-        {/* RIGHT SIDE CONTAINER */}
-        <div
-          className={`flex flex-col flex-1 h-auto rounded-br-[40px] transition-all duration-300 w-full`}
-        >
-          {/* RIGHT SIDE TOP CONTAINER */}
-          <div className="h-[55px] py-2 bg-[rgba(42,45,75,0.5)]">
-            <div className="flex items-center h-full px-3 flex-wrap">
-              <div className="flex items-center">
-                <h1 className="text-white text-xl font-extrabold md:text-2xl">
-                  Project name A
-                </h1>
-              </div>
+          {/* RIGHT SIDE CONTAINER */}
+          <div
+            className={`flex flex-col flex-1 h-auto rounded-br-[40px] transition-all duration-300 w-full`}
+          >
+            {/* RIGHT SIDE TOP CONTAINER */}
+            <div className="h-[55px] py-2 bg-[rgba(42,45,75,0.5)]">
+              <div className="flex items-center h-full px-3 flex-wrap">
+                <div className="flex items-center">
+                  <h1 className="text-white text-xl font-extrabold md:text-2xl">
+                    Project name A
+                  </h1>
+                </div>
 
-              <div className="flex items-center px-4 pl-8">
-                <Image
-                  src={lock}
-                  alt="lock icon"
-                  className="w-5 h-5 md:w-6 md:h-6"
-                />
-
-                <p className="text-white ml-2 text-sm md:text-base">Private</p>
-              </div>
-
-              <button className="border border-black rounded-[40px] bg-white w-28 h-[29px] md:w-36">
-                <div className="flex items-center justify-center">
+                <div className="flex items-center px-4 pl-8">
                   <Image
-                    src={projects}
-                    alt="projects button icon"
-                    className="w-5 h-5 "
+                    src={lock}
+                    alt="lock icon"
+                    className="w-5 h-5 md:w-6 md:h-6 "
+                    style={{ width: "auto", height: "auto" }}
                   />
 
-                  <p className="text-black ml-2 text-sm md:text-base">
-                    Projects
+                  <p className="text-white ml-2 text-sm md:text-base">
+                    Private
                   </p>
                 </div>
-              </button>
+
+                <button className="border border-black rounded-[40px] bg-white w-28 h-[29px] md:w-36">
+                  <div className="flex items-center justify-center">
+                    <Image
+                      src={projects}
+                      alt="projects button icon"
+                      className="w-5 h-5 md:w-6 md:h-6" // Ensure to set width and height
+                      style={{ width: "auto", height: "auto" }} // Add this line
+                    />
+
+                    <p className="text-black ml-2 text-sm md:text-base">
+                      Projects
+                    </p>
+                  </div>
+                </button>
+              </div>
             </div>
-          </div>
 
-          {/* RIGHT SIDE BOTTOM CONTAINER */}
-          <div className="flex pt-5 pl-5">
-            <div className="grid grid-cols-3 gap-4 ">
-              {/* To Do container */}
-              <div>
-                <div className="bg-gray-100 rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy ">
-                  <div className="flex items-center justify-between">
-                    <Image
-                      src={leftDarkArrow}
-                      alt="left dark arrow icon"
-                      className=""
-                    />
-                    <p>To Do</p>
-                    <Image src={xIcon} alt="x icon" className="" />
-                  </div>
-
-                  <div className="py-4">
-                    <hr className="bg-gray-300 h-[2px]" />
-                  </div>
-                  {/* Task cards container  */}
-                  <div className="flex flex-col gap-2">
-                    {/* --- Add task card components here ----  */}
-                    <TaskCard
-                      labelNames={["Low", "Medium", "High"]}
-                      taskName="Task name A"
-                      position={1}
-                      members={[
-                        { id: 1, name: "Alice Maria" },
-                        { id: 2, name: "Bob Taylor" },
-                      ]}
-                      date={new Date("2023-10-30")}
-                      checklist={0}
-                    />
-
-                    <TaskCard
-                      labelNames={["Low", "Medium", "High"]}
-                      taskName="Task name B"
-                      position={3}
-                      members={[
-                        { id: 1, name: "Alice Maria" },
-                        { id: 2, name: "Bob Taylor" },
-                      ]}
-                      date={new Date("2023-10-30")}
-                      checklist={0}
-                    />
-                    {/* --- End task card component here --- */}
-                  </div>
-
-                  {/* TO-DO container button */}
-                  <div className="flex justify-end mt-4">
-                    <button className="flex items-center justify-center rounded-[40px] text-white text-lg font-semibold bg-[#2A2D4B] w-28 h-[29px] md:w-36 py-4">
+            {/* RIGHT SIDE BOTTOM CONTAINER */}
+            <div className="flex pt-5 pl-5">
+              <div className="grid grid-cols-3 gap-4 ">
+                {/* To Do container */}
+                <div id="todo">
+                  <div className="bg-gray-100 rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy ">
+                    <div className="flex items-center justify-between">
                       <Image
-                        src={plus}
-                        alt="plus icon"
-                        className="cursor-pointer mr-2"
+                        src={leftDarkArrow}
+                        alt="left dark arrow icon"
+                        style={{ width: "auto", height: "auto" }}
                       />
-                      Add Task
-                    </button>
+                      <p>To Do</p>
+                      <Image
+                        src={xIcon}
+                        alt="x icon"
+                        style={{ width: "auto", height: "auto" }}
+                      />
+                    </div>
+
+                    <div className="py-4">
+                      <hr className="bg-gray-300 h-[2px]" />
+                    </div>
+
+                    {/* Task cards container  */}
+                    <div className="flex flex-col gap-2">
+                      <DropContainer
+                        tasks={tasks.todo}
+                        moveTask={moveTask}
+                        containerName="todo"
+                      />
+                    </div>
+
+                    {/* TO-DO container button */}
+                    <div className="flex justify-end mt-4">
+                      <button className="flex items-center justify-center rounded-[40px] text-white text-lg font-semibold bg-[#2A2D4B] w-28 h-[29px] md:w-36 py-4">
+                        <Image
+                          src={plus}
+                          alt="plus icon"
+                          className="cursor-pointer mr-2"
+                          style={{ width: "auto", height: "auto" }}
+                        />
+                        Add Task
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* In Progress container */}
-              <div>
-                <div className="bg-gray-100 rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy">
-                  <div className="flex items-center justify-between">
-                    <Image
-                      src={leftDarkArrow}
-                      alt="left dark arrow icon"
-                      className=""
-                    />
-                    <p>In Progress</p>
-                    <Image src={xIcon} alt="x icon" className="" />
-                  </div>
-
-                  <div className="py-4">
-                    <hr className="bg-gray-300 h-[2px]" />
-                  </div>
-
-                  {/* Task cards container  */}
-                  <div className="flex flex-col gap-2">
-                    {/* --- Add task card components here ----  */}
-                    <TaskCard
-                      labelNames={["Low", "Medium", "High"]}
-                      taskName="Task name C"
-                      position={2}
-                      members={[
-                        { id: 1, name: "Alice Maria" },
-                        { id: 2, name: "Bob Taylor" },
-                      ]}
-                      date={new Date("2023-10-30")}
-                      checklist={7}
-                    />
-
-                    {/* --- End task card component here --- */}
-                  </div>
-
-                  {/* IN PROGRESS container button */}
-                  <div className="flex justify-end mt-4">
-                    <button className="flex items-center justify-center rounded-[40px] text-white text-lg font-semibold bg-[#2A2D4B] w-28 h-[29px] md:w-36 py-4">
+                {/* In Progress container */}
+                <div id="in-progress">
+                  <div className="bg-gray-100 rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy">
+                    <div className="flex items-center justify-between">
                       <Image
-                        src={plus}
-                        alt="plus icon"
-                        className="cursor-pointer mr-2"
+                        src={leftDarkArrow}
+                        alt="left dark arrow icon"
+                        style={{ width: "auto", height: "auto" }}
                       />
-                      Add Task
-                    </button>
+                      <p>In Progress</p>
+                      <Image
+                        src={xIcon}
+                        alt="x icon"
+                        style={{ width: "auto", height: "auto" }}
+                      />
+                    </div>
+
+                    <div className="py-4">
+                      <hr className="bg-gray-300 h-[2px]" />
+                    </div>
+
+                    {/* Task cards container  */}
+                    <DropContainer
+                      tasks={tasks.inProgress}
+                      moveTask={moveTask}
+                      containerName="inProgress"
+                    />
+
+                    {/* IN PROGRESS container button */}
+                    <div className="flex justify-end mt-4">
+                      <button className="flex items-center justify-center rounded-[40px] text-white text-lg font-semibold bg-[#2A2D4B] w-28 h-[29px] md:w-36 py-4">
+                        <Image
+                          src={plus}
+                          alt="plus icon"
+                          className="cursor-pointer mr-2"
+                          style={{ width: "auto", height: "auto" }}
+                        />
+                        Add Task
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Completed container */}
-              <div>
-                <div className="bg-gray-100 h-auto  rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy ">
-                  <div className="  flex items-center justify-between">
-                    <Image
-                      src={leftDarkArrow}
-                      alt="left dark arrow icon"
-                      className=""
-                    />
-                    <p>Completed</p>
-                    <Image src={xIcon} alt="x icon" className="" />
-                  </div>
-
-                  <div className="py-4">
-                    <hr className="bg-gray-300 h-[2px]" />
-                  </div>
-
-                  {/* Task cards container  */}
-                  <div className="flex flex-col gap-2">
-                    {/* --- Add task card components here ----  */}
-                    <TaskCard
-                      labelNames={["Low", "Medium", "High"]}
-                      taskName="Task name D"
-                      position={1}
-                      members={[
-                        { id: 1, name: "Alice Maria" },
-                        { id: 2, name: "Bob Taylor" },
-                      ]}
-                      date={new Date("2023-10-30")}
-                      checklist={5}
-                    />
-
-                    <TaskCard
-                      labelNames={["Low", "Medium", "High"]}
-                      taskName="Task name E"
-                      position={3}
-                      members={[
-                        { id: 1, name: "Parry Parot" },
-                        { id: 1, name: "Alice Maria" },
-                        { id: 2, name: "Bob Taylor" },
-                      ]}
-                      date={new Date("2023-10-30")}
-                      checklist={3}
-                    />
-
-                    <TaskCard
-                      labelNames={["Low", "Medium", "High"]}
-                      taskName="Task name F"
-                      position={2}
-                      members={[
-                        { id: 1, name: "Alice Maria" },
-                        { id: 2, name: "Bob Taylor" },
-                        { id: 2, name: "Jane Janson" },
-                      ]}
-                      date={new Date("2023-10-30")}
-                      checklist={2}
-                    />
-
-                    {/* --- End task card component here --- */}
-                  </div>
-
-                  {/* COMPLETED container button */}
-                  <div className="flex justify-end mt-4">
-                    <button className="flex items-center justify-center rounded-[40px] text-white text-lg font-semibold bg-[#2A2D4B] w-28 h-[29px] md:w-36 py-4">
+                {/* Completed container */}
+                <div id="completed">
+                  <div className="bg-gray-100 h-auto  rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy ">
+                    <div className="flex items-center justify-between">
                       <Image
-                        src={plus}
-                        alt="plus icon"
-                        className="cursor-pointer mr-2"
+                        src={leftDarkArrow}
+                        alt="left dark arrow icon"
+                        style={{ width: "auto", height: "auto" }}
                       />
-                      Add Task
-                    </button>
+                      <p>Completed</p>
+                      <Image
+                        src={xIcon}
+                        alt="x icon"
+                        style={{ width: "auto", height: "auto" }}
+                      />
+                    </div>
+
+                    <div className="py-4">
+                      <hr className="bg-gray-300 h-[2px]" />
+                    </div>
+
+                    {/* Task cards container  */}
+                    <div className="flex flex-col gap-2">
+                      <DropContainer
+                        tasks={tasks.completed}
+                        moveTask={moveTask}
+                        containerName="completed"
+                      />
+                    </div>
+
+                    {/* COMPLETED container button */}
+                    <div className="flex justify-end mt-4">
+                      <button className="flex items-center justify-center rounded-[40px] text-white text-lg font-semibold bg-[#2A2D4B] w-28 h-[29px] md:w-36 py-4">
+                        <Image
+                          src={plus}
+                          alt="plus icon"
+                          className="cursor-pointer mr-2"
+                          style={{ width: "auto", height: "auto" }}
+                        />
+                        Add Task
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -442,6 +461,6 @@ export default function TaskManagementDashboard() {
           </div>
         </div>
       </div>
-    </div>
+    </DndProvider>
   );
 }
