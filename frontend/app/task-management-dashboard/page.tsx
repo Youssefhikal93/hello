@@ -20,11 +20,11 @@ import xIcon from "../public/x-icon.svg";
 
 // Other imports
 
-import initialTasks from "../sampleData/initialTasks";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import DropContainer from "../components/dropContainer/DropContainer";
-import { TaskList } from "../components/dropContainer/DropContainer";
+import initialTasks from "../sampleData/initialTasks";
+import DropTaskContainer from "../components/drag-drop/DropTaskContainer";
+import { TaskList } from "../components/drag-drop/DropTaskContainer";
 
 const TaskManagementNavbar = () => {
   return (
@@ -86,6 +86,11 @@ export default function TaskManagementDashboard() {
       );
 
       if (!taskToMove) return prevTasks; // Handle case where task is not found
+
+      // Check if moving to the same container
+      if (currentContainer === newContainer) {
+        return prevTasks; // No changes needed
+      }
 
       const updatedFromTasks = prevTasks[currentContainer].filter(
         (task) => task.id !== id
@@ -323,10 +328,10 @@ export default function TaskManagementDashboard() {
 
             {/* RIGHT SIDE BOTTOM CONTAINER */}
             <div className="flex pt-5 pl-5">
-              <div className="grid grid-cols-3 gap-4 ">
+              <div className="grid gap-4 grid-cols-3">
                 {/* To Do container */}
                 <div id="todo">
-                  <div className="bg-gray-100 rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy ">
+                  <div className="bg-gray-100 rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy">
                     <div className="flex items-center justify-between">
                       <Image
                         src={leftDarkArrow}
@@ -341,13 +346,13 @@ export default function TaskManagementDashboard() {
                       />
                     </div>
 
-                    <div className="py-4">
+                    <div className="pt-4 pb-2">
                       <hr className="bg-gray-300 h-[2px]" />
                     </div>
 
                     {/* Task cards container  */}
-                    <div className="flex flex-col gap-2">
-                      <DropContainer
+                    <div className="">
+                      <DropTaskContainer
                         tasks={tasks.todo}
                         moveTask={moveTask}
                         containerName="todo"
@@ -355,7 +360,7 @@ export default function TaskManagementDashboard() {
                     </div>
 
                     {/* TO-DO container button */}
-                    <div className="flex justify-end mt-4">
+                    <div className="flex justify-end">
                       <button className="flex items-center justify-center rounded-[40px] text-white text-lg font-semibold bg-[#2A2D4B] w-28 h-[29px] md:w-36 py-4">
                         <Image
                           src={plus}
@@ -370,7 +375,7 @@ export default function TaskManagementDashboard() {
                 </div>
 
                 {/* In Progress container */}
-                <div id="in-progress">
+                <div id="inProgress">
                   <div className="bg-gray-100 rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy">
                     <div className="flex items-center justify-between">
                       <Image
@@ -386,19 +391,21 @@ export default function TaskManagementDashboard() {
                       />
                     </div>
 
-                    <div className="py-4">
+                    <div className="pt-4 pb-2">
                       <hr className="bg-gray-300 h-[2px]" />
                     </div>
 
                     {/* Task cards container  */}
-                    <DropContainer
-                      tasks={tasks.inProgress}
-                      moveTask={moveTask}
-                      containerName="inProgress"
-                    />
+                    <div className="h-auto">
+                      <DropTaskContainer
+                        tasks={tasks.inProgress}
+                        moveTask={moveTask}
+                        containerName="inProgress"
+                      />
+                    </div>
 
                     {/* IN PROGRESS container button */}
-                    <div className="flex justify-end mt-4">
+                    <div className="flex justify-end">
                       <button className="flex items-center justify-center rounded-[40px] text-white text-lg font-semibold bg-[#2A2D4B] w-28 h-[29px] md:w-36 py-4">
                         <Image
                           src={plus}
@@ -414,7 +421,7 @@ export default function TaskManagementDashboard() {
 
                 {/* Completed container */}
                 <div id="completed">
-                  <div className="bg-gray-100 h-auto  rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy ">
+                  <div className="bg-gray-100 h-auto min-h-[20] rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy ">
                     <div className="flex items-center justify-between">
                       <Image
                         src={leftDarkArrow}
@@ -429,13 +436,13 @@ export default function TaskManagementDashboard() {
                       />
                     </div>
 
-                    <div className="py-4">
+                    <div className="pt-4 pb-2">
                       <hr className="bg-gray-300 h-[2px]" />
                     </div>
 
                     {/* Task cards container  */}
-                    <div className="flex flex-col gap-2">
-                      <DropContainer
+                    <div className="h-auto">
+                      <DropTaskContainer
                         tasks={tasks.completed}
                         moveTask={moveTask}
                         containerName="completed"
@@ -443,7 +450,7 @@ export default function TaskManagementDashboard() {
                     </div>
 
                     {/* COMPLETED container button */}
-                    <div className="flex justify-end mt-4">
+                    <div className="flex justify-end">
                       <button className="flex items-center justify-center rounded-[40px] text-white text-lg font-semibold bg-[#2A2D4B] w-28 h-[29px] md:w-36 py-4">
                         <Image
                           src={plus}

@@ -30,7 +30,6 @@ import { useDrag } from "react-dnd";
 
 import attachementsIcon from "../../public/attachments-icon.svg";
 import bellIcon from "../../public/bell-icon.svg";
-import { TaskList } from "@/app/components/dropContainer/DropContainer";
 
 type Member = {
   id: number;
@@ -45,7 +44,6 @@ type TaskCardProps = {
   date: Date; // Date of the task
   checklist: number; // Count of checklist items
   id: string; // Unique identifier for the task
-  moveTask: (id: string, from: keyof TaskList, to: keyof TaskList) => void; // Function to move the task
   currentContainer: string; // Current container of the task
 };
 
@@ -57,7 +55,6 @@ const TaskCard: React.FC<TaskCardProps> = ({
   date,
   checklist,
   id,
-  moveTask,
   currentContainer,
 }) => {
   const [{ isDragging }, drag] = useDrag(() => ({

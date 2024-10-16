@@ -1,6 +1,6 @@
-import React, { useRef } from "react";
-import { useDrop } from "react-dnd";
+import React from "react";
 import TaskCard from "../ui/taskCard";
+import DragAndDropModule from "./DragAndDropModule";
 
 export interface Task {
   id: string;
@@ -18,12 +18,12 @@ export interface TaskList {
   completed: Task[];
 }
 
-type Member = {
+export type Member = {
   id: number;
   name: string;
 };
 
-interface DropContainerProps {
+interface DropTaskContainerProps {
   tasks: Array<{
     id: string;
     labelNames: string[];
@@ -41,30 +41,16 @@ interface DropContainerProps {
   containerName: keyof TaskList;
 }
 
-const DropContainer: React.FC<DropContainerProps> = ({
+const DropTaskContainer: React.FC<DropTaskContainerProps> = ({
   tasks,
   moveTask,
   containerName,
 }) => {
-  const [{ isOver, canDrop }, drop] = useDrop(() => ({
-    accept: "TASK",
-    drop: (item: { id: string; currentContainer: keyof TaskList }) =>
-      moveTask(item.id, item.currentContainer, containerName),
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-      canDrop: monitor.canDrop(),
-    }),
-  }));
-
-  const ref = useRef<HTMLDivElement>(null); // Create a ref with useRef
-  drop(ref); // Use the drop function to connect the ref
-
   return (
-    <div
-      ref={ref}
-      className={`bg-gray-100 rounded-[20px] px-4 py-4 ${
-        isOver && canDrop ? "bg-green-200" : ""
-      }`}
+    <DragAndDropModule
+      moveTask={moveTask}
+      containerName={containerName}
+      accept="TASK"
     >
       {tasks.map((task) => (
         <TaskCard
@@ -73,15 +59,14 @@ const DropContainer: React.FC<DropContainerProps> = ({
           labelNames={task.labelNames}
           taskName={task.name}
           members={task.members}
-          date={new Date(task.date)} // Convert string to Date
+          date={new Date(task.date)}
           checklist={task.checklist}
           position={task.position}
-          moveTask={moveTask}
           currentContainer={containerName}
         />
       ))}
-    </div>
+    </DragAndDropModule>
   );
 };
 
-export default DropContainer;
+export default DropTaskContainer;

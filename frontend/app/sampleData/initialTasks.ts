@@ -1,23 +1,4 @@
-interface Member {
-  id: number;
-  name: string;
-}
-
-interface Task {
-  id: string;
-  name: string;
-  members: Member[];
-  date: string;
-  checklist: number;
-  labelNames: string[];
-  position: number;
-}
-
-interface TaskList {
-  todo: Task[];
-  inProgress: Task[];
-  completed: Task[];
-}
+import { TaskList } from "../components/drag-drop/DropTaskContainer";
 
 const initialTasks: TaskList = {
   todo: [
@@ -41,9 +22,9 @@ const initialTasks: TaskList = {
         { id: 4, name: "Diana Prince" },
         { id: 5, name: "Ethan Hunt" },
       ],
-      date: "2023-10-02", // Hardcoded date
-      checklist: 2, // Random number between 0 and 10
-      labelNames: ["Medium"], // Added labelNames
+      date: "2023-10-02",
+      checklist: 2,
+      labelNames: ["Medium"],
       position: 2,
     },
   ],
@@ -55,9 +36,9 @@ const initialTasks: TaskList = {
         { id: 6, name: "Fiona Gallagher" },
         { id: 7, name: "George Costanza" },
       ],
-      date: "2023-10-03", // Hardcoded date
-      checklist: 10, // Random number between 0 and 10
-      labelNames: ["High", "Medium"], // Added labelNames
+      date: "2023-10-03",
+      checklist: 10,
+      labelNames: ["High", "Medium"],
       position: 3,
     },
   ],
@@ -69,9 +50,9 @@ const initialTasks: TaskList = {
         { id: 8, name: "Hannah Montana" },
         { id: 9, name: "Ivy League" },
       ],
-      date: "2023-10-04", // Hardcoded date
-      checklist: 5, // Random number between 0 and 10
-      labelNames: ["Low"], // Added labelNames
+      date: "2023-10-04",
+      checklist: 5,
+      labelNames: ["Low"],
       position: 1,
     },
     {
@@ -82,9 +63,9 @@ const initialTasks: TaskList = {
         { id: 11, name: "Katherine Johnson" },
         { id: 12, name: "Leonardo DiCaprio" },
       ],
-      date: "2023-10-05", // Hardcoded date
-      checklist: 4, // Random number between 0 and 10
-      labelNames: ["Medium"], // Added labelNames
+      date: "2023-10-05",
+      checklist: 4,
+      labelNames: ["Medium"],
       position: 1,
     },
     {
@@ -94,9 +75,9 @@ const initialTasks: TaskList = {
         { id: 13, name: "Mia Wallace" },
         { id: 14, name: "Nina Simone" },
       ],
-      date: "2023-10-06", // Hardcoded date
-      checklist: 0, // Random number between 0 and 10
-      labelNames: ["High", "Low"], // Added labelNames
+      date: "2023-10-06",
+      checklist: 0,
+      labelNames: ["High", "Low"],
       position: 4,
     },
   ],
