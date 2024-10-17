@@ -1,12 +1,21 @@
 import React, { useRef } from "react";
 import { useDrop } from "react-dnd";
 
+/**
+ * Interface representing a draggable item.
+ * @template T - The type of the container.
+ */
 interface DraggableItem<T = any> {
   id: string; // Unique identifier for the item
   currentContainer: T; // Current container of the item
   // Additional properties can be added as needed
 }
 
+/**
+ * Props for the DragAndDropModule component.
+ * @template T - The type of the container.
+ * @template ItemType - The type of the draggable item.
+ */
 interface DragAndDropModuleProps<T = any, ItemType = DraggableItem<T>> {
   children: React.ReactNode; // Children components to render inside the container
   moveTask: (id: string, currentContainer: T, newContainer: T) => void; // Function to move the task
@@ -19,6 +28,17 @@ interface DragAndDropModuleProps<T = any, ItemType = DraggableItem<T>> {
   className?: string; // Custom class name for the drop area
 }
 
+/**
+ * DragAndDropModule component provides a drag-and-drop interface.
+ *
+ * This component allows users to drag items into a designated area and handle the drop event.
+ * It supports customizable behavior through various props.
+ *
+ * @template T - The type of the container.
+ * @template ItemType - The type of the draggable item.
+ * @param {DragAndDropModuleProps<T, ItemType>} props - The props for the component.
+ * @returns {JSX.Element} The rendered component.
+ */
 const DragAndDropModule = <T, ItemType extends DraggableItem<T>>({
   children,
   moveTask,
@@ -56,9 +76,9 @@ const DragAndDropModule = <T, ItemType extends DraggableItem<T>>({
   return (
     <div
       ref={ref}
-      className={`bg-gray-100 rounded-[20px] py-6 ${
+      className={`bg-gray-100 rounded-[20px] ${
         isOver && canDrop ? "bg-green-200" : ""
-      } ${className}`}
+      } ${className} py-6`}
     >
       {children}
     </div>

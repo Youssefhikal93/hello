@@ -1,3 +1,21 @@
+/**
+ * TaskManagementDashboard Component
+ *
+ * This component serves as the main dashboard for managing tasks within the application.
+ * It provides a drag-and-drop interface for organizing tasks into different categories:
+ * - To Do
+ * - In Progress
+ * - Completed
+ *
+ * The component utilizes the react-dnd library for drag-and-drop functionality and
+ * displays task cards for each task in the respective categories.
+ *
+ * It also includes a responsive sidebar for navigation and workspace management.
+ *
+ * Usage:
+ * <TaskManagementDashboard />
+ */
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -19,12 +37,12 @@ import leftDarkArrow from "../public/left-dark-icon.svg";
 import xIcon from "../public/x-icon.svg";
 
 // Other imports
-
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import initialTasks from "../sampleData/initialTasks";
+import mockTasks from "../sampleData/mockTasks";
 import DropTaskContainer from "../components/drag-drop/DropTaskContainer";
 import { TaskList } from "../components/drag-drop/DropTaskContainer";
+import login from "../components/popup/login";
 
 const TaskManagementNavbar = () => {
   return (
@@ -72,7 +90,7 @@ const TaskManagementNavbar = () => {
 
 export default function TaskManagementDashboard() {
   const [isLeftDivRetracted, setIsLeftDivRetracted] = useState<boolean>(false);
-  const [tasks, setTasks] = useState<TaskList>(initialTasks);
+  const [tasks, setTasks] = useState<TaskList>(mockTasks);
 
   // Drag and drop move task function
   const moveTask = (

@@ -1,6 +1,23 @@
 import { TaskList } from "../components/drag-drop/DropTaskContainer";
 
-const initialTasks: TaskList = {
+/**
+ * Mock data representing a list of tasks for a task management application.
+ *
+ * This data structure contains tasks categorized into three states:
+ * - `todo`: Tasks that are yet to be started.
+ * - `inProgress`: Tasks that are currently being worked on.
+ * - `completed`: Tasks that have been finished.
+ *
+ * Each task includes the following properties:
+ * - `id`: A unique identifier for the task.
+ * - `name`: The name or title of the task.
+ * - `members`: An array of members assigned to the task, each with an `id` and `name`.
+ * - `date`: The date associated with the task (e.g., due date).
+ * - `checklist`: A number representing the number of checklist items associated with the task.
+ * - `labelNames`: An array of labels categorizing the task (e.g., priority levels).
+ * - `position`: The position of the task in the list (for ordering).
+ */
+const mockTasks: TaskList = {
   todo: [
     {
       id: "1",
@@ -9,9 +26,9 @@ const initialTasks: TaskList = {
         { id: 1, name: "Alice Maria" },
         { id: 2, name: "Bob Taylor" },
       ],
-      date: "2023-10-01", // Hardcoded date
-      checklist: 3, // Random number between 0 and 10
-      labelNames: ["Low"], // Added labelNames
+      date: "2023-10-01",
+      checklist: 3,
+      labelNames: ["Low"],
       position: 1,
     },
     {
@@ -83,4 +100,4 @@ const initialTasks: TaskList = {
   ],
 };
 
-export default initialTasks;
+export default mockTasks;
