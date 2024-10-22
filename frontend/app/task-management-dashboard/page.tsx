@@ -20,6 +20,12 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import mockTasks from "../sampleData/mockTasks";
+import DropTaskContainer from "../components/drag-drop/DropTaskContainer";
+import { TaskList } from "../components/drag-drop/DropTaskContainer";
+import TaskContainer from "../components/ui/taskContainer";
 
 // Icon imports
 import lock from "../public/lock-icon.svg";
@@ -33,18 +39,9 @@ import overview from "../public/overview.svg";
 import members from "../public/members.svg";
 import settings from "../public/settings.svg";
 import plus from "../public/plus-icon.svg";
-import leftDarkArrow from "../public/left-dark-icon.svg";
-import xIcon from "../public/x-icon.svg";
 import bellIcon from "../public/bell-icon.svg";
 import collapseIcon from "../public/collapseIcon.svg";
 import dotsIcon from "../public/dotsIcon.svg";
-
-// Other imports
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import mockTasks from "../sampleData/mockTasks";
-import DropTaskContainer from "../components/drag-drop/DropTaskContainer";
-import { TaskList } from "../components/drag-drop/DropTaskContainer";
 
 const TaskManagementNavbar = () => {
   return (
@@ -97,12 +94,12 @@ export default function TaskManagementDashboard() {
     });
   };
 
-  // Toggle retraction
+  // Toggle left sidebar retraction
   const toggleLeftDiv = () => {
     setIsLeftDivRetracted(!isLeftDivRetracted);
   };
 
-  // Collapse sidebar when resizing window
+  // Collapse left sidebar when resizing window
   const handleResize = () => {
     if (window.innerWidth < 1400) {
       setIsLeftDivRetracted(true);
@@ -170,7 +167,7 @@ export default function TaskManagementDashboard() {
                   <Image
                     src={leftArrow}
                     alt="left arrow icon"
-                    className="cursor-pointer pl-20 sm:pl-0"
+                    className="cursor-pointer ml-auto"
                     onClick={toggleLeftDiv}
                     style={{ width: "auto", height: "auto" }}
                   />
@@ -374,150 +371,46 @@ export default function TaskManagementDashboard() {
                 </div>
               </div>
 
-              {/* grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 */}
-
               {/* RIGHT SIDE BOTTOM CONTAINER */}
               <div className="flex py-5 flex-wrap">
                 <div className="flex flex-wrap gap-4 ">
                   {/* To Do container */}
                   <div id="todo">
-                    <div className="bg-gray-200 min-w-[275px] sm:w-[360px] rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy">
-                      <div className="flex items-center justify-between">
-                        <p className="text-gray-500">To Do</p>
-                        <div className="flex gap-3">
-                          <Image
-                            src={collapseIcon}
-                            alt="collapse icon"
-                            style={{ width: "auto", height: "auto" }}
-                          />
-                          <Image
-                            src={dotsIcon}
-                            alt="dots icon"
-                            style={{ width: "auto", height: "auto" }}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="pt-4 pb-2">
-                        <hr className="bg-gray-300 h-[2px]" />
-                      </div>
-
-                      {/* Task cards container  */}
-                      <div className="">
-                        <DropTaskContainer
-                          tasks={tasks.todo}
-                          moveTask={moveTask}
-                          containerName="todo"
-                        />
-                      </div>
-
-                      {/* TO-DO container button */}
-                      <div className="flex justify-end">
-                        <button className="flex items-center justify-center rounded-[40px] text-white text-base sm:text-lg font-semibold bg-[#2A2D4B] w-28 h-[29px] md:w-36 py-4">
-                          <Image
-                            src={plus}
-                            alt="plus icon"
-                            className="cursor-pointer mr-2"
-                            style={{ width: "auto", height: "auto" }}
-                          />
-                          Add Task
-                        </button>
-                      </div>
-                    </div>
+                    <TaskContainer
+                      title="To Do"
+                      tasks={tasks.todo}
+                      moveTask={moveTask}
+                      containerName="todo"
+                      onAddTask={() => console.log("TODO")}
+                      buttonText="Add Task" // Custom button text
+                      buttonIcon={plus} // Custom button icon
+                    />
                   </div>
 
                   {/* In Progress container */}
                   <div id="inProgress">
-                    <div className="bg-gray-200 min-w-[275px] sm:w-[360px] rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy">
-                      <div className="flex items-center justify-between">
-                        <p className="text-gray-500">In Progress</p>
-                        <div className="flex gap-3">
-                          <Image
-                            src={collapseIcon}
-                            alt="collapse icon"
-                            style={{ width: "auto", height: "auto" }}
-                          />
-                          <Image
-                            src={dotsIcon}
-                            alt="dots icon"
-                            style={{ width: "auto", height: "auto" }}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="pt-4 pb-2">
-                        <hr className="bg-gray-300 h-[2px]" />
-                      </div>
-
-                      {/* Task cards container  */}
-                      <div className="h-auto">
-                        <DropTaskContainer
-                          tasks={tasks.inProgress}
-                          moveTask={moveTask}
-                          containerName="inProgress"
-                        />
-                      </div>
-
-                      {/* IN PROGRESS container button */}
-                      <div className="flex justify-end">
-                        <button className="flex items-center justify-center rounded-[40px] text-white text-base sm:text-lg font-semibold bg-[#2A2D4B] w-28 h-[29px] md:w-36 py-4">
-                          <Image
-                            src={plus}
-                            alt="plus icon"
-                            className="cursor-pointer mr-2"
-                            style={{ width: "auto", height: "auto" }}
-                          />
-                          Add Task
-                        </button>
-                      </div>
-                    </div>
+                    <TaskContainer
+                      title="In Progress"
+                      tasks={tasks.inProgress}
+                      moveTask={moveTask}
+                      containerName="inProgress"
+                      onAddTask={() => console.log("In Progress")}
+                      buttonText="Add Task" // Custom button text
+                      buttonIcon={plus} // Custom button icon
+                    />
                   </div>
 
-                  {/* Completed container */}
+                  {/* Completed container  */}
                   <div id="completed">
-                    <div className="bg-gray-200 min-w-[275px] sm:w-[360px] rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy ">
-                      <div className="flex items-center justify-between">
-                        <p className="text-gray-500">Completed</p>
-                        <div className="flex gap-3">
-                          <Image
-                            src={collapseIcon}
-                            alt="collapse icon"
-                            style={{ width: "auto", height: "auto" }}
-                          />
-                          <Image
-                            src={dotsIcon}
-                            alt="dots icon"
-                            style={{ width: "auto", height: "auto" }}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="pt-4 pb-2">
-                        <hr className="bg-gray-300 h-[2px]" />
-                      </div>
-
-                      {/* Task cards container  */}
-                      <div className="h-auto">
-                        <DropTaskContainer
-                          tasks={tasks.completed}
-                          moveTask={moveTask}
-                          containerName="completed"
-                        />
-                      </div>
-
-                      {/* COMPLETED container button */}
-                      <div className="flex justify-end">
-                        <button className="flex items-center justify-center rounded-[40px] text-white text-base sm:text-lg font-semibold bg-[#2A2D4B] w-28 h-[29px] md:w-36 py-4">
-                          <Image
-                            src={plus}
-                            alt="plus icon"
-                            className="cursor-pointer mr-2"
-                            style={{ width: "auto", height: "auto" }}
-                          />
-                          Add Task
-                        </button>
-                      </div>
-                    </div>
+                    <TaskContainer
+                      title="Completed"
+                      tasks={tasks.completed}
+                      moveTask={moveTask}
+                      containerName="completed"
+                      onAddTask={() => console.log("Completed")}
+                      buttonText="Add Task" // Custom button text
+                      buttonIcon={plus} // Custom button icon
+                    />
                   </div>
                 </div>
               </div>
