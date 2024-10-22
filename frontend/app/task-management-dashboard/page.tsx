@@ -35,6 +35,9 @@ import settings from "../public/settings.svg";
 import plus from "../public/plus-icon.svg";
 import leftDarkArrow from "../public/left-dark-icon.svg";
 import xIcon from "../public/x-icon.svg";
+import bellIcon from "../public/bell-icon.svg";
+import collapseIcon from "../public/collapseIcon.svg";
+import dotsIcon from "../public/dotsIcon.svg";
 
 // Other imports
 import { DndProvider } from "react-dnd";
@@ -42,11 +45,10 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import mockTasks from "../sampleData/mockTasks";
 import DropTaskContainer from "../components/drag-drop/DropTaskContainer";
 import { TaskList } from "../components/drag-drop/DropTaskContainer";
-import login from "../components/popup/login";
 
 const TaskManagementNavbar = () => {
   return (
-    <div className="flex w-full h-[80px] justify-between items-center bg-[#2A2D4B] rounded-t-[40px] lg:gap-2 px-2">
+    <div className="flex w-full h-[60px] justify-between items-center bg-[#2A2D4B] lg:gap-2 px-2">
       <div className="flex px-4 gap-4">
         <h1 className="text-3xl font-bold">
           <span className="text-white">Flow</span>
@@ -55,35 +57,6 @@ const TaskManagementNavbar = () => {
           </span>
         </h1>
       </div>
-
-      {/* User Icons */}
-      <div className="flex px-4">
-        <div className="bg-slate-400 h-12 w-[140px] rounded-3xl border border-white">
-          <div className="relative bg-slate-700 rounded-full px-3 py-2">
-            <div className="absolute inset-[1px] bg-gray-200/20 rounded-full"></div>
-
-            <div className="flex items-center h-[30px] space-x-[-20px] ml-1">
-              <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center">
-                <span className="text-white font-bold text-sm">S1</span>
-              </div>
-
-              <div className="w-10 h-10 rounded-full bg-rose-500 flex items-center justify-center">
-                <span className="text-white font-bold text-sm">BIO</span>
-              </div>
-
-              <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
-                <span className="text-white font-bold text-sm">OM</span>
-              </div>
-
-              <div className="w-10 h-10 rounded-full bg-lime-400 flex items-center justify-center">
-                <span className="text-white font-bold text-sm">MP</span>
-              </div>
-
-              <div className="absolute right-[20px] bottom-[2px] w-[11px] h-[11px] rounded-full bg-green-400 border border-black"></div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
@@ -91,6 +64,7 @@ const TaskManagementNavbar = () => {
 export default function TaskManagementDashboard() {
   const [isLeftDivRetracted, setIsLeftDivRetracted] = useState<boolean>(false);
   const [tasks, setTasks] = useState<TaskList>(mockTasks);
+  const [projectProgressBar, setProjectProgressBar] = useState(5);
 
   // Drag and drop move task function
   const moveTask = (
@@ -152,15 +126,17 @@ export default function TaskManagementDashboard() {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="flex flex-col justify-center items-center lg:px-8 lg:py-5 md:px-8 md:py-5 ">
+      <div className="flex flex-col justify-center items-center">
         <TaskManagementNavbar />
 
         <div className="w-full h-[85vh] flex">
           {/* LEFT SIDEBAR */}
           <div
-            className={`bg-[#171929] h-full rounded-b-[20px] transition-all duration-1300 p-4 ${
-              isLeftDivRetracted ? "min-w-0 w-1/20" : "min-w-[240px] w-1/6"
-            } relative`}
+            className={`bg-[#171929] h-full rounded-b-[20px] transition-all duration-1300 p-4 z-50 ${
+              isLeftDivRetracted
+                ? "min-w-0 w-1/20"
+                : "min-w-full sm:min-w-[260px] w-1/6"
+            } absolute sm:relative`}
           >
             {isLeftDivRetracted && (
               <Image
@@ -194,7 +170,7 @@ export default function TaskManagementDashboard() {
                   <Image
                     src={leftArrow}
                     alt="left arrow icon"
-                    className="cursor-pointer "
+                    className="cursor-pointer pl-20 sm:pl-0"
                     onClick={toggleLeftDiv}
                     style={{ width: "auto", height: "auto" }}
                   />
@@ -245,8 +221,8 @@ export default function TaskManagementDashboard() {
                   <Image
                     src={notifications}
                     alt="notifications"
-                    className="w-5 h-5 md:w-6 md:h-6" // Ensure to set width and height
-                    style={{ width: "auto", height: "auto" }} // Add this line
+                    className="w-5 h-5 md:w-6 md:h-6"
+                    style={{ width: "auto", height: "auto" }}
                   />
                   <p className="ml-4">Notifications</p>
                   <div className="right-[20px] bottom-[2px] w-[11px] h-[11px] rounded-full bg-green-400 border border-white ml-3"></div>
@@ -302,182 +278,245 @@ export default function TaskManagementDashboard() {
           </div>
 
           {/* RIGHT SIDE CONTAINER */}
-          <div
-            className={`flex flex-col flex-1 h-auto rounded-br-[40px] transition-all duration-300 w-full`}
-          >
-            {/* RIGHT SIDE TOP CONTAINER */}
-            <div className="h-[55px] py-2 bg-[rgba(42,45,75,0.5)]">
-              <div className="flex items-center h-full px-3 flex-wrap">
-                <div className="flex items-center">
-                  <h1 className="text-white text-xl font-extrabold md:text-2xl">
-                    Project name A
-                  </h1>
+          <div className="w-full h-full mx-10 sm:mx-4 z-0 ">
+            <div className="flex flex-col rounded-[20px] w-full px-4 bg-gray-100 mt-2 shadow-lg shadow-neutral-400">
+              {/* RIGHT SIDE TOP CONTAINER */}
+              <div className="py-2 flex justify-between flex-wrap">
+                <div className="flex-col flex sm:flex-row items-center w-full sm:w-auto">
+                  <div className="flex items-center h-full px-3 ">
+                    <div className="flex items-center">
+                      <h1 className="text-black text-xl md:text-2xl font-extrabold">
+                        Project name
+                      </h1>
+                    </div>
+                  </div>
+
+                  {/* Project progress bar */}
+                  <div className="flex gap-1 pl-5 pt-1 sm:pt-0 items-center">
+                    {Array.from({ length: 6 }).map((_, index) => (
+                      <div
+                        key={index}
+                        className={`h-4 w-4 md:h-5 md:w-10 ${
+                          index < Number(projectProgressBar)
+                            ? index === 0
+                              ? "bg-yellow-200"
+                              : index === 1
+                              ? "bg-yellow-300"
+                              : index === 2
+                              ? "bg-lime-200"
+                              : index === 3
+                              ? "bg-lime-300"
+                              : index === 4
+                              ? "bg-lime-400"
+                              : "bg-lime-500"
+                            : "bg-gray-300"
+                        } ${
+                          index === 0
+                            ? "rounded-l-full"
+                            : index === 5
+                            ? "rounded-r-full"
+                            : ""
+                        }`}
+                      />
+                    ))}
+
+                    {/* Bell icon */}
+                    <div className="relative pl-2 sm:pl-5">
+                      <Image
+                        src={bellIcon}
+                        alt="bell icon"
+                        className="w-5 h-5"
+                      />
+                      <div className="absolute left-[20px] sm:left-[30px] top-[1px] w-[9px] h-[9px] rounded-full bg-green-400 border border-black"></div>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="flex items-center px-4 pl-8">
-                  <Image
-                    src={lock}
-                    alt="lock icon"
-                    className="w-5 h-5 md:w-6 md:h-6 "
-                    style={{ width: "auto", height: "auto" }}
-                  />
-
-                  <p className="text-white ml-2 text-sm md:text-base">
-                    Private
-                  </p>
-                </div>
-
-                <button className="border border-black rounded-[40px] bg-white w-28 h-[29px] md:w-36">
-                  <div className="flex items-center justify-center">
+                {/* User Icons */}
+                <div className="flex sm:px-4 items-center flex-wrap w-full sm:w-auto">
+                  <div className="flex items-center px-4 pl-8">
                     <Image
-                      src={projects}
-                      alt="projects button icon"
-                      className="w-5 h-5 md:w-6 md:h-6" // Ensure to set width and height
-                      style={{ width: "auto", height: "auto" }} // Add this line
+                      src={lock}
+                      alt="lock icon"
+                      style={{ width: "auto", height: "auto" }}
                     />
-
                     <p className="text-black ml-2 text-sm md:text-base">
-                      Projects
+                      Private
                     </p>
                   </div>
-                </button>
+
+                  <button className="border border-black rounded-[40px] bg-[#171929] w-44 h-[27px] mt-2 sm:mt-0">
+                    <div className="flex items-center justify-center">
+                      <Image
+                        src={projects}
+                        alt="projects button icon"
+                        style={{ width: "17px", height: "auto" }}
+                      />
+                      <p className="text-white ml-2 font-semibold text-sm md:text-base">
+                        All My Projects
+                      </p>
+                    </div>
+                  </button>
+
+                  {/* User Circles */}
+                  <div className="flex items-center h-[30px] space-x-[-20px] ml-10 relative mt-2 sm:mt-0">
+                    <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">BIO</span>
+                    </div>
+                    <div className="w-8 h-8 rounded-full bg-gray-400 flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">OM</span>
+                    </div>
+                    <div className="w-8 h-8 rounded-full bg-yellow-400 flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">MP</span>
+                    </div>
+                    <div className="absolute -right-[1px] top-[25px] w-[8px] h-[8px] rounded-full bg-green-400 border border-black"></div>
+                  </div>
+                </div>
               </div>
-            </div>
 
-            {/* RIGHT SIDE BOTTOM CONTAINER */}
-            <div className="flex pt-5 pl-5">
-              <div className="grid gap-4 grid-cols-3">
-                {/* To Do container */}
-                <div id="todo">
-                  <div className="bg-gray-100 rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy">
-                    <div className="flex items-center justify-between">
-                      <Image
-                        src={leftDarkArrow}
-                        alt="left dark arrow icon"
-                        style={{ width: "auto", height: "auto" }}
-                      />
-                      <p>To Do</p>
-                      <Image
-                        src={xIcon}
-                        alt="x icon"
-                        style={{ width: "auto", height: "auto" }}
-                      />
-                    </div>
+              {/* grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 */}
 
-                    <div className="pt-4 pb-2">
-                      <hr className="bg-gray-300 h-[2px]" />
-                    </div>
+              {/* RIGHT SIDE BOTTOM CONTAINER */}
+              <div className="flex py-5 flex-wrap">
+                <div className="flex flex-wrap gap-4 ">
+                  {/* To Do container */}
+                  <div id="todo">
+                    <div className="bg-gray-200 min-w-[275px] sm:w-[360px] rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy">
+                      <div className="flex items-center justify-between">
+                        <p className="text-gray-500">To Do</p>
+                        <div className="flex gap-3">
+                          <Image
+                            src={collapseIcon}
+                            alt="collapse icon"
+                            style={{ width: "auto", height: "auto" }}
+                          />
+                          <Image
+                            src={dotsIcon}
+                            alt="dots icon"
+                            style={{ width: "auto", height: "auto" }}
+                          />
+                        </div>
+                      </div>
 
-                    {/* Task cards container  */}
-                    <div className="">
-                      <DropTaskContainer
-                        tasks={tasks.todo}
-                        moveTask={moveTask}
-                        containerName="todo"
-                      />
-                    </div>
+                      <div className="pt-4 pb-2">
+                        <hr className="bg-gray-300 h-[2px]" />
+                      </div>
 
-                    {/* TO-DO container button */}
-                    <div className="flex justify-end">
-                      <button className="flex items-center justify-center rounded-[40px] text-white text-lg font-semibold bg-[#2A2D4B] w-28 h-[29px] md:w-36 py-4">
-                        <Image
-                          src={plus}
-                          alt="plus icon"
-                          className="cursor-pointer mr-2"
-                          style={{ width: "auto", height: "auto" }}
+                      {/* Task cards container  */}
+                      <div className="">
+                        <DropTaskContainer
+                          tasks={tasks.todo}
+                          moveTask={moveTask}
+                          containerName="todo"
                         />
-                        Add Task
-                      </button>
+                      </div>
+
+                      {/* TO-DO container button */}
+                      <div className="flex justify-end">
+                        <button className="flex items-center justify-center rounded-[40px] text-white text-base sm:text-lg font-semibold bg-[#2A2D4B] w-28 h-[29px] md:w-36 py-4">
+                          <Image
+                            src={plus}
+                            alt="plus icon"
+                            className="cursor-pointer mr-2"
+                            style={{ width: "auto", height: "auto" }}
+                          />
+                          Add Task
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* In Progress container */}
-                <div id="inProgress">
-                  <div className="bg-gray-100 rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy">
-                    <div className="flex items-center justify-between">
-                      <Image
-                        src={leftDarkArrow}
-                        alt="left dark arrow icon"
-                        style={{ width: "auto", height: "auto" }}
-                      />
-                      <p>In Progress</p>
-                      <Image
-                        src={xIcon}
-                        alt="x icon"
-                        style={{ width: "auto", height: "auto" }}
-                      />
-                    </div>
+                  {/* In Progress container */}
+                  <div id="inProgress">
+                    <div className="bg-gray-200 min-w-[275px] sm:w-[360px] rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy">
+                      <div className="flex items-center justify-between">
+                        <p className="text-gray-500">In Progress</p>
+                        <div className="flex gap-3">
+                          <Image
+                            src={collapseIcon}
+                            alt="collapse icon"
+                            style={{ width: "auto", height: "auto" }}
+                          />
+                          <Image
+                            src={dotsIcon}
+                            alt="dots icon"
+                            style={{ width: "auto", height: "auto" }}
+                          />
+                        </div>
+                      </div>
 
-                    <div className="pt-4 pb-2">
-                      <hr className="bg-gray-300 h-[2px]" />
-                    </div>
+                      <div className="pt-4 pb-2">
+                        <hr className="bg-gray-300 h-[2px]" />
+                      </div>
 
-                    {/* Task cards container  */}
-                    <div className="h-auto">
-                      <DropTaskContainer
-                        tasks={tasks.inProgress}
-                        moveTask={moveTask}
-                        containerName="inProgress"
-                      />
-                    </div>
-
-                    {/* IN PROGRESS container button */}
-                    <div className="flex justify-end">
-                      <button className="flex items-center justify-center rounded-[40px] text-white text-lg font-semibold bg-[#2A2D4B] w-28 h-[29px] md:w-36 py-4">
-                        <Image
-                          src={plus}
-                          alt="plus icon"
-                          className="cursor-pointer mr-2"
-                          style={{ width: "auto", height: "auto" }}
+                      {/* Task cards container  */}
+                      <div className="h-auto">
+                        <DropTaskContainer
+                          tasks={tasks.inProgress}
+                          moveTask={moveTask}
+                          containerName="inProgress"
                         />
-                        Add Task
-                      </button>
+                      </div>
+
+                      {/* IN PROGRESS container button */}
+                      <div className="flex justify-end">
+                        <button className="flex items-center justify-center rounded-[40px] text-white text-base sm:text-lg font-semibold bg-[#2A2D4B] w-28 h-[29px] md:w-36 py-4">
+                          <Image
+                            src={plus}
+                            alt="plus icon"
+                            className="cursor-pointer mr-2"
+                            style={{ width: "auto", height: "auto" }}
+                          />
+                          Add Task
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Completed container */}
-                <div id="completed">
-                  <div className="bg-gray-100 h-auto min-h-[20] rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy ">
-                    <div className="flex items-center justify-between">
-                      <Image
-                        src={leftDarkArrow}
-                        alt="left dark arrow icon"
-                        style={{ width: "auto", height: "auto" }}
-                      />
-                      <p>Completed</p>
-                      <Image
-                        src={xIcon}
-                        alt="x icon"
-                        style={{ width: "auto", height: "auto" }}
-                      />
-                    </div>
+                  {/* Completed container */}
+                  <div id="completed">
+                    <div className="bg-gray-200 min-w-[275px] sm:w-[360px] rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy ">
+                      <div className="flex items-center justify-between">
+                        <p className="text-gray-500">Completed</p>
+                        <div className="flex gap-3">
+                          <Image
+                            src={collapseIcon}
+                            alt="collapse icon"
+                            style={{ width: "auto", height: "auto" }}
+                          />
+                          <Image
+                            src={dotsIcon}
+                            alt="dots icon"
+                            style={{ width: "auto", height: "auto" }}
+                          />
+                        </div>
+                      </div>
 
-                    <div className="pt-4 pb-2">
-                      <hr className="bg-gray-300 h-[2px]" />
-                    </div>
+                      <div className="pt-4 pb-2">
+                        <hr className="bg-gray-300 h-[2px]" />
+                      </div>
 
-                    {/* Task cards container  */}
-                    <div className="h-auto">
-                      <DropTaskContainer
-                        tasks={tasks.completed}
-                        moveTask={moveTask}
-                        containerName="completed"
-                      />
-                    </div>
-
-                    {/* COMPLETED container button */}
-                    <div className="flex justify-end">
-                      <button className="flex items-center justify-center rounded-[40px] text-white text-lg font-semibold bg-[#2A2D4B] w-28 h-[29px] md:w-36 py-4">
-                        <Image
-                          src={plus}
-                          alt="plus icon"
-                          className="cursor-pointer mr-2"
-                          style={{ width: "auto", height: "auto" }}
+                      {/* Task cards container  */}
+                      <div className="h-auto">
+                        <DropTaskContainer
+                          tasks={tasks.completed}
+                          moveTask={moveTask}
+                          containerName="completed"
                         />
-                        Add Task
-                      </button>
+                      </div>
+
+                      {/* COMPLETED container button */}
+                      <div className="flex justify-end">
+                        <button className="flex items-center justify-center rounded-[40px] text-white text-base sm:text-lg font-semibold bg-[#2A2D4B] w-28 h-[29px] md:w-36 py-4">
+                          <Image
+                            src={plus}
+                            alt="plus icon"
+                            className="cursor-pointer mr-2"
+                            style={{ width: "auto", height: "auto" }}
+                          />
+                          Add Task
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>

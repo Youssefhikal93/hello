@@ -100,7 +100,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
   return (
     <div
       ref={ref}
-      className={`flex flex-col bg-gray-50 w-[330px] h-[205px] rounded-[20px] py-5 gap-3 shadow-left-heavy px-4 mb-3 ${
+      className={`cursor-pointer flex flex-col bg-gray-50 sm:w-[330px] sm:h-[205px] rounded-[20px] py-5 gap-3 shadow-left-heavy px-4 mb-3 ${
         isDragging ? "opacity-50" : ""
       }`}
     >
@@ -130,7 +130,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
 
       {/* Members container  */}
       <div className="flex -mt-1">
-        <h1 className="font-bold">Members: </h1>
+        <h1 className="font-bold text-lg sm:text-xl">Members: </h1>
 
         <div className="flex gap-1 items-center ml-2 relative">
           {members.map((member, index) => (
@@ -154,7 +154,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
 
       {/* Date container */}
       <div className="flex -mt-1">
-        <h1 className="font-bold">Date: </h1>
+        <h1 className="font-bold text-lg sm:text-xl">Date: </h1>
         <span className="flex ml-2 text-sm items-center">
           1.{" "}
           <p className="ml-1">
@@ -173,12 +173,12 @@ const TaskCard: React.FC<TaskCardProps> = ({
 
       {/* Checklist container  */}
       <div className="flex items-center gap-1 -mt-3">
-        <h1 className="font-bold">Checklist:</h1>
+        <h1 className="font-bold text-lg sm:text-xl">Checklist:</h1>
         <div className="flex gap-1">
           {Array.from({ length: 10 }).map((_, index) => (
             <div
               key={index}
-              className={`h-4 w-4 ${
+              className={`h-[12px] w-[8px] sm:h-4 sm:w-4 ${
                 index < Number(checklist) ? "bg-[#2A2D4B]" : "bg-gray-300"
               } ${
                 index === 0

@@ -76,8 +76,8 @@ const DragAndDropModule = <T, ItemType extends DraggableItem<T>>({
   return (
     <div
       ref={ref}
-      className={`bg-gray-100 rounded-[20px] ${
-        isOver && canDrop ? "bg-green-200" : ""
+      className={`bg-gray-200 rounded-[20px] ${
+        isOver && canDrop ? "bg-green-300" : ""
       } ${className} py-6`}
     >
       {children}
