@@ -12,8 +12,7 @@
  *
  * It also includes a responsive sidebar for navigation and workspace management.
  *
- * Usage:
- * <TaskManagementDashboard />
+ * @component
  */
 
 "use client";
@@ -25,6 +24,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import mockTasks from "../sampleData/mockTasks";
 import { TaskList } from "../components/drag-drop/DropTaskContainer";
 import TaskContainer from "../components/ui/taskContainer";
+import TaskManagementNavbar from "../components/ui/taskManagementNavbar";
 import TaskManagementSidebar from "../components/ui/taskManagementSidebar";
 
 // Icon imports
@@ -33,30 +33,44 @@ import projects from "../public/projects-icon.svg";
 import plus from "../public/plus-icon.svg";
 import bellIcon from "../public/bell-icon.svg";
 
-const TaskManagementNavbar = () => {
-  return (
-    <div className="flex w-full h-[60px] justify-between items-center bg-[#2A2D4B] lg:gap-2 px-2">
-      <div className="flex px-4 gap-4">
-        <h1 className="text-3xl font-bold">
-          <span className="text-white">Flow</span>
-          <span className="bg-gradient-to-r from-white to-[#FFD700] bg-clip-text text-transparent">
-            erWork
-          </span>
-        </h1>
-      </div>
-    </div>
-  );
-};
-
 export default function TaskManagementDashboard() {
+  // State declarations
+  const [isClient, setIsClient] = useState<boolean>(false);
   const [isLeftDivRetracted, setIsLeftDivRetracted] = useState<boolean>(false);
-  const [tasks, setTasks] = useState<TaskList>(() => {
-    const savedTasks = localStorage.getItem("tasks");
-    return savedTasks ? JSON.parse(savedTasks) : mockTasks;
-  });
-  const [projectProgressBar, setProjectProgressBar] = useState(5);
+  const [tasks, setTasks] = useState<TaskList>(mockTasks);
+  const [projectProgressBar, setProjectProgressBar] = useState<number>(6);
 
-  // Drag and drop move task function
+  /**
+   * Effect to initialize client-side state and set up event listeners
+   */
+  useEffect(() => {
+    setIsClient(true);
+    const savedTasks = localStorage.getItem("tasks");
+    if (savedTasks) {
+      setTasks(JSON.parse(savedTasks));
+    }
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  /**
+   * Effect to save tasks to localStorage when they change
+   */
+  useEffect(() => {
+    if (isClient) {
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+  }, [tasks, isClient]);
+
+  /**
+   * Moves a task from one container to another
+   * @param {string} id - The ID of the task to move
+   * @param {keyof TaskList} currentContainer - The current container of the task
+   * @param {keyof TaskList} newContainer - The new container for the task
+   */
   const moveTask = (
     id: string,
     currentContainer: keyof TaskList,
@@ -67,11 +81,10 @@ export default function TaskManagementDashboard() {
         (task) => task.id === id
       );
 
-      if (!taskToMove) return prevTasks; // Handle case where task is not found
+      if (!taskToMove) return prevTasks;
 
-      // Check if moving to the same container
       if (currentContainer === newContainer) {
-        return prevTasks; // No changes needed
+        return prevTasks;
       }
 
       const updatedFromTasks = prevTasks[currentContainer].filter(
@@ -87,12 +100,16 @@ export default function TaskManagementDashboard() {
     });
   };
 
-  // Toggle left sidebar retraction
+  /**
+   * Toggles the retraction state of the left sidebar
+   */
   const toggleLeftDiv = () => {
     setIsLeftDivRetracted(!isLeftDivRetracted);
   };
 
-  // Collapse left sidebar when resizing window
+  /**
+   * Handles the window resize event to adjust the sidebar state
+   */
   const handleResize = () => {
     if (window.innerWidth < 1400) {
       setIsLeftDivRetracted(true);
@@ -101,23 +118,10 @@ export default function TaskManagementDashboard() {
     }
   };
 
-  useEffect(() => {
-    // Set initial state based on window size
-    handleResize();
-
-    // Add event listener for window resize
-    window.addEventListener("resize", handleResize);
-
-    // Cleanup event listener on component unmount
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  // Save the updated tasks to localStorage
-  useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
+  // Return null if not on client-side to prevent hydration issues
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -125,17 +129,16 @@ export default function TaskManagementDashboard() {
         <TaskManagementNavbar />
 
         <div className="w-full h-[85vh] flex">
-          {/* LEFT SIDEBAR */}
           <TaskManagementSidebar
             isLeftDivRetracted={isLeftDivRetracted}
             toggleLeftDiv={toggleLeftDiv}
           />
 
-          {/* RIGHT SIDE CONTAINER */}
           <div className="w-full h-full mx-10 sm:mx-4 z-0 ">
             <div className="flex flex-col rounded-[20px] w-full px-4 bg-gray-100 mt-2 shadow-lg shadow-neutral-400">
-              {/* RIGHT SIDE TOP CONTAINER */}
+              {/* Project header section */}
               <div className="py-2 flex justify-between flex-wrap">
+                {/* Project name and progress bar */}
                 <div className="flex-col flex sm:flex-row items-center w-full sm:w-auto">
                   <div className="flex items-center h-full px-3 ">
                     <div className="flex items-center">
@@ -145,7 +148,6 @@ export default function TaskManagementDashboard() {
                     </div>
                   </div>
 
-                  {/* Project progress bar */}
                   <div className="flex gap-1 pl-5 pt-1 sm:pt-0 items-center">
                     {Array.from({ length: 6 }).map((_, index) => (
                       <div
@@ -174,7 +176,6 @@ export default function TaskManagementDashboard() {
                       />
                     ))}
 
-                    {/* Bell icon */}
                     <div className="relative pl-2 sm:pl-5">
                       <Image
                         src={bellIcon}
@@ -186,7 +187,7 @@ export default function TaskManagementDashboard() {
                   </div>
                 </div>
 
-                {/* User Icons */}
+                {/* Project settings and user icons */}
                 <div className="flex sm:px-4 items-center flex-wrap w-full sm:w-auto">
                   <div className="flex items-center px-4 pl-8">
                     <Image
@@ -212,7 +213,6 @@ export default function TaskManagementDashboard() {
                     </div>
                   </button>
 
-                  {/* User Circles */}
                   <div className="flex items-center h-[30px] space-x-[-20px] ml-10 relative mt-2 sm:mt-0">
                     <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
                       <span className="text-white font-bold text-sm">BIO</span>
@@ -228,7 +228,7 @@ export default function TaskManagementDashboard() {
                 </div>
               </div>
 
-              {/* RIGHT SIDE BOTTOM CONTAINER */}
+              {/* Task containers section */}
               <div className="flex py-5 flex-wrap">
                 <div className="flex flex-wrap gap-4 ">
                   {/* To Do container */}
@@ -238,11 +238,11 @@ export default function TaskManagementDashboard() {
                       tasks={tasks.todo}
                       moveTask={moveTask}
                       containerName="todo"
-                      onAddTask={() => console.log("Add Task TODO button")} // Add task button onClick
-                      buttonText="Add Task" // Custom button text
-                      buttonIcon={plus} // Custom button icon
-                      onCollapseClick={() => console.log("Collapse button")} // Collapse button onClick
-                      onDotsClick={() => console.log("Dots button")} // Dots button onClick
+                      onAddTask={() => console.log("Add Task TODO button")}
+                      buttonText="Add Task"
+                      buttonIcon={plus}
+                      onCollapseClick={() => console.log("Collapse button")}
+                      onDotsClick={() => console.log("Dots button")}
                     />
                   </div>
 
@@ -263,7 +263,7 @@ export default function TaskManagementDashboard() {
                     />
                   </div>
 
-                  {/* Completed container  */}
+                  {/* Completed container */}
                   <div id="completed">
                     <TaskContainer
                       title="Completed"

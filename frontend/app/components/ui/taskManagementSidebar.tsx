@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import userIcon from "@/app/public/user-icon.png";
