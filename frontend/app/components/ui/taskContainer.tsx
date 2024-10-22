@@ -29,6 +29,8 @@ interface TaskContainerProps {
   onAddTask?: () => void; // Optional function to handle adding a new task
   buttonText?: string; // Optional text for the button
   buttonIcon?: string | React.ReactNode; // Optional icon for the button
+  onCollapseClick?: () => void; // Optional function for collapse button click
+  onDotsClick?: () => void; // Optional function for dots button click
 }
 
 // Functional component for rendering a task container
@@ -40,6 +42,8 @@ const TaskContainer: React.FC<TaskContainerProps> = ({
   onAddTask,
   buttonText,
   buttonIcon,
+  onCollapseClick,
+  onDotsClick,
 }) => {
   return (
     <div className="bg-gray-200 min-w-[275px] sm:w-[360px] rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy">
@@ -47,16 +51,21 @@ const TaskContainer: React.FC<TaskContainerProps> = ({
         <p className="text-gray-500">{title}</p>
         <div className="flex gap-3">
           {/* Icons for collapsing and additional options */}
-          <Image
-            src={collapseIcon}
-            alt="collapse icon"
-            style={{ width: "auto", height: "auto" }}
-          />
-          <Image
-            src={dotsIcon}
-            alt="dots icon"
-            style={{ width: "auto", height: "auto" }}
-          />
+          <button onClick={onCollapseClick}>
+            <Image
+              src={collapseIcon}
+              alt="collapse icon"
+              style={{ width: "auto", height: "auto" }}
+            />
+          </button>
+
+          <button onClick={onDotsClick}>
+            <Image
+              src={dotsIcon}
+              alt="dots icon"
+              style={{ width: "auto", height: "auto" }}
+            />
+          </button>
         </div>
       </div>
 
@@ -93,4 +102,4 @@ const TaskContainer: React.FC<TaskContainerProps> = ({
   );
 };
 
-export default TaskContainer; // Export the TaskContainer component
+export default TaskContainer;

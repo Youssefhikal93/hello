@@ -23,9 +23,9 @@ import Image from "next/image";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import mockTasks from "../sampleData/mockTasks";
-import DropTaskContainer from "../components/drag-drop/DropTaskContainer";
 import { TaskList } from "../components/drag-drop/DropTaskContainer";
 import TaskContainer from "../components/ui/taskContainer";
+import TaskManagementSidebar from "../components/ui/taskManagementSidebar";
 
 // Icon imports
 import lock from "../public/lock-icon.svg";
@@ -128,151 +128,10 @@ export default function TaskManagementDashboard() {
 
         <div className="w-full h-[85vh] flex">
           {/* LEFT SIDEBAR */}
-          <div
-            className={`bg-[#171929] h-full rounded-b-[20px] transition-all duration-1300 p-4 z-50 ${
-              isLeftDivRetracted
-                ? "min-w-0 w-1/20"
-                : "min-w-full sm:min-w-[260px] w-1/6"
-            } absolute sm:relative`}
-          >
-            {isLeftDivRetracted && (
-              <Image
-                src={rightArrow}
-                alt="right arrow icon"
-                className="cursor-pointer absolute -right-5 top-24 transform -translate-y-1/2 z-50 block"
-                onClick={toggleLeftDiv}
-                style={{ width: "auto", height: "auto" }}
-              />
-            )}
-
-            <div
-              className={`text-white flex flex-col justify-between h-full ${
-                isLeftDivRetracted ? "hidden" : "flex"
-              }`}
-            >
-              {/* Top sidebar container */}
-              <div>
-                <h1 className="font-bold text-xl py-2">Workspaces</h1>
-
-                <div className="flex items-center pb-10 px-1">
-                  <Image
-                    src={userIcon}
-                    alt="user icon"
-                    className="w-16 h-16"
-                    style={{ width: "auto", height: "auto" }}
-                  />
-
-                  <h1 className="font-bold text-2xl ml-2">Workspace name</h1>
-
-                  <Image
-                    src={leftArrow}
-                    alt="left arrow icon"
-                    className="cursor-pointer ml-auto"
-                    onClick={toggleLeftDiv}
-                    style={{ width: "auto", height: "auto" }}
-                  />
-                </div>
-
-                {/* Mid sidebar container  */}
-                <div>
-                  <div className="flex items-center justify-between pb-1 px-1">
-                    <h1 className="text-2xl font-bold">BUSINESS SUITE</h1>
-
-                    <Image
-                      src={upArrow}
-                      alt="up arrow"
-                      className="cursor-pointer"
-                      style={{ width: "auto", height: "auto" }}
-                    />
-                  </div>
-
-                  <hr />
-
-                  <div className="pl-5">
-                    <div className="flex flex-col items-end">
-                      <h1 className="font-bold text-xl py-2">
-                        Project planning and management
-                        <span className="text-xs font-light ml-1">
-                          (Trello, ClickUp)
-                        </span>
-                      </h1>
-
-                      <p className="text-sm font-light">
-                        Task creation & management
-                      </p>
-                    </div>
-
-                    <p className="py-3 text-xl font-light">Outsourcing</p>
-
-                    <p className="pb-4 text-xl font-light">Overview</p>
-
-                    <hr />
-                  </div>
-                </div>
-              </div>
-
-              {/* Bottom sidebar container */}
-              <div className="text-xl font-light">
-                <hr className="-mr-4" />
-                <div className="flex items-center py-2 px-2">
-                  <Image
-                    src={notifications}
-                    alt="notifications"
-                    className="w-5 h-5 md:w-6 md:h-6"
-                    style={{ width: "auto", height: "auto" }}
-                  />
-                  <p className="ml-4">Notifications</p>
-                  <div className="right-[20px] bottom-[2px] w-[11px] h-[11px] rounded-full bg-green-400 border border-white ml-3"></div>
-                </div>
-
-                <hr />
-
-                <div className="flex items-center py-2 px-2">
-                  <Image
-                    src={overview}
-                    alt="overview icon"
-                    style={{ width: "auto", height: "auto" }}
-                  />
-                  <p className="ml-4">Overview</p>
-                </div>
-
-                <hr />
-
-                <div className="flex items-center justify-between py-2 px-2">
-                  <div className="flex items-center">
-                    <Image
-                      src={members}
-                      alt="members icon"
-                      style={{ width: "auto", height: "auto" }}
-                    />
-                    <span className="flex ml-3">
-                      <p>Members </p>
-                      <p className="ml-1">(3)</p>
-                    </span>
-                  </div>
-                  <Image
-                    src={plus}
-                    alt="plus icon"
-                    className="cursor-pointer"
-                    style={{ width: "auto", height: "auto" }}
-                  />
-                </div>
-
-                <hr />
-
-                <div className="flex items-center py-2 px-2">
-                  <Image
-                    src={settings}
-                    alt="settings icon"
-                    style={{ width: "auto", height: "auto" }}
-                  />
-                  <p className="ml-4">Settings</p>
-                </div>
-
-                <hr />
-              </div>
-            </div>
-          </div>
+          <TaskManagementSidebar
+            isLeftDivRetracted={isLeftDivRetracted}
+            toggleLeftDiv={toggleLeftDiv}
+          />
 
           {/* RIGHT SIDE CONTAINER */}
           <div className="w-full h-full mx-10 sm:mx-4 z-0 ">
@@ -381,9 +240,11 @@ export default function TaskManagementDashboard() {
                       tasks={tasks.todo}
                       moveTask={moveTask}
                       containerName="todo"
-                      onAddTask={() => console.log("TODO")}
+                      onAddTask={() => console.log("Add Task TODO button")} // Add task button onClick
                       buttonText="Add Task" // Custom button text
                       buttonIcon={plus} // Custom button icon
+                      onCollapseClick={() => console.log("Collapse button")} // Collapse button onClick
+                      onDotsClick={() => console.log("Dots button")} // Dots button onClick
                     />
                   </div>
 
@@ -394,9 +255,13 @@ export default function TaskManagementDashboard() {
                       tasks={tasks.inProgress}
                       moveTask={moveTask}
                       containerName="inProgress"
-                      onAddTask={() => console.log("In Progress")}
-                      buttonText="Add Task" // Custom button text
-                      buttonIcon={plus} // Custom button icon
+                      onAddTask={() =>
+                        console.log("Add task button In Progress")
+                      }
+                      buttonText="Add Task"
+                      buttonIcon={plus}
+                      onCollapseClick={() => console.log("Collapse button")}
+                      onDotsClick={() => console.log("Dots button")}
                     />
                   </div>
 
@@ -407,9 +272,11 @@ export default function TaskManagementDashboard() {
                       tasks={tasks.completed}
                       moveTask={moveTask}
                       containerName="completed"
-                      onAddTask={() => console.log("Completed")}
-                      buttonText="Add Task" // Custom button text
-                      buttonIcon={plus} // Custom button icon
+                      onAddTask={() => console.log("Add Task button Completed")}
+                      buttonText="Add Task"
+                      buttonIcon={plus}
+                      onCollapseClick={() => console.log("Collapse button")}
+                      onDotsClick={() => console.log("Dots button")}
                     />
                   </div>
                 </div>
