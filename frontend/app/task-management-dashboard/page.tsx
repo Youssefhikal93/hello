@@ -30,18 +30,8 @@ import TaskManagementSidebar from "../components/ui/taskManagementSidebar";
 // Icon imports
 import lock from "../public/lock-icon.svg";
 import projects from "../public/projects-icon.svg";
-import leftArrow from "../public/left-arrow.svg";
-import rightArrow from "../public/right-arrow.svg";
-import userIcon from "../public/user-icon.png";
-import upArrow from "../public/up-arrow.svg";
-import notifications from "../public/notifications.svg";
-import overview from "../public/overview.svg";
-import members from "../public/members.svg";
-import settings from "../public/settings.svg";
 import plus from "../public/plus-icon.svg";
 import bellIcon from "../public/bell-icon.svg";
-import collapseIcon from "../public/collapseIcon.svg";
-import dotsIcon from "../public/dotsIcon.svg";
 
 const TaskManagementNavbar = () => {
   return (
@@ -60,7 +50,10 @@ const TaskManagementNavbar = () => {
 
 export default function TaskManagementDashboard() {
   const [isLeftDivRetracted, setIsLeftDivRetracted] = useState<boolean>(false);
-  const [tasks, setTasks] = useState<TaskList>(mockTasks);
+  const [tasks, setTasks] = useState<TaskList>(() => {
+    const savedTasks = localStorage.getItem("tasks");
+    return savedTasks ? JSON.parse(savedTasks) : mockTasks;
+  });
   const [projectProgressBar, setProjectProgressBar] = useState(5);
 
   // Drag and drop move task function
@@ -120,6 +113,11 @@ export default function TaskManagementDashboard() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  // Save the updated tasks to localStorage
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   return (
     <DndProvider backend={HTML5Backend}>
