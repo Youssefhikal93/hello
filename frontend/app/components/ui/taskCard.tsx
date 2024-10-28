@@ -65,7 +65,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
     }),
   }));
 
-  // Members icons colors
+  // Members icons colors example
   const colors = [
     "bg-rose-600",
     "bg-blue-600",
@@ -79,7 +79,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
     "bg-gray-600",
   ];
 
-  // Label colors
+  // Label colors example
   const labelColors = [
     "#C6EDFB", // Light Blue
     "#68BCD8", // Blue

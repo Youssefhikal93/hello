@@ -24,8 +24,9 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import mockTasks from "../sampleData/mockTasks";
 import { TaskList } from "../components/drag-drop/DropTaskContainer";
 import TaskContainer from "../components/ui/taskContainer";
-import TaskManagementNavbar from "../components/ui/taskManagementNavbar";
-import TaskManagementSidebar from "../components/ui/taskManagementSidebar";
+import TaskManagementNavbar from "../components/layout/taskManagementNavbar";
+import TaskManagementSidebar from "../components/layout/taskManagementSidebar";
+import AddWatchers from "../components/ui/addWatchers";
 
 // Icon imports
 import lock from "../public/lock-icon.svg";
@@ -49,6 +50,7 @@ export default function TaskManagementDashboard() {
     if (savedTasks) {
       setTasks(JSON.parse(savedTasks));
     }
+    // Resize sidebar when adjusting screen size
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => {
@@ -133,6 +135,7 @@ export default function TaskManagementDashboard() {
             isLeftDivRetracted={isLeftDivRetracted}
             toggleLeftDiv={toggleLeftDiv}
           />
+          {/* Right side container  */}
 
           <div className="w-full h-full mx-10 sm:mx-4 z-0 ">
             <div className="flex flex-col rounded-[20px] w-full px-4 bg-gray-100 mt-2 shadow-lg shadow-neutral-400">
