@@ -10,7 +10,7 @@ export interface Task {
   name: string; // Name of the task
   members: Member[]; // List of members assigned to the task
   date: string; // Date associated with the task
-  checklist: number; // Number of checklist items
+  subtask: number; // Number of subtask items
   labelNames: string[]; // Labels associated with the task
   position: number; // Position of the task in the list
 }
@@ -42,7 +42,7 @@ interface DropTaskContainerProps {
     name: string; // Name of the task
     members: Member[]; // List of members assigned to the task
     date: string; // Date associated with the task
-    checklist: number; // Number of checklist items
+    subtask: number; // Number of subtask items
     position: number; // Position of the task in the list
   }>;
   moveTask: (
@@ -81,7 +81,7 @@ const DropTaskContainer: React.FC<DropTaskContainerProps> = ({
           taskName={task.name}
           members={task.members}
           date={new Date(task.date)}
-          checklist={task.checklist}
+          subtask={task.subtask}
           position={task.position}
           currentContainer={containerName}
         />

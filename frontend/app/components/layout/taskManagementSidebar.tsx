@@ -23,7 +23,7 @@ const TaskManagementSidebar: React.FC<SidebarProps> = ({
 }) => {
   return (
     <div
-      className={`bg-[#171929] h-full rounded-b-[20px] transition-all duration-1300 p-4 z-50 ${
+      className={`bg-[#282624] h-[685px] rounded-b-[20px] transition-all duration-1300 p-4 z-50 ${
         isLeftDivRetracted
           ? "min-w-0 w-1/20"
           : "min-w-full sm:min-w-[260px] w-1/6"
@@ -40,21 +40,20 @@ const TaskManagementSidebar: React.FC<SidebarProps> = ({
       )}
 
       <div
-        className={`text-white flex flex-col justify-between h-full ${
+        className={`text-white flex flex-col justify-between h-[650px] ${
           isLeftDivRetracted ? "hidden" : "flex"
         }`}
       >
         {/* Top sidebar container */}
         <div>
-          <h1 className="font-bold text-xl py-2">Workspaces</h1>
           <div className="flex items-center pb-10 px-1">
             <Image
               src={userIcon}
               alt="user icon"
-              className="w-16 h-16"
+              className="w-10 h-10"
               style={{ width: "auto", height: "auto" }}
             />
-            <h1 className="font-bold text-2xl ml-2">Workspace name</h1>
+            <h1 className="font-bold text-xl ml-2">Workspace name</h1>
             <Image
               src={leftArrow}
               alt="left arrow icon"
@@ -67,7 +66,7 @@ const TaskManagementSidebar: React.FC<SidebarProps> = ({
           {/* Mid sidebar container */}
           <div>
             <div className="flex items-center justify-between pb-1 px-1">
-              <h1 className="text-2xl font-bold">BUSINESS SUITE</h1>
+              <h1 className="text-xl font-bold">BUSINESS SUITE</h1>
               <Image
                 src={upArrow}
                 alt="up arrow"
@@ -78,7 +77,7 @@ const TaskManagementSidebar: React.FC<SidebarProps> = ({
             <hr />
             <div className="pl-5">
               <div className="flex flex-col items-end">
-                <h1 className="font-bold text-xl py-2">
+                <h1 className="font-bold text-lg py-2">
                   Project planning and management
                   <span className="text-xs font-light ml-1">
                     (Trello, ClickUp)
@@ -86,8 +85,8 @@ const TaskManagementSidebar: React.FC<SidebarProps> = ({
                 </h1>
                 <p className="text-sm font-light">Task creation & management</p>
               </div>
-              <p className="py-3 text-xl font-light">Outsourcing</p>
-              <p className="pb-4 text-xl font-light">Overview</p>
+              <p className="py-3 text-lg font-light">Outsourcing</p>
+              <p className="pb-4 text-lg font-light">Overview</p>
               <hr />
             </div>
           </div>
@@ -103,7 +102,7 @@ const TaskManagementSidebar: React.FC<SidebarProps> = ({
               className="w-5 h-5 md:w-6 md:h-6"
               style={{ width: "auto", height: "auto" }}
             />
-            <p className="ml-4">Notifications</p>
+            <p className="ml-4 text-lg">Notifications</p>
             <div className="right-[20px] bottom-[2px] w-[11px] h-[11px] rounded-full bg-green-400 border border-white ml-3"></div>
           </div>
           <hr />
@@ -113,7 +112,7 @@ const TaskManagementSidebar: React.FC<SidebarProps> = ({
               alt="overview icon"
               style={{ width: "auto", height: "auto" }}
             />
-            <p className="ml-4">Overview</p>
+            <p className="ml-4 text-lg">Overview</p>
           </div>
           <hr />
           <div className="flex items-center justify-between py-2 px-2">
@@ -124,8 +123,8 @@ const TaskManagementSidebar: React.FC<SidebarProps> = ({
                 style={{ width: "auto", height: "auto" }}
               />
               <span className="flex ml-3">
-                <p>Members </p>
-                <p className="ml-1">(3)</p>
+                <p className="text-lg">Members </p>
+                <span className="ml-1">(3)</span>
               </span>
             </div>
             <Image
@@ -142,7 +141,7 @@ const TaskManagementSidebar: React.FC<SidebarProps> = ({
               alt="settings icon"
               style={{ width: "auto", height: "auto" }}
             />
-            <p className="ml-4">Settings</p>
+            <p className="ml-4 text-lg">Settings</p>
           </div>
           <hr />
         </div>

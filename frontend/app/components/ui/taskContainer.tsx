@@ -5,6 +5,9 @@ import DropTaskContainer from "../drag-drop/DropTaskContainer";
 import collapseIcon from "@/app/public/collapseIcon.svg";
 import dotsIcon from "@/app/public/dotsIcon.svg";
 import plusIcon from "@/app/public/plus-icon.svg";
+import plusIconDark from "@/app/public/plusIconDark.svg";
+import aiIcon from "@/app/public/ai-icon.svg";
+import optionsIcon from "@/app/public/optionsIcon.svg";
 import { TaskList } from "../drag-drop/DropTaskContainer";
 import { Member } from "../drag-drop/DropTaskContainer";
 
@@ -17,7 +20,7 @@ interface TaskContainerProps {
     name: string; // Name of the task
     members: Member[]; // List of members assigned to the task
     date: string; // Date associated with the task
-    checklist: number; // Number of checklist items
+    subtask: number; // Number of subtask items
     position: number; // Position of the task in the list
   }>;
   moveTask: (
@@ -29,8 +32,9 @@ interface TaskContainerProps {
   onAddTask?: () => void; // Optional function to handle adding a new task
   buttonText?: string; // Optional text for the button
   buttonIcon?: string | React.ReactNode; // Optional icon for the button
-  onCollapseClick?: () => void; // Optional function for collapse button click
   onDotsClick?: () => void; // Optional function for dots button click
+  isCollapsed?: boolean; // New prop to determine if the container is collapsed
+  onToggleCollapse?: () => void; // New prop for toggling collapse state
 }
 
 // Functional component for rendering a task container
@@ -42,61 +46,123 @@ const TaskContainer: React.FC<TaskContainerProps> = ({
   onAddTask,
   buttonText,
   buttonIcon,
-  onCollapseClick,
   onDotsClick,
+  isCollapsed,
+  onToggleCollapse,
 }) => {
   return (
-    <div className="bg-gray-200 min-w-[275px] sm:w-[360px] rounded-[20px] px-4 py-4 text-xl font-bold shadow-left-heavy">
-      <div className="flex items-center justify-between">
-        <p className="text-gray-500">{title}</p>
-        <div className="flex gap-3">
-          {/* Icons for collapsing and additional options */}
-          <button onClick={onCollapseClick}>
-            <Image
-              src={collapseIcon}
-              alt="collapse icon"
-              style={{ width: "auto", height: "auto" }}
-            />
-          </button>
-
-          <button onClick={onDotsClick}>
-            <Image
-              src={dotsIcon}
-              alt="dots icon"
-              style={{ width: "auto", height: "auto" }}
-            />
-          </button>
-        </div>
-      </div>
-
-      <div className="pt-4 pb-2">
-        <hr className="bg-gray-300 h-[2px]" />
-      </div>
-
-      {/* Task cards container */}
-      <div className="h-auto">
-        <DropTaskContainer
-          tasks={tasks}
-          moveTask={moveTask}
-          containerName={containerName}
-        />
-      </div>
-
-      {/* Container button for adding a new task */}
-      <div className="flex justify-end">
-        <button
-          className="flex items-center justify-center rounded-[40px]
-         text-white text-base sm:text-lg font-semibold bg-[#2A2D4B] w-28 h-[29px] md:w-36 py-4"
-          onClick={onAddTask}
+    <div
+      className={`bg-[#E9E7E5] rounded-[20px] px-2 py-4 text-xl font-bold shadow-left-heavy transition-all duration-300 ease-in-out ${
+        isCollapsed
+          ? "inline-flex w-10 min-h-[220px] h-[fit-content] items-center justify-center"
+          : "min-w-[275px] sm:w-[342px]"
+      }`}
+    >
+      <div
+        className="flex items-center justify-between"
+        onClick={isCollapsed ? onToggleCollapse : undefined}
+      >
+        <p
+          className={`text-black ${
+            isCollapsed
+              ? "transform rotate-90 min-w-[170px] whitespace-nowrap overflow-hidden text-ellipsis"
+              : "whitespace-normal"
+          }`}
+          style={{ maxWidth: isCollapsed ? "140px" : "none" }}
         >
-          <Image
-            src={buttonIcon || plusIcon} // Use buttonIcon or fallback to plusIcon
-            alt="plus icon"
-            className="cursor-pointer mr-2"
-            style={{ width: "auto", height: "auto" }}
+          {isCollapsed && title.length > 16
+            ? `${title.slice(0, 16)}...`
+            : title}
+        </p>
+
+        {/* Icons and content that should stay fixed in position */}
+        {!isCollapsed && (
+          <div className="flex gap-3 flex-shrink-0">
+            {/* Collapse list button and tooltip */}
+            <div className="relative group">
+              <button
+                className="hover:bg-[#cccccc] hover:rounded-md p-1"
+                onClick={onToggleCollapse}
+              >
+                <Image
+                  src={collapseIcon}
+                  alt="collapse icon"
+                  style={{ width: "auto", height: "auto" }}
+                />
+              </button>
+              <div
+                className="absolute invisible group-hover:visible bg-[#707070]
+               text-white text-sm px-2 py-1 rounded-lg whitespace-nowrap left-1/2 -translate-x-1/2 mt-1"
+              >
+                Collapse list
+              </div>
+            </div>
+
+            {/* List actions button and tooltip */}
+            <div className="relative group">
+              <button
+                className="hover:bg-[#cccccc] hover:rounded-md px-1"
+                onClick={onDotsClick}
+              >
+                <Image
+                  src={dotsIcon}
+                  alt="dots icon"
+                  style={{ width: "auto", height: "auto" }}
+                />
+              </button>
+              <div
+                className="absolute invisible group-hover:visible bg-[#707070]
+               text-white text-sm px-2 py-1 rounded-lg whitespace-nowrap left-1/2 -translate-x-1/2 mt-1"
+              >
+                List actions
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Render task container content only if not collapsed */}
+      <div className={`${isCollapsed ? "hidden" : "block"}`}>
+        <div className="pt-4 pb-2">
+          <hr className="bg-gray-300 h-[2px]" />
+        </div>
+
+        <div className="h-auto">
+          <DropTaskContainer
+            tasks={tasks}
+            moveTask={moveTask}
+            containerName={containerName}
           />
-          {buttonText} {/* Display button text */}
-        </button>
+        </div>
+        <div className="flex items-center justify-between">
+          <button
+            className="flex items-center justify-center rounded-[40px] text-black text-base sm:text-lg font-semibold bg-[#B7B1AA] hover:bg-[#9e9b98] w-44 h-[40px] md:w-[14em] py-4"
+            onClick={onAddTask}
+          >
+            <Image
+              src={plusIconDark || plusIcon}
+              alt="plus icon"
+              className="cursor-pointer mr-2"
+              style={{ width: "auto", height: "auto" }}
+            />
+            {buttonText}
+          </button>
+
+          <div className="flex">
+            <div className="relative group">
+              <Image src={aiIcon} alt="ai icon" className="cursor-pointer" />
+              <div className="absolute invisible group-hover:visible z-50 w-[14em] bg-[#707070] text-white text-sm text-center px-2 py-1 rounded-lg left-1/2 -translate-x-1/2 mt-1">
+                Let Ai create a detailed task breakdown structure for your
+                project!
+              </div>
+            </div>
+            <Image
+              src={optionsIcon}
+              alt="options icon"
+              className="cursor-pointer"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

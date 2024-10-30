@@ -13,7 +13,7 @@ import { TaskList } from "../components/drag-drop/DropTaskContainer";
  * - `name`: The name or title of the task.
  * - `members`: An array of members assigned to the task, each with an `id` and `name`.
  * - `date`: The date associated with the task (e.g., due date).
- * - `checklist`: A number representing the number of checklist items associated with the task.
+ * - `subtask`: A number representing the number of subtask items associated with the task.
  * - `labelNames`: An array of labels categorizing the task (e.g., priority levels).
  * - `position`: The position of the task in the list (for ordering).
  */
@@ -27,7 +27,7 @@ const mockTasks: TaskList = {
         { id: 2, name: "Bob Taylor" },
       ],
       date: "2023-10-01",
-      checklist: 3,
+      subtask: 3,
       labelNames: ["Low"],
       position: 1,
     },
@@ -40,7 +40,7 @@ const mockTasks: TaskList = {
         { id: 5, name: "Ethan Hunt" },
       ],
       date: "2023-10-02",
-      checklist: 2,
+      subtask: 2,
       labelNames: ["Medium"],
       position: 2,
     },
@@ -54,7 +54,7 @@ const mockTasks: TaskList = {
         { id: 7, name: "George Costanza" },
       ],
       date: "2023-10-03",
-      checklist: 10,
+      subtask: 8,
       labelNames: ["High", "Medium"],
       position: 3,
     },
@@ -68,7 +68,7 @@ const mockTasks: TaskList = {
         { id: 9, name: "Ivy League" },
       ],
       date: "2023-10-04",
-      checklist: 5,
+      subtask: 1,
       labelNames: ["Low"],
       position: 1,
     },
@@ -81,7 +81,7 @@ const mockTasks: TaskList = {
         { id: 12, name: "Leonardo DiCaprio" },
       ],
       date: "2023-10-05",
-      checklist: 4,
+      subtask: 4,
       labelNames: ["Medium"],
       position: 1,
     },
@@ -93,7 +93,7 @@ const mockTasks: TaskList = {
         { id: 14, name: "Nina Simone" },
       ],
       date: "2023-10-06",
-      checklist: 0,
+      subtask: 0,
       labelNames: ["High", "Low"],
       position: 4,
     },

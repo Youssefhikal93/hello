@@ -1,7 +1,7 @@
 /**
  * TaskCard Component
  *
- * A component that displays a task card with labels, task name, members, date, and checklist.
+ * A component that displays a task card with labels, task name, members, date, and subtask.
  *
  * Props:
  * - labelNames: Array of labels associated with the task.
@@ -9,7 +9,7 @@
  * - position: Count of attachments.
  * - members: Array of member objects with IDs.
  * - date: Date of the task.
- * - checklist: Count of checklist items.
+ * - subtask: Count of subtask items.
  *
  * Usage:
  * <TaskCard
@@ -18,7 +18,7 @@
  *   position={3}
  *   members={[{ id: 1, name: 'Alice' }, { id: 2, name: 'Bob' }]}
  *   date={new Date()}
- *   checklist={5}
+ *   subtask={5}
  * />
  */
 
@@ -42,7 +42,7 @@ type TaskCardProps = {
   position: number; // Count of attachments
   members: Member[]; // Array of member objects with IDs
   date: Date; // Date of the task
-  checklist: number; // Count of checklist items
+  subtask: number; // Count of subtask items
   id: string; // Unique identifier for the task
   currentContainer: string; // Current container of the task
 };
@@ -53,7 +53,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
   position,
   members,
   date,
-  checklist,
+  subtask,
   id,
   currentContainer,
 }) => {
@@ -171,15 +171,15 @@ const TaskCard: React.FC<TaskCardProps> = ({
         </span>
       </div>
 
-      {/* Checklist container  */}
+      {/* Subtask container  */}
       <div className="flex items-center gap-1 -mt-3">
-        <h1 className="font-bold text-lg sm:text-xl">Checklist:</h1>
+        <h1 className="font-bold text-lg sm:text-xl">Subtasks:</h1>
         <div className="flex gap-1">
           {Array.from({ length: 10 }).map((_, index) => (
             <div
               key={index}
               className={`h-[12px] w-[8px] sm:h-4 sm:w-4 ${
-                index < Number(checklist) ? "bg-[#2A2D4B]" : "bg-gray-300"
+                index < Number(subtask) ? "bg-[#827E79]" : "bg-[#CFCBC6]"
               } ${
                 index === 0
                   ? "rounded-l-full"

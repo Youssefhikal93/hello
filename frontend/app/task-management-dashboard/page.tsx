@@ -33,6 +33,10 @@ import lock from "../public/lock-icon.svg";
 import projects from "../public/projects-icon.svg";
 import plus from "../public/plus-icon.svg";
 import bellIcon from "../public/bell-icon.svg";
+import listIcon from "../public/listIcon.svg";
+import boardIcon from "../public/boardIcon.svg";
+import calendarIcon from "../public/calendarIcon.svg";
+import moreViewsIcon from "../public/moreViewsIcon.svg";
 
 export default function TaskManagementDashboard() {
   // State declarations
@@ -40,6 +44,23 @@ export default function TaskManagementDashboard() {
   const [isLeftDivRetracted, setIsLeftDivRetracted] = useState<boolean>(false);
   const [tasks, setTasks] = useState<TaskList>(mockTasks);
   const [projectProgressBar, setProjectProgressBar] = useState<number>(6);
+
+  // State to manage collapse for each container
+  const [collapsedContainers, setCollapsedContainers] = useState<
+    Record<string, boolean>
+  >({
+    todo: false,
+    inProgress: false,
+    completed: false,
+  });
+
+  // Function to toggle collapse state
+  const handleToggleCollapse = (containerName: string) => {
+    setCollapsedContainers((prev) => ({
+      ...prev,
+      [containerName]: !prev[containerName],
+    }));
+  };
 
   /**
    * Effect to initialize client-side state and set up event listeners
@@ -61,11 +82,11 @@ export default function TaskManagementDashboard() {
   /**
    * Effect to save tasks to localStorage when they change
    */
-  useEffect(() => {
-    if (isClient) {
-      localStorage.setItem("tasks", JSON.stringify(tasks));
-    }
-  }, [tasks, isClient]);
+  // useEffect(() => {
+  //   if (isClient) {
+  //     localStorage.setItem("tasks", JSON.stringify(tasks));
+  //   }
+  // }, [tasks, isClient]);
 
   /**
    * Moves a task from one container to another
@@ -130,20 +151,20 @@ export default function TaskManagementDashboard() {
       <div className="flex flex-col justify-center items-center">
         <TaskManagementNavbar />
 
-        <div className="w-full h-[85vh] flex">
+        <div className="w-full h-[103vh] flex">
           <TaskManagementSidebar
             isLeftDivRetracted={isLeftDivRetracted}
             toggleLeftDiv={toggleLeftDiv}
           />
-          {/* Right side container  */}
 
-          <div className="w-full h-full mx-10 sm:mx-4 z-0 ">
-            <div className="flex flex-col rounded-[20px] w-full px-4 bg-gray-100 mt-2 shadow-lg shadow-neutral-400">
+          {/* Right side container  */}
+          <div className="w-full h-full mx-11 sm:mx-4 z-0 ">
+            <div className="flex flex-col rounded-[20px] w-full px-4 bg-gray-100 mt-2 shadow-lg shadow-neutral-400 ">
               {/* Project header section */}
               <div className="py-2 flex justify-between flex-wrap">
                 {/* Project name and progress bar */}
                 <div className="flex-col flex sm:flex-row items-center w-full sm:w-auto">
-                  <div className="flex items-center h-full px-3 ">
+                  <div className="flex items-center h-full ">
                     <div className="flex items-center">
                       <h1 className="text-black text-xl md:text-2xl font-extrabold">
                         Project name
@@ -158,9 +179,9 @@ export default function TaskManagementDashboard() {
                         className={`h-4 w-4 md:h-5 md:w-10 ${
                           index < Number(projectProgressBar)
                             ? index === 0
-                              ? "bg-yellow-200"
-                              : index === 1
                               ? "bg-yellow-300"
+                              : index === 1
+                              ? "bg-yellow-200"
                               : index === 2
                               ? "bg-lime-200"
                               : index === 3
@@ -203,14 +224,14 @@ export default function TaskManagementDashboard() {
                     </p>
                   </div>
 
-                  <button className="border border-black rounded-[40px] bg-[#171929] w-44 h-[27px] mt-2 sm:mt-0">
+                  <button className="borde rounded-[40px] bg-[#B7B1AA] w-44 h-[35px] mt-2 sm:mt-0">
                     <div className="flex items-center justify-center">
                       <Image
                         src={projects}
                         alt="projects button icon"
                         style={{ width: "17px", height: "auto" }}
                       />
-                      <p className="text-white ml-2 font-semibold text-sm md:text-base">
+                      <p className=" ml-2 font-semibold text-sm md:text-base">
                         All My Projects
                       </p>
                     </div>
@@ -231,6 +252,31 @@ export default function TaskManagementDashboard() {
                 </div>
               </div>
 
+              <hr className="mt-1 sm:hidden" />
+
+              {/* Project buttons */}
+              <div className=" sm:flex sm:gap-6 text-[#827E79] font-semibold text-lg ">
+                <button className="flex items-center gap-2 hover:bg-[#dddcdb] hover:rounded-lg px-2">
+                  <Image src={listIcon} alt="list icon" />
+                  List
+                </button>
+
+                <button className="flex items-center gap-2 hover:bg-[#dddcdb] hover:rounded-lg px-2">
+                  <Image src={boardIcon} alt="board icon" />
+                  Board
+                </button>
+
+                <button className="flex items-center gap-2 hover:bg-[#dddcdb] hover:rounded-lg px-2">
+                  <Image src={calendarIcon} alt="calendar icon" />
+                  Calendar
+                </button>
+
+                <button className="flex items-center gap-2 hover:bg-[#dddcdb] hover:rounded-lg px-2">
+                  <Image src={moreViewsIcon} alt="more views icon" />
+                  more views
+                </button>
+              </div>
+
               {/* Task containers section */}
               <div className="flex py-5 flex-wrap">
                 <div className="flex flex-wrap gap-4 ">
@@ -244,8 +290,9 @@ export default function TaskManagementDashboard() {
                       onAddTask={() => console.log("Add Task TODO button")}
                       buttonText="Add Task"
                       buttonIcon={plus}
-                      onCollapseClick={() => console.log("Collapse button")}
                       onDotsClick={() => console.log("Dots button")}
+                      isCollapsed={collapsedContainers.todo}
+                      onToggleCollapse={() => handleToggleCollapse("todo")}
                     />
                   </div>
 
@@ -261,8 +308,11 @@ export default function TaskManagementDashboard() {
                       }
                       buttonText="Add Task"
                       buttonIcon={plus}
-                      onCollapseClick={() => console.log("Collapse button")}
                       onDotsClick={() => console.log("Dots button")}
+                      isCollapsed={collapsedContainers.inProgress}
+                      onToggleCollapse={() =>
+                        handleToggleCollapse("inProgress")
+                      }
                     />
                   </div>
 
@@ -276,8 +326,9 @@ export default function TaskManagementDashboard() {
                       onAddTask={() => console.log("Add Task button Completed")}
                       buttonText="Add Task"
                       buttonIcon={plus}
-                      onCollapseClick={() => console.log("Collapse button")}
                       onDotsClick={() => console.log("Dots button")}
+                      isCollapsed={collapsedContainers.completed}
+                      onToggleCollapse={() => handleToggleCollapse("completed")}
                     />
                   </div>
                 </div>
