@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import logoIcon from "@/app/public/logo.svg";
 import downArrowIcon from "@/app/public/down-arrow.svg";

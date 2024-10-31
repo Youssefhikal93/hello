@@ -26,7 +26,7 @@ import { TaskList } from "../components/drag-drop/DropTaskContainer";
 import TaskContainer from "../components/ui/taskContainer";
 import TaskManagementNavbar from "../components/layout/taskManagementNavbar";
 import TaskManagementSidebar from "../components/layout/taskManagementSidebar";
-import AddWatchers from "../components/ui/addWatchers";
+import AddTaskCard from "../components/ui/addTaskCard";
 
 // Icon imports
 import lock from "../public/lock-icon.svg";
