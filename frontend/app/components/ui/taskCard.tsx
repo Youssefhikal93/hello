@@ -155,45 +155,55 @@ const TaskCard: React.FC<TaskCardProps> = ({
       </div>
 
       {/* Assignees container  */}
-      <div className="flex -mt-2">
-        <h1 className="font-semibold text-base text-[#181615]">Assignees: </h1>
+      <div className="flex -mt-2 justify-between">
+        <div className="flex">
+          <h1 className="font-semibold text-base text-[#181615]">
+            Assignees:{" "}
+          </h1>
 
-        <div className="flex items-center ml-2 relative space-x-[-8px]">
-          {assignees.map((assignee, index) => (
-            <div
-              key={assignee.id}
-              className={`w-5 h-5 rounded-full ${
-                colors[index % colors.length]
-              } flex items-center justify-center p-3`}
-            >
-              <span className="text-white font-semibold text-[9px]">
-                {assignee.name
-                  .split(" ")
-                  .map((name) => name.charAt(0).toUpperCase())
-                  .join("")}
-              </span>
-            </div>
-          ))}
-          <div className="absolute -right-[2px] bottom-[2px] w-[6px] h-[6px] rounded-full bg-green-400 border border-black"></div>
+          <div className="flex items-center ml-2 relative space-x-[-8px]">
+            {assignees.map((assignee, index) => (
+              <div
+                key={assignee.id}
+                className={`w-5 h-5 rounded-full ${
+                  colors[index % colors.length]
+                } flex items-center justify-center p-3`}
+              >
+                <span className="text-white font-semibold text-[9px]">
+                  {assignee.name
+                    .split(" ")
+                    .map((name) => name.charAt(0).toUpperCase())
+                    .join("")}
+                </span>
+              </div>
+            ))}
+            <div className="absolute -right-[2px] bottom-[2px] w-[6px] h-[6px] rounded-full bg-green-400 border border-black"></div>
+          </div>
         </div>
+
+        <Image src={assigneesIcon} alt="assignees icon" />
       </div>
 
       {/* Date container */}
-      <div className="flex -mt-2">
-        <h1 className="font-semibold text-base text-[#181615]">Deadline: </h1>
-        <span className="flex ml-1 text-sm items-center">
-          <p className="ml-1 text-[#181615]">
-            {`${deadline.getDate()} ${deadline.toLocaleString("default", {
-              month: "short",
-            })} ${deadline
-              .getFullYear()
-              .toString()
-              .slice(-2)} at ${deadline.getHours()}:${deadline
-              .getMinutes()
-              .toString()
-              .padStart(2, "0")}`}
-          </p>
-        </span>
+      <div className="flex -mt-2 justify-between">
+        <div className="flex">
+          <h1 className="font-semibold text-base text-[#181615]">Deadline: </h1>
+          <div className="flex ml-1 text-sm items-center">
+            <p className="ml-1 text-[#181615]">
+              {`${deadline.getDate()} ${deadline.toLocaleString("default", {
+                month: "short",
+              })} ${deadline
+                .getFullYear()
+                .toString()
+                .slice(-2)} at ${deadline.getHours()}:${deadline
+                .getMinutes()
+                .toString()
+                .padStart(2, "0")}`}
+            </p>
+          </div>
+        </div>
+
+        <Image className="mr-1" src={deadlineIcon} alt="deadline icon" />
       </div>
 
       {/* Subtask container  */}
