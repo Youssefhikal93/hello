@@ -3,16 +3,25 @@ import TaskCard from "../ui/taskCard";
 import DragAndDropModule from "./DragAndDropModule";
 
 /**
+ * Represents a assignee assigned to a task.
+ */
+export type Assignee = {
+  id: number; // Unique identifier for the assignee
+  name: string; // Name of the assignee
+};
+
+/**
  * Represents a task in the application.
  */
 export interface Task {
   id: string; // Unique identifier for the task
   name: string; // Name of the task
-  members: Member[]; // List of members assigned to the task
-  date: string; // Date associated with the task
+  assignees: Assignee[]; // List of assignees assigned to the task
+  deadline: string; // Deadline associated with the task
   subtask: number; // Number of subtask items
   labelNames: string[]; // Labels associated with the task
   position: number; // Position of the task in the list
+  listName: string;
 }
 
 /**
@@ -25,14 +34,6 @@ export interface TaskList {
 }
 
 /**
- * Represents a member assigned to a task.
- */
-export type Member = {
-  id: number; // Unique identifier for the member
-  name: string; // Name of the member
-};
-
-/**
  * Props for the DropTaskContainer component.
  */
 interface DropTaskContainerProps {
@@ -40,10 +41,11 @@ interface DropTaskContainerProps {
     id: string; // Unique identifier for the task
     labelNames: string[]; // Labels associated with the task
     name: string; // Name of the task
-    members: Member[]; // List of members assigned to the task
-    date: string; // Date associated with the task
+    assignees: Assignee[]; // List of assignees assigned to the task
+    deadline: string; // Deadline associated with the task
     subtask: number; // Number of subtask items
     position: number; // Position of the task in the list
+    listName: string;
   }>;
   moveTask: (
     id: string, // ID of the task to move
@@ -77,10 +79,11 @@ const DropTaskContainer: React.FC<DropTaskContainerProps> = ({
         <TaskCard
           key={task.id}
           id={task.id}
+          listName={task.listName}
           labelNames={task.labelNames}
           taskName={task.name}
-          members={task.members}
-          date={new Date(task.date)}
+          assignees={task.assignees}
+          deadline={new Date(task.deadline)}
           subtask={task.subtask}
           position={task.position}
           currentContainer={containerName}

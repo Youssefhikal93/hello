@@ -9,7 +9,7 @@ import plusIconDark from "@/app/public/plusIconDark.svg";
 import aiIcon from "@/app/public/ai-icon.svg";
 import optionsIcon from "@/app/public/optionsIcon.svg";
 import { TaskList } from "../drag-drop/DropTaskContainer";
-import { Member } from "../drag-drop/DropTaskContainer";
+import { Assignee } from "../drag-drop/DropTaskContainer";
 
 // Interface defining the properties for the TaskContainer component
 interface TaskContainerProps {
@@ -18,10 +18,11 @@ interface TaskContainerProps {
     id: string; // Unique identifier for the task
     labelNames: string[]; // Labels associated with the task
     name: string; // Name of the task
-    members: Member[]; // List of members assigned to the task
-    date: string; // Date associated with the task
+    assignees: Assignee[]; // List of assignees assigned to the task
+    deadline: string; // Deadline associated with the task
     subtask: number; // Number of subtask items
     position: number; // Position of the task in the list
+    listName: string;
   }>;
   moveTask: (
     id: string,
@@ -54,12 +55,12 @@ const TaskContainer: React.FC<TaskContainerProps> = ({
     <div
       className={`bg-[#E9E7E5] rounded-[20px] px-2 py-4 text-xl font-bold shadow-left-heavy transition-all duration-300 ease-in-out ${
         isCollapsed
-          ? "inline-flex w-10 min-h-[220px] h-[fit-content] items-center justify-center"
+          ? "inline-flex w-10 min-h-[220px] h-[fit-content] items-center justify-center hover:bg-[#d4d2d1]"
           : "min-w-[275px] sm:w-[342px]"
       }`}
     >
       <div
-        className="flex items-center justify-between"
+        className="flex items-center justify-between cursor-pointer"
         onClick={isCollapsed ? onToggleCollapse : undefined}
       >
         <p

@@ -11,8 +11,8 @@ import { TaskList } from "../components/drag-drop/DropTaskContainer";
  * Each task includes the following properties:
  * - `id`: A unique identifier for the task.
  * - `name`: The name or title of the task.
- * - `members`: An array of members assigned to the task, each with an `id` and `name`.
- * - `date`: The date associated with the task (e.g., due date).
+ * - `assignees`: An array of assignees assigned to the task, each with an `id` and `name`.
+ * - `deadline`: The deadline associated with the task (e.g., due deadline).
  * - `subtask`: A number representing the number of subtask items associated with the task.
  * - `labelNames`: An array of labels categorizing the task (e.g., priority levels).
  * - `position`: The position of the task in the list (for ordering).
@@ -22,80 +22,86 @@ const mockTasks: TaskList = {
     {
       id: "1",
       name: "Task name A",
-      members: [
+      assignees: [
         { id: 1, name: "Alice Maria" },
         { id: 2, name: "Bob Taylor" },
       ],
-      date: "2023-10-01",
-      subtask: 3,
+      deadline: "2023-01-01",
+      subtask: 6,
       labelNames: ["Low"],
       position: 1,
+      listName: "to do",
     },
     {
       id: "2",
       name: "Task name B",
-      members: [
+      assignees: [
         { id: 3, name: "Charlie Brown" },
         { id: 4, name: "Diana Prince" },
         { id: 5, name: "Ethan Hunt" },
       ],
-      date: "2023-10-02",
+      deadline: "2023-10-02",
       subtask: 2,
       labelNames: ["Medium"],
       position: 2,
+      listName: "to do",
     },
   ],
   inProgress: [
     {
       id: "3",
       name: "Task name C",
-      members: [
+      assignees: [
         { id: 6, name: "Fiona Gallagher" },
         { id: 7, name: "George Costanza" },
       ],
-      date: "2023-10-03",
+      deadline: "2023-07-03",
       subtask: 8,
-      labelNames: ["High", "Medium"],
+      labelNames: ["High", "Medium", "Low", "None"],
       position: 3,
+      listName: "in progress",
     },
   ],
   completed: [
     {
       id: "4",
       name: "Task name D",
-      members: [
+      assignees: [
         { id: 8, name: "Hannah Montana" },
         { id: 9, name: "Ivy League" },
       ],
-      date: "2023-10-04",
+      deadline: "2023-01-04",
       subtask: 1,
       labelNames: ["Low"],
       position: 1,
+      listName: "completed",
     },
     {
       id: "5",
       name: "Task name E",
-      members: [
+      assignees: [
         { id: 10, name: "Jack Sparrow" },
         { id: 11, name: "Katherine Johnson" },
         { id: 12, name: "Leonardo DiCaprio" },
       ],
-      date: "2023-10-05",
+      deadline: "2023-10-05",
       subtask: 4,
       labelNames: ["Medium"],
       position: 1,
+      listName: "completed",
     },
     {
       id: "6",
       name: "Task name F",
-      members: [
+      assignees: [
         { id: 13, name: "Mia Wallace" },
         { id: 14, name: "Nina Simone" },
       ],
-      date: "2023-10-06",
+      deadline: "2023-03-06",
       subtask: 0,
       labelNames: ["High", "Low"],
       position: 4,
+      listName: "completed",
     },
   ],
 };

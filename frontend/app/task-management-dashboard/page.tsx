@@ -43,7 +43,7 @@ export default function TaskManagementDashboard() {
   const [isClient, setIsClient] = useState<boolean>(false);
   const [isLeftDivRetracted, setIsLeftDivRetracted] = useState<boolean>(false);
   const [tasks, setTasks] = useState<TaskList>(mockTasks);
-  const [projectProgressBar, setProjectProgressBar] = useState<number>(6);
+  const [projectProgressBar, setProjectProgressBar] = useState<number>(5);
 
   // State to manage collapse for each container
   const [collapsedContainers, setCollapsedContainers] = useState<
@@ -189,7 +189,7 @@ export default function TaskManagementDashboard() {
                               : index === 4
                               ? "bg-lime-400"
                               : "bg-lime-500"
-                            : "bg-gray-300"
+                            : "bg-[#CFCBC6]"
                         } ${
                           index === 0
                             ? "rounded-l-full"
@@ -241,12 +241,15 @@ export default function TaskManagementDashboard() {
                     <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
                       <span className="text-white font-bold text-sm">BIO</span>
                     </div>
+
                     <div className="w-8 h-8 rounded-full bg-gray-400 flex items-center justify-center">
                       <span className="text-white font-bold text-sm">OM</span>
                     </div>
+
                     <div className="w-8 h-8 rounded-full bg-yellow-400 flex items-center justify-center">
                       <span className="text-white font-bold text-sm">MP</span>
                     </div>
+
                     <div className="absolute -right-[1px] top-[25px] w-[8px] h-[8px] rounded-full bg-green-400 border border-black"></div>
                   </div>
                 </div>
