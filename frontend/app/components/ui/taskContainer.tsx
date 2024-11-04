@@ -1,15 +1,19 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import DropTaskContainer from "../drag-drop/DropTaskContainer";
+import AddTaskCard from "./addTaskCard";
 
+// Icon imports
 import collapseIcon from "@/app/public/collapseIcon.svg";
 import dotsIcon from "@/app/public/dotsIcon.svg";
 import plusIcon from "@/app/public/plus-icon.svg";
 import plusIconDark from "@/app/public/plusIconDark.svg";
 import aiIcon from "@/app/public/ai-icon.svg";
 import optionsIcon from "@/app/public/optionsIcon.svg";
+
+// Typescript props imports
 import { TaskList } from "../drag-drop/DropTaskContainer";
 import { Assignee } from "../drag-drop/DropTaskContainer";
 
@@ -38,6 +42,7 @@ interface TaskContainerProps {
   onDotsClick?: () => void; // Optional function for dots button click
   isCollapsed?: boolean; // New prop to determine if the container is collapsed
   onToggleCollapse?: () => void; // New prop for toggling collapse state
+  showAddTask: string | null;
 }
 
 // Functional component for rendering a task container
@@ -52,6 +57,7 @@ const TaskContainer: React.FC<TaskContainerProps> = ({
   onDotsClick,
   isCollapsed,
   onToggleCollapse,
+  showAddTask,
 }) => {
   return (
     <div
@@ -136,7 +142,12 @@ const TaskContainer: React.FC<TaskContainerProps> = ({
             moveTask={moveTask}
             containerName={containerName}
           />
+
+          {showAddTask === containerName && (
+            <AddTaskCard listName={showAddTask} />
+          )}
         </div>
+
         <div className="flex items-center justify-between">
           <button
             className="flex items-center justify-center rounded-[40px] text-black text-base sm:text-lg font-semibold bg-[#B7B1AA] hover:bg-[#9e9b98] w-44 h-[40px] md:w-[14em] py-4"

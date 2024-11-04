@@ -26,7 +26,7 @@ import { TaskList } from "../components/drag-drop/DropTaskContainer";
 import TaskContainer from "../components/ui/taskContainer";
 import TaskManagementNavbar from "../components/layout/taskManagementNavbar";
 import TaskManagementSidebar from "../components/layout/taskManagementSidebar";
-import AddTaskCard from "../components/ui/addTaskCard";
+import AddWatchers from "../components/ui/addWatchers";
 
 // Icon imports
 import lock from "../public/lock-icon.svg";
@@ -44,6 +44,7 @@ export default function TaskManagementDashboard() {
   const [isLeftDivRetracted, setIsLeftDivRetracted] = useState<boolean>(false);
   const [tasks, setTasks] = useState<TaskList>(mockTasks);
   const [projectProgressBar, setProjectProgressBar] = useState<number>(5);
+  const [showAddTask, setShowAddTask] = useState<string | null>(null);
 
   // State to manage collapse for each container
   const [collapsedContainers, setCollapsedContainers] = useState<
@@ -290,12 +291,13 @@ export default function TaskManagementDashboard() {
                       tasks={tasks.todo}
                       moveTask={moveTask}
                       containerName="todo"
-                      onAddTask={() => console.log("Add Task TODO button")}
+                      onAddTask={() => setShowAddTask("todo")}
                       buttonText="Add Task"
                       buttonIcon={plus}
                       onDotsClick={() => console.log("Dots button")}
                       isCollapsed={collapsedContainers.todo}
                       onToggleCollapse={() => handleToggleCollapse("todo")}
+                      showAddTask={showAddTask}
                     />
                   </div>
 
@@ -306,9 +308,7 @@ export default function TaskManagementDashboard() {
                       tasks={tasks.inProgress}
                       moveTask={moveTask}
                       containerName="inProgress"
-                      onAddTask={() =>
-                        console.log("Add task button In Progress")
-                      }
+                      onAddTask={() => setShowAddTask("inProgress")}
                       buttonText="Add Task"
                       buttonIcon={plus}
                       onDotsClick={() => console.log("Dots button")}
@@ -316,6 +316,7 @@ export default function TaskManagementDashboard() {
                       onToggleCollapse={() =>
                         handleToggleCollapse("inProgress")
                       }
+                      showAddTask={showAddTask}
                     />
                   </div>
 
@@ -326,12 +327,13 @@ export default function TaskManagementDashboard() {
                       tasks={tasks.completed}
                       moveTask={moveTask}
                       containerName="completed"
-                      onAddTask={() => console.log("Add Task button Completed")}
+                      onAddTask={() => setShowAddTask("completed")}
                       buttonText="Add Task"
                       buttonIcon={plus}
                       onDotsClick={() => console.log("Dots button")}
                       isCollapsed={collapsedContainers.completed}
                       onToggleCollapse={() => handleToggleCollapse("completed")}
+                      showAddTask={showAddTask}
                     />
                   </div>
                 </div>
