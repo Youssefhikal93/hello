@@ -59,11 +59,11 @@ export default function AddTaskCard({ listName }: AddTaskCardProps) {
             >
               {title}
               <span className="absolute left-full ml-2 opacity-0 hover:opacity-100 transition-opacity">
-                <Image src={editIcon} alt="edit icon" />
+                <Image src={editIcon} alt="edit icon" width={20} height={20} />
               </span>
             </h1>
           )}
-          <Image src={bellIcon} alt="bell icon" />
+          <Image src={bellIcon} alt="bell icon" width={20} height={20} />
         </div>
 
         <div className="flex gap-1 items-center text-sm font-light mb-1">
@@ -80,19 +80,40 @@ export default function AddTaskCard({ listName }: AddTaskCardProps) {
       {/* Add task buttons */}
       <div className="flex flex-col text-[#827E79] text-sm font-semibold -mt-2">
         <button className="flex items-center hover:bg-[#dddcdb] hover:rounded-lg py-1 px-2 max-w-[200px]">
-          <Image src={assigneesIcon} alt="assignees icon" />
+          <Image
+            src={assigneesIcon}
+            alt="assignees icon"
+            width={20}
+            height={20}
+          />
           <span className="ml-[8px]"> Add assignees</span>
         </button>
 
         <button className="flex items-center hover:bg-[#dddcdb] hover:rounded-lg py-1 px-2 max-w-[200px]">
-          <Image src={deadlineIcon} alt="deadline icon" />
-          <span className="ml-[11px]">Add a deadline</span>
+          <Image
+            src={deadlineIcon}
+            alt="deadline icon"
+            width={20}
+            height={20}
+          />
+          <span className="ml-[8px]">Add a deadline</span>
         </button>
 
-        <button className="flex items-center hover:bg-[#dddcdb] hover:rounded-lg py-1 px-2 max-w-[200px]">
-          <Image src={priorityIcon} alt="priority icon" />
-          <span className="ml-2"> Add a priority</span>
-        </button>
+        <div className="flex justify-between">
+          <button className="flex items-center hover:bg-[#dddcdb] hover:rounded-lg py-1 px-2 max-w-[200px]">
+            <Image
+              src={priorityIcon}
+              alt="priority icon"
+              width={20}
+              height={20}
+            />
+            <span className="ml-2"> Add a priority</span>
+          </button>
+
+          <button className="border border-black hover:bg-[#dddcdb] rounded-xl py-1 px-4 max-w-[200px]">
+            Save
+          </button>
+        </div>
       </div>
     </div>
   );
