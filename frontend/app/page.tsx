@@ -1,8 +1,14 @@
+'use client';
+import React from 'react';
 import Image from "next/image";
 import { Footer, Hero, Navbar, Welcome } from "./components";
 import sample from "./public/sample1.jpg";
+import DateTimePicker from "./components/ui/DateTimePicker";
+import TaskCard from './components/ui/TaskCard';
+
 
 export default function Home() {
+
   return (
     <div className="flex flex-col justify-center items-center lg:gap-4 lg:px-14 lg:py-5 md:gap-4 md:px-14 md:py-5">
       <Navbar/>
@@ -10,6 +16,20 @@ export default function Home() {
       <Image src={sample} alt='sample-image' className="hidden lg:block md:block w-full rounded-3xl"/>
        <Welcome/>
        <Hero/> 
+
+      {/* Test DateTimePicker Component */}
+      {/*
+      <div className="flex justify-center items-center w-full">
+        <DateTimePicker />
+      </div> 
+      */}
+
+      {/* TaskCard and LabelSelector Components */}
+      <div className="w-full mt-10">
+        <TaskCard/>   
+      </div>
+
+
        <div className="hidden lg:inline-block md:inline-block items-center justify-center w-full">
         <Footer/>
        </div>
@@ -23,3 +43,4 @@ export default function Home() {
     // </div>
   );
 }
+
