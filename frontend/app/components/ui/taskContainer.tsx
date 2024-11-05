@@ -156,15 +156,21 @@ const TaskContainer: React.FC<TaskContainerProps> = ({
             <Image
               src={plusIconDark || plusIcon}
               alt="plus icon"
-              className="cursor-pointer mr-2"
-              style={{ width: "auto", height: "auto" }}
+              className="cursor-pointer mr-2 h-auto w-auto"
+              width={20}
+              height={20}
             />
             {buttonText}
           </button>
 
           <div className="flex">
-            <div className="relative group">
-              <Image src={aiIcon} alt="ai icon" className="cursor-pointer" />
+            <div className="relative group h-auto w-auto">
+              <Image
+                src={aiIcon}
+                alt="ai icon"
+                className="cursor-pointer"
+                style={{ width: "auto", height: "auto" }}
+              />
               <div className="absolute invisible group-hover:visible z-50 w-[14em] bg-[#707070] text-white text-sm text-center px-2 py-1 rounded-lg left-1/2 -translate-x-1/2 mt-1">
                 Let Ai create a detailed task breakdown structure for your
                 project!
@@ -173,7 +179,9 @@ const TaskContainer: React.FC<TaskContainerProps> = ({
             <Image
               src={optionsIcon}
               alt="options icon"
-              className="cursor-pointer"
+              className="cursor-pointer h-auto w-auto"
+              width={40}
+              height={40}
             />
           </div>
         </div>

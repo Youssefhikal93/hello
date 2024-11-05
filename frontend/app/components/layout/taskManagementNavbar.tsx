@@ -16,7 +16,12 @@ const TaskManagementNavbar = () => {
         {/* Left side */}
         <div className="flex px-4 gap-4 md:gap-16 flex-col sm:flex-row">
           <div>
-            <Image src={logoIcon} alt="flower icon" className="min-w-[150px]" />
+            <Image
+              src={logoIcon}
+              alt="flower icon"
+              className="min-w-[150px]"
+              priority
+            />
           </div>
 
           <div className="text-white flex gap-6">
@@ -38,7 +43,7 @@ const TaskManagementNavbar = () => {
         </div>
 
         {/* Right side */}
-        <div className="flex gap-6 px-2 min-w-[80px] mt-4 sm:mt-0">
+        <div className="flex gap-6 px-2 min-w-[80px] mt-4 sm:mt-0 items-center">
           <Image src={connectIcon} alt="connect icon" />
 
           <button className="text-xl text-white font-bold ">Sign up</button>

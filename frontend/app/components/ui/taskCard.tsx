@@ -123,7 +123,9 @@ const TaskCard: React.FC<TaskCardProps> = ({
       <div>
         <div className="flex justify-between">
           <h1 className="font-bold text-xl">{taskName}</h1>
-          <Image src={bellIcon} alt="bell icon" />
+          <div>
+            <Image src={bellIcon} alt="bell icon" />
+          </div>
         </div>
 
         <div className="flex gap-1 items-center text-sm font-light mb-1">
@@ -140,15 +142,21 @@ const TaskCard: React.FC<TaskCardProps> = ({
 
         <hr className="border-t-2" />
 
-        <div className="flex gap-2 py-1">
-          <Image src={paperIcon} alt="paper icon" />
+        <div className="flex gap-2 py-1 items-center">
+          <div>
+            <Image src={paperIcon} alt="paper icon" />
+          </div>
 
-          <div className="flex">
-            <Image src={attachementsIcon} alt="attachments icon" />
+          <div className="flex items-center">
+            <div>
+              <Image src={attachementsIcon} alt="attachments icon" />
+            </div>
             <span className=" text-[#B7B1AA] text-base">{position}</span>
           </div>
 
-          <Image src={watchingIcon} alt="watch icon" />
+          <div>
+            <Image src={watchingIcon} alt="watch icon" />
+          </div>
         </div>
 
         <hr className="border-t-2" />
@@ -181,7 +189,9 @@ const TaskCard: React.FC<TaskCardProps> = ({
           </div>
         </div>
 
-        <Image src={assigneesIcon} alt="assignees icon" />
+        <div>
+          <Image src={assigneesIcon} alt="assignees icon" />
+        </div>
       </div>
 
       {/* Date container */}
@@ -203,7 +213,9 @@ const TaskCard: React.FC<TaskCardProps> = ({
           </div>
         </div>
 
-        <Image className="mr-1" src={deadlineIcon} alt="deadline icon" />
+        <div>
+          <Image className="mr-1" src={deadlineIcon} alt="deadline icon" />
+        </div>
       </div>
 
       {/* Subtask container  */}

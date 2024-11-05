@@ -26,7 +26,7 @@ import { TaskList } from "../components/drag-drop/DropTaskContainer";
 import TaskContainer from "../components/ui/taskContainer";
 import TaskManagementNavbar from "../components/layout/taskManagementNavbar";
 import TaskManagementSidebar from "../components/layout/taskManagementSidebar";
-import AddWatchers from "../components/ui/addWatchers";
+import ListActionsCard from "../components/ui/lIstActionsCard";
 
 // Icon imports
 import lock from "../public/lock-icon.svg";
@@ -202,11 +202,7 @@ export default function TaskManagementDashboard() {
                     ))}
 
                     <div className="relative pl-2 sm:pl-5">
-                      <Image
-                        src={bellIcon}
-                        alt="bell icon"
-                        className="w-5 h-5"
-                      />
+                      <Image src={bellIcon} alt="bell icon" />
                       <div className="absolute left-[20px] sm:left-[30px] top-[1px] w-[9px] h-[9px] rounded-full bg-green-400 border border-black"></div>
                     </div>
                   </div>
@@ -230,7 +226,7 @@ export default function TaskManagementDashboard() {
                       <Image
                         src={projects}
                         alt="projects button icon"
-                        style={{ width: "17px", height: "auto" }}
+                        style={{ width: "auto", height: "auto" }}
                       />
                       <p className=" ml-2 font-semibold text-sm md:text-base">
                         All My Projects
@@ -261,25 +257,43 @@ export default function TaskManagementDashboard() {
               {/* Project buttons */}
               <div className=" sm:flex sm:gap-6 text-[#827E79] font-semibold text-lg ">
                 <button className="flex items-center gap-2 hover:bg-[#dddcdb] hover:rounded-lg px-2">
-                  <Image src={listIcon} alt="list icon" />
+                  <Image
+                    src={listIcon}
+                    alt="list icon"
+                    style={{ width: "auto", height: "auto" }}
+                  />
                   List
                 </button>
 
                 <button className="flex items-center gap-2 hover:bg-[#dddcdb] hover:rounded-lg px-2">
-                  <Image src={boardIcon} alt="board icon" />
+                  <Image
+                    src={boardIcon}
+                    alt="board icon"
+                    style={{ width: "auto", height: "auto" }}
+                  />
                   Board
                 </button>
 
                 <button className="flex items-center gap-2 hover:bg-[#dddcdb] hover:rounded-lg px-2">
-                  <Image src={calendarIcon} alt="calendar icon" />
+                  <Image
+                    src={calendarIcon}
+                    alt="calendar icon"
+                    style={{ width: "auto", height: "auto" }}
+                  />
                   Calendar
                 </button>
 
                 <button className="flex items-center gap-2 hover:bg-[#dddcdb] hover:rounded-lg px-2">
-                  <Image src={moreViewsIcon} alt="more views icon" />
+                  <Image
+                    src={moreViewsIcon}
+                    alt="more views icon"
+                    style={{ width: "auto", height: "auto" }}
+                  />
                   more views
                 </button>
               </div>
+
+              {/* <ListActionsCard /> */}
 
               {/* Task containers section */}
               <div className="flex py-5 flex-wrap">
