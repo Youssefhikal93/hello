@@ -22,11 +22,14 @@ import Image from "next/image";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import mockTasks from "../sampleData/mockTasks";
+
+// Components imports
 import { TaskList } from "../components/drag-drop/DropTaskContainer";
 import TaskContainer from "../components/ui/TaskContainer";
 import TaskManagementNavbar from "../components/layout/TaskManagementNavbar";
 import TaskManagementSidebar from "../components/layout/TaskManagementSidebar";
 import ListActionsCard from "../components/ui/ListActionsCard";
+import AddAssignees from "../components/ui/AddAssignees";
 
 // Icon imports
 import lock from "../public/lock-icon.svg";
@@ -51,6 +54,7 @@ export default function TaskManagementDashboard() {
     useState<boolean>(false);
 
   // Add a new state variable to keep track of the container that was clicked
+  // for the ListActionsCard component
   const [activeContainer, setActiveContainer] = useState<string | null>(null);
 
   // Update the onDotsClick handler to set the active container
@@ -315,7 +319,7 @@ export default function TaskManagementDashboard() {
               </div>
 
               {/* Task containers section */}
-              <div className="flex py-5 gap-4 flex-wrap">
+              {/* <div className="flex py-5 gap-4 flex-wrap">
                 {containerNames.map((containerName) => (
                   <div key={containerName} id={containerName}>
                     {isListActionsCardVisible &&
@@ -348,61 +352,9 @@ export default function TaskManagementDashboard() {
                     />
                   </div>
                 ))}
-                {/* <div className="flex flex-wrap gap-4 ">
-                  {/* To Do container */}
-                {/* <div id="todo">
-                    <TaskContainer
-                      title="To Do"
-                      tasks={tasks.todo}
-                      moveTask={moveTask}
-                      containerName="todo"
-                      onAddTask={() => setShowAddTask("todo")}
-                      buttonText="Add Task"
-                      buttonIcon={plus}
-                      onDotsClick={() => console.log("Dots button")}
-                      isCollapsed={collapsedContainers.todo}
-                      onToggleCollapse={() => handleToggleCollapse("todo")}
-                      showAddTask={showAddTask}
-                    />
-                  </div>
+              </div> */}
 
-                  {/* In Progress container */}
-                {/* <div id="inProgress">
-                    <TaskContainer
-                      title="In Progress"
-                      tasks={tasks.inProgress}
-                      moveTask={moveTask}
-                      containerName="inProgress"
-                      onAddTask={() => setShowAddTask("inProgress")}
-                      buttonText="Add Task"
-                      buttonIcon={plus}
-                      onDotsClick={() => console.log("Dots button")}
-                      isCollapsed={collapsedContainers.inProgress}
-                      onToggleCollapse={() =>
-                        handleToggleCollapse("inProgress")
-                      }
-                      showAddTask={showAddTask}
-                    />
-                  </div>
-
-                  {/* Completed container */}
-                {/* <div id="completed">
-                    <TaskContainer
-                      title="Completed"
-                      tasks={tasks.completed}
-                      moveTask={moveTask}
-                      containerName="completed"
-                      onAddTask={() => setShowAddTask("completed")}
-                      buttonText="Add Task"
-                      buttonIcon={plus}
-                      onDotsClick={() => console.log("Dots button")}
-                      isCollapsed={collapsedContainers.completed}
-                      onToggleCollapse={() => handleToggleCollapse("completed")}
-                      showAddTask={showAddTask}
-                    />
-                  </div>
-                </div> */}
-              </div>
+              <AddAssignees />
             </div>
           </div>
         </div>
