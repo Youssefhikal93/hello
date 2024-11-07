@@ -23,7 +23,7 @@ const TaskManagementSidebar: React.FC<SidebarProps> = ({
 }) => {
   return (
     <div
-      className={`bg-[#282624] h-[685px] rounded-b-[20px] transition-all duration-1300 p-4 z-50 ${
+      className={`bg-[#282624] h-[685px] rounded-b-[20px] transition-all duration-1300 p-4 z-10 sm:z-0  ${
         isLeftDivRetracted
           ? "min-w-0 w-1/20"
           : "min-w-full sm:min-w-[260px] w-1/6"
@@ -33,7 +33,7 @@ const TaskManagementSidebar: React.FC<SidebarProps> = ({
         <Image
           src={rightArrow}
           alt="right arrow icon"
-          className="cursor-pointer absolute -right-5 top-24 transform -translate-y-1/2 z-50 block"
+          className="cursor-pointer absolute -right-5 top-24 transform -translate-y-1/2  block"
           onClick={toggleLeftDiv}
           style={{ width: "auto", height: "auto" }}
         />

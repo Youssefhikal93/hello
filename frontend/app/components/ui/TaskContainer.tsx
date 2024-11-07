@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import DropTaskContainer from "../drag-drop/DropTaskContainer";
-import AddTaskCard from "./addTaskCard";
+import AddTaskCard from "./AddTaskCard";
+import ListActionsCard from "./ListActionsCard";
 
 // Icon imports
 import collapseIcon from "@/app/public/collapseIcon.svg";
@@ -110,7 +111,7 @@ const TaskContainer: React.FC<TaskContainerProps> = ({
             {/* List actions button and tooltip */}
             <div className="relative group">
               <button
-                className="hover:bg-[#cccccc] hover:rounded-md px-1"
+                className="hover:bg-[#cccccc] hover:rounded-md px-1 py-4"
                 onClick={onDotsClick}
               >
                 <Image
@@ -119,9 +120,10 @@ const TaskContainer: React.FC<TaskContainerProps> = ({
                   style={{ width: "auto", height: "auto" }}
                 />
               </button>
+
               <div
                 className="absolute invisible group-hover:visible bg-[#707070]
-               text-white text-sm px-2 py-1 rounded-lg whitespace-nowrap left-1/2 -translate-x-1/2 mt-1"
+               text-white text-sm px-2 py-1 rounded-lg whitespace-nowrap left-1/4 sm:left-1/2  -translate-x-1/2 mt-1"
               >
                 List actions
               </div>
@@ -171,7 +173,10 @@ const TaskContainer: React.FC<TaskContainerProps> = ({
                 className="cursor-pointer"
                 style={{ width: "auto", height: "auto" }}
               />
-              <div className="absolute invisible group-hover:visible z-50 w-[14em] bg-[#707070] text-white text-sm text-center px-2 py-1 rounded-lg left-1/2 -translate-x-1/2 mt-1">
+              <div
+                className="absolute invisible group-hover:visible z-50 w-[14em] bg-[#707070]
+               text-white text-sm text-center px-2 py-1 rounded-lg left-1/5 sm:left-1/2 -translate-x-1/2 mt-1"
+              >
                 Let Ai create a detailed task breakdown structure for your
                 project!
               </div>

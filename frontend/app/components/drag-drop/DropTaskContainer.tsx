@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import TaskCard from "../ui/taskCard";
+import TaskCard from "../ui/TaskCard";
 import DragAndDropModule from "./DragAndDropModule";
 
 /**

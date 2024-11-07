@@ -23,10 +23,10 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import mockTasks from "../sampleData/mockTasks";
 import { TaskList } from "../components/drag-drop/DropTaskContainer";
-import TaskContainer from "../components/ui/taskContainer";
-import TaskManagementNavbar from "../components/layout/taskManagementNavbar";
-import TaskManagementSidebar from "../components/layout/taskManagementSidebar";
-import ListActionsCard from "../components/ui/lIstActionsCard";
+import TaskContainer from "../components/ui/TaskContainer";
+import TaskManagementNavbar from "../components/layout/TaskManagementNavbar";
+import TaskManagementSidebar from "../components/layout/TaskManagementSidebar";
+import ListActionsCard from "../components/ui/ListActionsCard";
 
 // Icon imports
 import lock from "../public/lock-icon.svg";
@@ -38,6 +38,8 @@ import boardIcon from "../public/boardIcon.svg";
 import calendarIcon from "../public/calendarIcon.svg";
 import moreViewsIcon from "../public/moreViewsIcon.svg";
 
+const containerNames = ["todo", "inProgress", "completed"];
+
 export default function TaskManagementDashboard() {
   // State declarations
   const [isClient, setIsClient] = useState<boolean>(false);
@@ -45,6 +47,17 @@ export default function TaskManagementDashboard() {
   const [tasks, setTasks] = useState<TaskList>(mockTasks);
   const [projectProgressBar, setProjectProgressBar] = useState<number>(5);
   const [showAddTask, setShowAddTask] = useState<string | null>(null);
+  const [isListActionsCardVisible, setIsListActionsCardVisible] =
+    useState<boolean>(false);
+
+  // Add a new state variable to keep track of the container that was clicked
+  const [activeContainer, setActiveContainer] = useState<string | null>(null);
+
+  // Update the onDotsClick handler to set the active container
+  const handleDotsClick = (containerName: string) => {
+    setActiveContainer(containerName);
+    setIsListActionsCardVisible(true);
+  };
 
   // State to manage collapse for each container
   const [collapsedContainers, setCollapsedContainers] = useState<
@@ -152,6 +165,14 @@ export default function TaskManagementDashboard() {
       <div className="flex flex-col justify-center items-center">
         <TaskManagementNavbar />
 
+        {/* Overlay for greyed out background */}
+        {isListActionsCardVisible && (
+          <div
+            className="fixed top-0 left-0 w-full h-full bg-gray-500 bg-opacity-30 z-10"
+            onClick={() => setIsListActionsCardVisible(false)}
+          />
+        )}
+
         <div className="w-full h-[103vh] flex">
           <TaskManagementSidebar
             isLeftDivRetracted={isLeftDivRetracted}
@@ -159,7 +180,7 @@ export default function TaskManagementDashboard() {
           />
 
           {/* Right side container  */}
-          <div className="w-full h-full mx-11 sm:mx-4 z-0 ">
+          <div className="w-full h-full mx-11 sm:mx-4 ">
             <div className="flex flex-col rounded-[20px] w-full px-4 bg-gray-100 mt-2 shadow-lg shadow-neutral-400 ">
               {/* Project header section */}
               <div className="py-2 flex justify-between flex-wrap">
@@ -293,13 +314,43 @@ export default function TaskManagementDashboard() {
                 </button>
               </div>
 
-              {/* <ListActionsCard /> */}
-
               {/* Task containers section */}
-              <div className="flex py-5 flex-wrap">
-                <div className="flex flex-wrap gap-4 ">
+              <div className="flex py-5 gap-4 flex-wrap">
+                {containerNames.map((containerName) => (
+                  <div key={containerName} id={containerName}>
+                    {isListActionsCardVisible &&
+                      activeContainer === containerName && (
+                        <div className="absolute  sm:ml-12 z-10">
+                          <ListActionsCard
+                            onClose={() => setIsListActionsCardVisible(false)}
+                          />
+                        </div>
+                      )}
+
+                    <TaskContainer
+                      title={`${containerName
+                        .charAt(0)
+                        .toUpperCase()}${containerName.slice(1)}`}
+                      //@ts-ignore
+                      tasks={tasks[containerName]}
+                      moveTask={moveTask}
+                      //@ts-ignore
+                      containerName={containerName}
+                      onAddTask={() => setShowAddTask(containerName)}
+                      buttonText="Add Task"
+                      buttonIcon={plus}
+                      onDotsClick={() => handleDotsClick(containerName)}
+                      isCollapsed={collapsedContainers[containerName]}
+                      onToggleCollapse={() =>
+                        handleToggleCollapse(containerName)
+                      }
+                      showAddTask={showAddTask}
+                    />
+                  </div>
+                ))}
+                {/* <div className="flex flex-wrap gap-4 ">
                   {/* To Do container */}
-                  <div id="todo">
+                {/* <div id="todo">
                     <TaskContainer
                       title="To Do"
                       tasks={tasks.todo}
@@ -316,7 +367,7 @@ export default function TaskManagementDashboard() {
                   </div>
 
                   {/* In Progress container */}
-                  <div id="inProgress">
+                {/* <div id="inProgress">
                     <TaskContainer
                       title="In Progress"
                       tasks={tasks.inProgress}
@@ -335,7 +386,7 @@ export default function TaskManagementDashboard() {
                   </div>
 
                   {/* Completed container */}
-                  <div id="completed">
+                {/* <div id="completed">
                     <TaskContainer
                       title="Completed"
                       tasks={tasks.completed}
@@ -350,7 +401,7 @@ export default function TaskManagementDashboard() {
                       showAddTask={showAddTask}
                     />
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
