@@ -143,7 +143,12 @@ export default function SignUpForm() {
             <div className="text-center mb-6">
               <h1 className="text-2xl font-bold">Welcome to </h1>
               <div className="flex justify-center mb-4">
-                <Image src={signupLogo} alt="Signup logo" className="w-96" />
+                <Image
+                  src={signupLogo}
+                  alt="Signup logo"
+                  className="w-96"
+                  priority
+                />
               </div>
               <p className="text-gray-600">
                 Let’s sign up quickly to get started.
