@@ -31,7 +31,7 @@ export default function ForgotPasswordForm() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:pl-10 lg:pl-0">
+    <div className="min-h-screen flex flex-col ">
       {/* Navbar */}
       <div className="flex justify-center items-center h-[55px] bg-white">
         <Image
@@ -45,7 +45,7 @@ export default function ForgotPasswordForm() {
 
       <div className="flex flex-1 flex-col md:flex-row">
         {/* Left Form Section */}
-        <div className="flex-1 flex justify-center items-start p-4 md:p-0 md:-mr-32">
+        <div className="flex-1 flex justify-center items-start p-4 md:p-0 md:-mr-32 md:pl-10 lg:pl-0 z-10">
           <div className="bg-white rounded-lg max-w-lg mx-auto pt-8 md:pt-16 px-6 md:px-0 w-full">
             <div className="text-center mb-10">
               <div className="flex justify-center ">
@@ -96,7 +96,7 @@ export default function ForgotPasswordForm() {
             <p className="text-center mt-4">
               <Link
                 href="/login"
-                className="text-[#BD71D4] font-semibold italic"
+                className="text-[#BD71D4] font-semibold italic hover:underline"
               >
                 Back to log in
               </Link>
@@ -105,7 +105,7 @@ export default function ForgotPasswordForm() {
         </div>
 
         {/* Right Image Section */}
-        <div className="relative flex-1 pr-44">
+        <div className="relative flex-1 pr-44 ml-10">
           <Image
             src={signupWallpaper}
             alt="Signup background wallpaper"

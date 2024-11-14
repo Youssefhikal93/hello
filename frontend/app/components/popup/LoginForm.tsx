@@ -69,8 +69,7 @@ export default function LoginForm() {
       console.log("Login successful!");
 
       // Redirect or update the UI upon successful login
-
-      //   router.push("/"); // <--- replace with your desired route
+      router.push("/"); // Replace with your desired route
     } catch (error) {
       // Handle any errors that occur during the API call
       console.error("Login error:", error);
@@ -102,7 +101,7 @@ export default function LoginForm() {
 
       <div className="flex flex-1 flex-col md:flex-row">
         {/* Left Form Section */}
-        <div className="flex-1 flex justify-center items-start p-4 md:p-0 md:-mr-32">
+        <div className="flex-1 flex justify-center items-start p-4 md:p-0 md:-mr-32 z-10 md:pl-10 lg:pl-0">
           <div className="bg-white rounded-lg max-w-lg mx-auto pt-8 md:pt-16 px-6 md:px-0 w-full">
             <div className="text-center mb-10">
               <h1 className="text-2xl font-bold">Welcome back to </h1>
@@ -114,7 +113,7 @@ export default function LoginForm() {
                   priority
                 />
               </div>
-              <p className="text-gray-600">Log in to get back on track.</p>
+              <p className="text-[#000000]">Log in to get back on track.</p>
             </div>
 
             {/* Google Login Button */}
@@ -186,13 +185,15 @@ export default function LoginForm() {
               </div>
 
               {/* Error Message */}
-              {error && <p className="text-red-500 text-sm">{error}</p>}
+              {error && (
+                <p className="text-red-500 text-sm -mt-3 pb-2">{error}</p>
+              )}
 
               {/* Forgot Password Link */}
-              <div className="flex mb-12 justify-end -mt-2">
+              <div className="flex mb-12 justify-end -mt-3">
                 <Link
                   href="/forgot-password"
-                  className="text-[#BD71D4] font-semibold italic"
+                  className="text-[#BD71D4] font-semibold italic inline-block hover:underline"
                 >
                   Forgot your password?
                 </Link>
@@ -212,7 +213,7 @@ export default function LoginForm() {
               Don’t have an account?{" "}
               <Link
                 href="/sign-up"
-                className="text-[#BD71D4] font-semibold italic"
+                className="text-[#BD71D4] font-semibold italic hover:underline"
               >
                 Sign up
               </Link>
@@ -221,7 +222,7 @@ export default function LoginForm() {
         </div>
 
         {/* Right Image Section */}
-        <div className="relative flex-1 pr-44">
+        <div className="relative flex-1 pr-44 ml-10">
           <Image
             src={signupWallpaper}
             alt="Signup background wallpaper"
