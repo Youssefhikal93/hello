@@ -9,6 +9,10 @@ const config: Config = {
   ],
   theme: {
   	extend: {
+		fontFamily: {
+			'montserrat': ['Montserrat', 'sans-serif'],
+			'open-sans': ['Open Sans', 'sans-serif'],  
+		  },
   		backgroundImage: {
   			'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
   			'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
@@ -19,7 +23,7 @@ const config: Config = {
   			sm: 'calc(var(--radius) - 4px)'
   		},
 		boxShadow: {
-			custom: '-5px 5px 10px rgba(0, 0, 0, 0.1)',
+			'bottom-only': '0px 5px 10px rgba(0, 0, 0, 0.25)'
 		},
   		colors: {
   			background: 'hsl(var(--background))',

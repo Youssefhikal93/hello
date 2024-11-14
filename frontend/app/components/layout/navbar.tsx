@@ -5,36 +5,58 @@ import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuList,
+  NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
-import logo from "../../public/nav-logo.png";
-import { CircleUser } from "lucide-react"; 
+import logo from "../../public/text_logo.png";
+import { Share2, User } from "lucide-react";
+import { cn } from "@/lib/utils"
 
-const Navbar = () => {
+interface NavbarProps extends React.HTMLAttributes<HTMLDivElement> {}
+const Navbar : React.FC<NavbarProps> = ({ className, ...props }) => {
   return (
-    <div className="w-full h-[92px] gap-2 lg:py-2">
-      <div className="flex w-full h-[72px] justify-between items-center bg-darkblue lg:rounded-xl lg:px-2">
-        <Image className="w-[69px] h-[72px]" src={logo} alt="logo" />
-
-        {/* Navigation Menu */}
-        <NavigationMenu className="flex items-center">
-          <NavigationMenuList className="flex gap-4">
-            {/* Log in Button with User Icon */}
-            <NavigationMenuItem>
-              <Button className="bg-transparent text-white border border-white w-[219px] h-[61px] rounded-full hover:bg-gold hover:text-black hover:border-black font-bold">
-                <CircleUser className="mr-2 h-8 w-8" /> 
-                Log in
-              </Button>
-            </NavigationMenuItem>
-
-            {/* Sign up Button */}
-            <NavigationMenuItem>
-              <Button className="bg-transparent text-white border border-white w-[219px] h-[61px] rounded-full hover:bg-gold hover:text-black hover:border-black font-bold">
-                Sign up
-              </Button>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
+    <div className={cn('w-full bg-zinc-900 flex items-center justify-between px-6 h-16',className)} {...props}>
+      {/* Logo and Text */}
+      <div className="flex items-center space-x-2">
+        <span className="text-white text-lg font-semibold">
+          <Image
+            src={logo}
+            alt="logo"
+            className="inline-block"
+          />
+        </span>
       </div>
+
+      {/* Navigation Menu */}
+      <NavigationMenu>
+        <NavigationMenuList className="flex items-center gap-4">
+          {/* Share Link */}
+          <NavigationMenuItem>
+            <NavigationMenuLink asChild>
+              <a href="#" className="text-white flex items-center gap-2">
+                <Share2 className="h-5 w-5" />
+              </a>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+
+          {/* Log in Button with User Icon */}
+          <NavigationMenuItem>
+            <NavigationMenuLink asChild>
+              <a href="/signup" className="flex items-center gap-2 text-white">
+                Sign up
+              </a>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+
+          {/* Sign up Button */}
+          <NavigationMenuItem>
+            <NavigationMenuLink asChild>
+              <Button className="bg-purple-400 text-black px-4 py-2 rounded-lg">
+                <User className="h-5 w-5" />
+              </Button>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
     </div>
   );
 };
