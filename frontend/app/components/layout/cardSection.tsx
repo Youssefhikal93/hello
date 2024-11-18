@@ -45,54 +45,75 @@ export const CARDSELECTION_NONUNIQUW_TEXT_PAYMENT = "Free for your whole team!"
 
 const CardSection = () => {
   return (
-    <div className='flex flex-col gap-4 py-4 lg:py-12 lg:gap-14 items-center'>
-      <h1 className='font-semibold text-[40px] leading-[30px] text-white'>
+    <div className="flex flex-col gap-4 lg:py-12 lg:gap-14 items-center">
+      <h1 className="font-semibold text-[40px] leading-[30px] text-white">
         {CARDSELECTION_TITLE}
       </h1>
-      <div className='flex gap-3 lg:gap-7 flex-wrap w-full justify-center'>
-        <PricingCard 
-          cardType={CARDSELECTION_TITEL1}
-          rate={CARDSELECTION_RATE1} 
-          description= {CARDSELECTION_DESCRIPTION_TEXT1}
-          benefits={[CARDSELECTION_BENEFIT1_TEXT1, CARDSELECTION_BENEFIT1_TEXT2, CARDSELECTION_BENEFIT1_TEXT3]} 
-          link="" 
-          buttonDesc={CARDSELECTION_BUTTON_TEXT1} 
-          isFeatured={false}
-          paylabel={CARDSELECTION_NONUNIQUW_TEXT_PAYMENT}
-        />
-        <PricingCard 
-          cardType={CARDSELECTION_TITEL2}
-          rate={CARDSELECTION_RATE2} 
-          description= {CARDSELECTION_DESCRIPTION_TEXT2}
-          benefits={[CARDSELECTION_BENEFIT2_TEXT1, CARDSELECTION_BENEFIT2_TEXT2, CARDSELECTION_BENEFIT2_TEXT3]} 
-          link="" 
-          buttonDesc={CARDSELECTION_BUTTON_TEXT2} 
-          isFeatured={true}
-          paylabel={CARDSELECTION_NONUNIQUW_TEXT_PAYMENT} 
-        />
-        <PricingCard 
-          cardType={CARDSELECTION_TITEL3}
-          rate={CARDSELECTION_RATE3} 
-          description= {CARDSELECTION_DESCRIPTION_TEXT3}
-          benefits={[CARDSELECTION_BENEFIT3_TEXT1, CARDSELECTION_BENEFIT3_TEXT2, CARDSELECTION_BENEFIT3_TEXT3]} 
-          link=""
-          buttonDesc={CARDSELECTION_BUTTON_TEXT3} 
-          isFeatured={false}
-          paylabel={CARDSELECTION_NONUNIQUW_TEXT_PAYMENT}   
-        />
-        <PricingCard 
-          cardType={CARDSELECTION_TITEL4}
-          rate={CARDSELECTION_RATE4} 
-          description= {CARDSELECTION_DESCRIPTION_TEXT4}
-          benefits={[CARDSELECTION_BENEFIT4_TEXT1, CARDSELECTION_BENEFIT4_TEXT2, CARDSELECTION_BENEFIT4_TEXT3]} 
-          link=""
-          buttonDesc={CARDSELECTION_BUTTON_TEXT4} 
-          isFeatured={false}
-          paylabel={CARDSELECTION_UNIQUW_TEXT_PAYMENT} 
-        />
+      {/* Mobile horizontal scrolling container */}
+      <div className="flex gap-3 lg:gap-7 overflow-x-auto lg:overflow-visible w-full justify-center">
+        {/* Inner container for horizontal scroll on mobile only */}
+        <div className="flex space-x-4 lg:space-x-7 flex-nowrap lg:flex-wrap">
+          <PricingCard
+            cardType={CARDSELECTION_TITEL1}
+            rate={CARDSELECTION_RATE1}
+            description={CARDSELECTION_DESCRIPTION_TEXT1}
+            benefits={[
+              CARDSELECTION_BENEFIT1_TEXT1,
+              CARDSELECTION_BENEFIT1_TEXT2,
+              CARDSELECTION_BENEFIT1_TEXT3,
+            ]}
+            link=""
+            buttonDesc={CARDSELECTION_BUTTON_TEXT1}
+            isFeatured={false}
+            paylabel={CARDSELECTION_NONUNIQUW_TEXT_PAYMENT}
+          />
+          <PricingCard
+            cardType={CARDSELECTION_TITEL2}
+            rate={CARDSELECTION_RATE2}
+            description={CARDSELECTION_DESCRIPTION_TEXT2}
+            benefits={[
+              CARDSELECTION_BENEFIT2_TEXT1,
+              CARDSELECTION_BENEFIT2_TEXT2,
+              CARDSELECTION_BENEFIT2_TEXT3,
+            ]}
+            link=""
+            buttonDesc={CARDSELECTION_BUTTON_TEXT2}
+            isFeatured={true}
+            paylabel={CARDSELECTION_NONUNIQUW_TEXT_PAYMENT}
+          />
+          <PricingCard
+            cardType={CARDSELECTION_TITEL3}
+            rate={CARDSELECTION_RATE3}
+            description={CARDSELECTION_DESCRIPTION_TEXT3}
+            benefits={[
+              CARDSELECTION_BENEFIT3_TEXT1,
+              CARDSELECTION_BENEFIT3_TEXT2,
+              CARDSELECTION_BENEFIT3_TEXT3,
+            ]}
+            link=""
+            buttonDesc={CARDSELECTION_BUTTON_TEXT3}
+            isFeatured={false}
+            paylabel={CARDSELECTION_NONUNIQUW_TEXT_PAYMENT}
+          />
+          <PricingCard
+            cardType={CARDSELECTION_TITEL4}
+            rate={CARDSELECTION_RATE4}
+            description={CARDSELECTION_DESCRIPTION_TEXT4}
+            benefits={[
+              CARDSELECTION_BENEFIT4_TEXT1,
+              CARDSELECTION_BENEFIT4_TEXT2,
+              CARDSELECTION_BENEFIT4_TEXT3,
+            ]}
+            link=""
+            buttonDesc={CARDSELECTION_BUTTON_TEXT4}
+            isFeatured={false}
+            paylabel={CARDSELECTION_UNIQUW_TEXT_PAYMENT}
+          />
+        </div>
       </div>
     </div>
   );
 };
 
 export default CardSection;
+

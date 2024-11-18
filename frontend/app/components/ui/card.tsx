@@ -21,13 +21,13 @@ export const CARD_LINK_TEXT = "Learn more about ";
 const PricingCard = ({ cardType, rate, description, benefits, link, buttonDesc, isFeatured, paylabel }: PricingCardProps) => {
   return (
     <div className="group inline-block relative">
-      <Card className="w-[318px] h-[471px] rounded-[20px] border-none text-left bg-white flex flex-col shadow-bottom-only transform transition-transform duration-500 hover:scale-110 hover:bg-gray-100">
+      <Card className="w-[318px] h-[471px] rounded-[20px] border-none text-left bg-white flex flex-col shadow-bottom-only transform transition-transform duration-500 md:hover:scale-110 md:hover:bg-cardhover">
         {/* Card Header */}
         <CardHeader className="">
           <div className="flex items-center space-x-2">
             <CardTitle className="text-2xl font-semibold">{cardType}</CardTitle>
             {isFeatured && (
-              <span className="bg-teal-400 text-white text-xs font-bold px-3 py-0.5 rounded-lg">
+              <span className="bg-turquoiseLight text-white text-xs font-bold px-3 py-0.5 rounded-lg">
                 {CARD_NEW_TEXT}
               </span>
             )}
@@ -54,13 +54,13 @@ const PricingCard = ({ cardType, rate, description, benefits, link, buttonDesc, 
         <CardFooter className="flex flex-col items-end space-y-1 mt-auto">
           <Button
             variant="outline"
-            className="w-auto h-[40px] rounded-full text-black border border-black transition-colors duration-300 group-hover:bg-teal-500 group-hover:text-black group-hover:border-none"
+            className="w-auto h-[40px] rounded-full text-black border border-black transition-colors duration-300 group-hover:bg-turquoiseDark group-hover:text-black group-hover:border-none"
           >
             <span className="py-2 font-semibold">
               {buttonDesc}
             </span>
           </Button>
-          <Link href={link} className="underline italic text-gray-400">
+          <Link href={link} className="underline italic text-gray-500">
             {CARD_LINK_TEXT}{cardType}
           </Link>
         </CardFooter>

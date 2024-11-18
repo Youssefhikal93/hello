@@ -16,7 +16,7 @@ const InfoCard = ({ title, bodyText, imageSrc }: InfoCardProps) => {
         <Card className="flex flex-col bg-transparent border-none">
             {/* Card Header */}
             <CardHeader className="text-left">
-                <Image src={imageSrc} alt={title} width={160} height={160} className='mb-10'/>
+                <Image src={imageSrc} alt={title} className='mb-10'/>
                 <CardTitle className="font-montserrat text-white font-bold text-3xl leading-[42px]">{title}</CardTitle>
             </CardHeader>
 
@@ -31,7 +31,7 @@ const InfoCard = ({ title, bodyText, imageSrc }: InfoCardProps) => {
 
             {/* Card Footer (Button) */}
             <CardFooter className="flex justify-end mt-auto">
-                <Button className="mt-4 px-4 py-2 bg-white text-black rounded-md">
+                <Button className="mt-4 px-6 py-2 bg-white text-black rounded-md">
                     {INFOCARD_BUTTON_TEXT}
                 </Button>
             </CardFooter>

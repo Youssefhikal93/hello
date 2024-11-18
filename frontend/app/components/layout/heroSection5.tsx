@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
-import iconsample from "../../public/management_logo.png";
+import iconsample from "../../public/search.png";
 
 export const SECTION_TITLE = "Recruitment made easy";
 export const SECTION_SUBTITLE = "Post the Perfect Job Ad and Attract Top Talent";
@@ -19,18 +19,18 @@ export const BUTTON_TEXT = "Start posting a job";
 
 const SectionComponent5 = () => {
     return (
-        <div className="w-full bg-neutral-900 py-20">
+        <div className="w-full bg-bgdarkv5 py-20">
             <div className="max-w-[1440px] mx-auto px-6 h-auto flex flex-col space-y-8">
 
                 {/* Top Section (Icon, Title, Subtitle, Description) */}
                 <div className="text-white space-y-6 flex flex-col items-center lg:items-start">
-                    <div className="w-20 h-20 mb-6">
-                        <Image src={iconsample} alt="Icon" width={80} height={80} />
+                    <div className="w-250 h-25 mb-6">
+                        <Image src={iconsample} alt="Icon" width={118} height={108} />
                     </div>
 
                     <h2 className="text-5xl font-extrabold leading-tight">{SECTION_TITLE}</h2>
-                    <p className="text-xl font-semibold text-gray-300">{SECTION_SUBTITLE}</p>
-                    <p className="text-lg text-gray-400 leading-relaxed">{SECTION_DESCRIPTION}</p>
+                    <p className="text-xl font-semibold text-white">{SECTION_SUBTITLE}</p>
+                    <p className="text-base font-extralight text-white leading-relaxed">{SECTION_DESCRIPTION}</p>
                 </div>
 
                 {/* Flex Container for Projects and Image */}
@@ -40,25 +40,25 @@ const SectionComponent5 = () => {
                     <div className="flex-1 space-y-8 text-white text-center lg:text-left">
                         <div>
                             <h3 className="text-2xl font-bold">{SUB_SECTION_TITLE}</h3>
-                            <p className="text-gray-400 leading-relaxed">{SUB_SECTION_DESCRIPTION}</p>
+                            <p className="text-base font-extralight text-white leading-relaxed">{SUB_SECTION_DESCRIPTION}</p>
                         </div>
                         <div>
                             <h3 className="text-2xl font-bold">{SUB_SECTION_TITLE2}</h3>
-                            <p className="text-gray-400 leading-relaxed">{SUB_SECTION_DESCRIPTION2}</p>
+                            <p className="text-base font-extralight text-white leading-relaxed">{SUB_SECTION_DESCRIPTION2}</p>
                         </div>
                         <div>
                             <h3 className="text-2xl font-bold">{SUB_SECTION_TITLE3}</h3>
-                            <p className="text-gray-400 leading-relaxed">{SUB_SECTION_DESCRIPTION3}</p>
+                            <p className="text-base font-extralight text-white leading-relaxed">{SUB_SECTION_DESCRIPTION3}</p>
                         </div>
                         <div>
                             <h3 className="text-2xl font-bold">{SUB_SECTION_TITLE4}</h3>
-                            <p className="text-gray-400 leading-relaxed">{SUB_SECTION_DESCRIPTION4}</p>
+                            <p className="text-base font-extralight text-white leading-relaxed">{SUB_SECTION_DESCRIPTION4}</p>
                         </div>
                     </div>
 
                     {/* Right Content (Image Placeholder) */}
                     <div className="flex flex-col items-center lg:items-end space-y-6">
-                        <div className="w-[685px] h-[448px] bg-gray-700 rounded-lg">
+                        <div className="w-full sm:w-[685px] h-[300px] sm:h-[448px] bg-gray-700 rounded-lg mx-auto">
                             {/* Image Placeholder */}
                         </div>
                     </div>
@@ -66,7 +66,7 @@ const SectionComponent5 = () => {
 
                 {/* Button Section */}
                 <div className="flex justify-center lg:justify-end">
-                    <Button className="w-full sm:w-auto px-8 py-4 text-black bg-white font-semibold rounded-lg text-lg shadow-md hover:shadow-lg">
+                    <Button className="w-full sm:w-auto px-8 py-4 text-black bg-white font-medium rounded-lg text-lg shadow-md hover:shadow-lg">
                         {BUTTON_TEXT}
                     </Button>
                 </div>

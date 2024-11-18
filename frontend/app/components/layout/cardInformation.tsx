@@ -2,6 +2,8 @@ import React from 'react';
 import Image from "next/image";
 import InfoCard from '../ui/infoCard';
 import sample from "../../public/management_logo.png";
+import sample2 from "../../public/outsourcing_icon.png";
+import sample3 from "../../public/search.png";
 
 export const HERO_INFO_TITLE1 = "Create a Project, Manage Tasks, and Boost Team Productivity"
 export const HERO_INFO_TITLE2 = "Post Projects or Outsource Tasks with Ease"
@@ -30,12 +32,12 @@ const InfoSection = () => {
         <InfoCard
           title={HERO_INFO_TITLE2}
           bodyText={[HERO_INFO_BODY_2_1, HERO_INFO_BODY_2_2, HERO_INFO_BODY_2_3]}
-          imageSrc={sample}
+          imageSrc={sample2}
         />
         <InfoCard
           title={HERO_INFO_TITLE3}
           bodyText={[HERO_INFO_BODY_3_1, HERO_INFO_BODY_3_2, HERO_INFO_BODY_3_3]}
-          imageSrc={sample}
+          imageSrc={sample3}
         />
       </div>
     );
