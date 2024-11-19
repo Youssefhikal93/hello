@@ -8,6 +8,7 @@ import signupLogo from "@/app/public/signupLogo.svg";
 import signupWallpaper from "@/app/public/signupWallpaper.png";
 import googleIcon from "@/app/public/googleIcon.svg";
 import showPasswordIcon from "@/app/public/showPasswordIcon.svg";
+import { useRouter } from "next/navigation";
 
 /**
  * The SignUpForm component renders a sign up form with fields for email, password,
@@ -30,6 +31,7 @@ export default function SignUpForm() {
   const [generalError, setGeneralError] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
 
+  const router = useRouter();
   /**
    * Handles input change events by updating the formData state with the new
    * value of the input element. If the input element is the password field,
@@ -127,6 +129,9 @@ export default function SignUpForm() {
         acceptTerms: false,
         receiveUpdates: false,
       });
+
+      // Redirect the user to the login page after successful sign-up
+      router.push("/login");
     } catch (error) {
       setGeneralError(
         "An error occurred while submitting the form. Please try again later."
