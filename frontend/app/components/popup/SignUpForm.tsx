@@ -19,6 +19,7 @@ import showPasswordIcon from "@/app/public/showPasswordIcon.svg";
  */
 export default function SignUpForm() {
   const [formData, setFormData] = useState({
+    username: "",
     email: "",
     password: "",
     acceptTerms: false,
@@ -88,12 +89,39 @@ export default function SignUpForm() {
       return;
     }
 
+    if (!formData.acceptTerms) {
+      setGeneralError("You must accept the terms and conditions.");
+      return;
+    }
+
     try {
-      // Mock API call or form submission logic
-      console.log("Form data:", formData);
-      setGeneralError(""); // Reset any previous error on successful submission
-      // Reset the form data upon success (you can adjust this according to your needs)
+      // Make the API call to your actual endpoint
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: formData.username,
+            email: formData.email,
+            password: formData.password,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to sign up. Please try again.");
+      }
+
+      const data = await response.json();
+      console.log("Sign up successful:", data);
+
+      // Reset form data and any previous errors upon successful sign-up
+      setGeneralError("");
       setFormData({
+        username: "",
         email: "",
         password: "",
         acceptTerms: false,
@@ -103,6 +131,7 @@ export default function SignUpForm() {
       setGeneralError(
         "An error occurred while submitting the form. Please try again later."
       );
+      console.error("Error during sign up:", error);
     }
   };
 
@@ -131,6 +160,7 @@ export default function SignUpForm() {
           src={navLogo}
           alt="Logo linking to the homepage"
           className="w-[40px] h-[40px]"
+          priority
         />
       </div>
 
@@ -184,6 +214,22 @@ export default function SignUpForm() {
             )}
 
             <form onSubmit={handleSignUp}>
+              <div className="mb-4">
+                <label htmlFor="username" className="block text-gray-700 mb-1">
+                  Username
+                </label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  placeholder="Enter your username..."
+                  value={formData.username}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border border-[#4A4744] rounded-md focus:outline-none focus:ring-2 focus:ring-purple-300 italic"
+                  required
+                />
+              </div>
+
               <div className="mb-4">
                 <label htmlFor="email" className="block text-gray-700 mb-1">
                   Email
