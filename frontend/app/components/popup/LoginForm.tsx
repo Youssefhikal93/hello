@@ -58,18 +58,39 @@ export default function LoginForm() {
     }
 
     try {
-      // Proceed with login logic (e.g., send credentials to an API)
-      console.log("Logging in with", email, password);
+      // Send the login request
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
-      // Simulate API call here (replace with actual login logic)
-      // Example: await loginApi(email, password);
+      if (!response.ok) {
+        throw new Error("Invalid email or password. Please try again.");
+      }
 
-      // If login is successful, handle it accordingly (redirect, show success message, etc.)
-      setError(null); // Clear any previous errors
-      console.log("Login successful!");
+      const data = await response.json();
+
+      // Extract the token from the Authorization header
+      const token = response.headers.get("Authorization")?.split(" ")[1]; // This will get the Bearer token part
+
+      if (token) {
+        // Save the token in localStorage
+        localStorage.setItem("token", token);
+      }
+
+      console.log("Login successful:", data);
+
+      // Clear previous errors
+      setError(null);
 
       // Redirect or update the UI upon successful login
-      router.push("/"); // Replace with your desired route
+      router.push("/");
     } catch (error) {
       // Handle any errors that occur during the API call
       console.error("Login error:", error);
@@ -118,8 +139,10 @@ export default function LoginForm() {
 
             {/* Google Login Button */}
             <button
+              disabled
               onClick={handleLoginWithGoogle}
-              className="w-full flex items-center justify-center space-x-2 border border-gray-300 py-2 rounded-md mb-4 hover:bg-gray-100 transition"
+              className="w-full flex items-center justify-center space-x-2 border border-gray-300 py-2 rounded-md mb-4 hover:bg-gray-100 transition opacity-50 cursor-not-allowed"
+              title="Google login is temporarily unavailable"
             >
               <Image
                 src={googleIcon}
