@@ -191,8 +191,10 @@ export default function SignUpForm() {
             </div>
 
             <button
+              disabled
               onClick={handleGoogleSignUp}
-              className="w-full flex items-center justify-center space-x-2 border border-gray-300 py-2 rounded-md mb-4 hover:bg-gray-100 transition"
+              className="w-full flex items-center justify-center space-x-2 border border-gray-300 py-2 rounded-md mb-4 hover:bg-gray-100 transition opacity-50 cursor-not-allowed"
+              title="Google Sign-Up is temporarily unavailable"
             >
               <Image
                 src={googleIcon}
