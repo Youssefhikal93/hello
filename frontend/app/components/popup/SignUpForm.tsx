@@ -19,6 +19,7 @@ import showPasswordIcon from "@/app/public/showPasswordIcon.svg";
  */
 export default function SignUpForm() {
   const [formData, setFormData] = useState({
+    username: "",
     email: "",
     password: "",
     acceptTerms: false,
@@ -88,12 +89,39 @@ export default function SignUpForm() {
       return;
     }
 
+    if (!formData.acceptTerms) {
+      setGeneralError("You must accept the terms and conditions.");
+      return;
+    }
+
     try {
-      // Mock API call or form submission logic
-      console.log("Form data:", formData);
-      setGeneralError(""); // Reset any previous error on successful submission
-      // Reset the form data upon success (you can adjust this according to your needs)
+      // Make the API call to your actual endpoint
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: formData.username,
+            email: formData.email,
+            password: formData.password,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to sign up. Please try again.");
+      }
+
+      const data = await response.json();
+      console.log("Sign up successful:", data);
+
+      // Reset form data and any previous errors upon successful sign-up
+      setGeneralError("");
       setFormData({
+        username: "",
         email: "",
         password: "",
         acceptTerms: false,
@@ -103,6 +131,7 @@ export default function SignUpForm() {
       setGeneralError(
         "An error occurred while submitting the form. Please try again later."
       );
+      console.error("Error during sign up:", error);
     }
   };
 
@@ -131,6 +160,7 @@ export default function SignUpForm() {
           src={navLogo}
           alt="Logo linking to the homepage"
           className="w-[40px] h-[40px]"
+          priority
         />
       </div>
 
@@ -138,11 +168,11 @@ export default function SignUpForm() {
 
       <div className="flex flex-1 flex-col md:flex-row">
         {/* Left Form Section */}
-        <div className="flex-1 flex justify-center items-start p-4 md:p-0 md:-mr-32">
+        <div className="flex-1 flex justify-center items-start p-4 md:p-0 md:-mr-32 md:ml-10 lg:pl-0 z-10 ">
           <div className="bg-white rounded-lg max-w-lg mx-auto pt-8 md:pt-16 px-6 md:px-0 w-full">
-            <div className="text-center mb-6">
+            <div className="text-center mb-10">
               <h1 className="text-2xl font-bold">Welcome to </h1>
-              <div className="flex justify-center mb-4">
+              <div className="flex justify-center ">
                 <Image
                   src={signupLogo}
                   alt="Signup logo"
@@ -150,7 +180,7 @@ export default function SignUpForm() {
                   priority
                 />
               </div>
-              <p className="text-gray-600">
+              <p className="text-[#000000]">
                 Let’s sign up quickly to get started.
               </p>
             </div>
@@ -185,6 +215,22 @@ export default function SignUpForm() {
 
             <form onSubmit={handleSignUp}>
               <div className="mb-4">
+                <label htmlFor="username" className="block text-gray-700 mb-1">
+                  Username
+                </label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  placeholder="Enter your username..."
+                  value={formData.username}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border border-[#4A4744] rounded-md focus:outline-none focus:ring-2 focus:ring-purple-300 italic"
+                  required
+                />
+              </div>
+
+              <div className="mb-4">
                 <label htmlFor="email" className="block text-gray-700 mb-1">
                   Email
                 </label>
@@ -195,7 +241,7 @@ export default function SignUpForm() {
                   placeholder="Enter your email..."
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-[#4A4744] rounded-md focus:outline-none focus:ring-2 focus:ring-purple-300"
+                  className="w-full px-4 py-2 border border-[#4A4744] rounded-md focus:outline-none focus:ring-2 focus:ring-purple-300 italic"
                   required
                   aria-invalid={passwordError ? "true" : "false"} // Use "true" or "false" as per the validation state
                   aria-describedby="email-error" // If you have a specific error message for the input
@@ -223,7 +269,7 @@ export default function SignUpForm() {
                     placeholder="Enter your password..."
                     value={formData.password}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-[#4A4744] rounded-md focus:outline-none focus:ring-2 focus:ring-purple-300"
+                    className="w-full px-4 py-2 border border-[#4A4744] rounded-md focus:outline-none focus:ring-2 focus:ring-purple-300 italic"
                     required
                     aria-invalid={passwordError ? "true" : "false"}
                     aria-describedby="password-error"
@@ -284,7 +330,7 @@ export default function SignUpForm() {
 
               <button
                 type="submit"
-                className="w-full py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600 transition"
+                className="w-full py-2 bg-[#BD71D4] text-white rounded-md hover:bg-[#a361b8] transition"
               >
                 Sign up
               </button>
@@ -292,7 +338,10 @@ export default function SignUpForm() {
 
             <p className="text-center mt-4">
               Already have an account?{" "}
-              <Link href="/login" className="text-purple-500 font-semibold">
+              <Link
+                href="/login"
+                className="text-[#BD71D4] font-semibold italic hover:underline"
+              >
                 Login
               </Link>
             </p>
@@ -300,7 +349,7 @@ export default function SignUpForm() {
         </div>
 
         {/* Right Image Section */}
-        <div className="relative flex-1 pr-44">
+        <div className="relative flex-1 pr-44 ml-10">
           <Image
             src={signupWallpaper}
             alt="Signup background wallpaper"
