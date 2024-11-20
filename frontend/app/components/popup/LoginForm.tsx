@@ -115,6 +115,7 @@ export default function LoginForm() {
           src={navLogo}
           alt="Logo linking to the homepage"
           className="w-[40px] h-[40px]"
+          priority
         />
       </div>
 
