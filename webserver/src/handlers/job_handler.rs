@@ -1,12 +1,13 @@
 use crate::{
     auth::auth_middleware,
     database::db::DbPool,
-    handlers::error::ApiError,
-    models::{job::NewJob, user::UserSub},
-    run_async_query,
-    services::{job_service, user_service::get_user_id_by_email},
+    handlers::{error::ApiError, search_handler::search_docs},
+    models::{job::NewJob, user::UserSub}, run_async_query, run_async_typesense_query,
+    search::state::SearchState,
+    services::{job_service, search_service::{insert_single_doc, update_single_doc}, user_service::get_user_id_by_email}
+
 };
-use actix_web::{get, post, web, HttpResponse, Responder, ResponseError};
+use actix_web::{get, post, put, web, HttpResponse, Responder, ResponseError};
 use serde::Deserialize;
 
 #[derive(Deserialize)]
@@ -120,6 +121,7 @@ pub async fn create_job(
     user_sub: UserSub,
     pool: web::Data<DbPool>,
     job_req: web::Json<CreateJobRequest>,
+    search_state: web::Data<SearchState>,
 ) -> Result<impl Responder, impl ResponseError> {
     // let user = web::block(move || {
     //             let mut conn = pool.clone().get().expect("Failed to get DB connection.");
@@ -134,6 +136,18 @@ pub async fn create_job(
         let new_job: NewJob = job_req.copy_request(&user_id);
         job_service::create_job(conn, &new_job).map_err(DatabaseError::from)
     })?;
+
+    let url = format!("{}/collections/jobs/documents", search_state.typesense_url);
+    let typesense_job = serde_json::json!(user);
+    
+    run_async_typesense_query!(
+        search_state, |state: &SearchState, url: String, body: serde_json::Value| insert_single_doc(
+            &state,
+            url,
+            body.clone()
+        ).map_err(ReqError::from), url, typesense_job
+    )?;
+    
     Ok::<HttpResponse, ApiError>(HttpResponse::Ok().json(user))
 }
 
@@ -158,12 +172,43 @@ pub async fn get_my_jobs(
     Ok::<HttpResponse, ApiError>(HttpResponse::Ok().json(user))
 }
 
+#[put("/{job_id}")]
+pub async fn update_job(
+    job_id: web::Path<i32>,
+    user_sub: UserSub,
+    pool: web::Data<DbPool>,
+    job_req: web::Json<CreateJobRequest>,
+    search_state: web::Data<SearchState>,
+) -> Result<impl Responder, impl ResponseError> {
+    let job_id_i32 = job_id.into_inner();
+    let user = run_async_query!(pool, |conn: &mut diesel::PgConnection| {
+        let user_id = get_user_id_by_email(&user_sub.0, conn).expect("Failed to get user id");
+        let new_job: NewJob = job_req.copy_request(&user_id);
+        job_service::update_job(conn, &job_id_i32, &new_job).map_err(DatabaseError::from)
+    })?;
+
+    let url = format!("{}/collections/jobs/documents/{}", search_state.typesense_url, job_id_i32);
+    let typesense_job = serde_json::json!(user);
+    
+    run_async_typesense_query!(
+        search_state, |state: &SearchState, url: String, body: serde_json::Value| update_single_doc(
+            &state,
+            url,
+            body.clone()
+        ).map_err(ReqError::from), url, typesense_job
+    )?;
+    
+    Ok::<HttpResponse, ApiError>(HttpResponse::Ok().json(user))
+}
+
 pub fn job_routes_auth(cfg: &mut web::ServiceConfig) {
     cfg.service(
         web::scope("/jobs")
             .wrap(auth_middleware::Auth)
             .service(get_jobs)
             .service(create_job)
-            .service(get_my_jobs),
+            .service(get_my_jobs)
+            .service(update_job)
+            .service(search_docs),
     );
 }
