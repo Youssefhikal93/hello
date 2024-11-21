@@ -10,6 +10,15 @@ import googleIcon from "@/app/public/googleIcon.svg";
 import showPasswordIcon from "@/app/public/showPasswordIcon.svg";
 import { useRouter } from "next/navigation";
 
+// Define types for form data state
+interface FormData {
+  username: string;
+  email: string;
+  password: string;
+  acceptTerms: boolean;
+  receiveUpdates: boolean;
+}
+
 /**
  * The SignUpForm component renders a sign up form with fields for email, password,
  * checkbox for accepting terms and conditions, and an optional checkbox for
@@ -19,7 +28,7 @@ import { useRouter } from "next/navigation";
  * @returns The SignUpForm component.
  */
 export default function SignUpForm() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     username: "",
     email: "",
     password: "",
@@ -27,9 +36,9 @@ export default function SignUpForm() {
     receiveUpdates: false,
   });
 
-  const [passwordError, setPasswordError] = useState("");
-  const [generalError, setGeneralError] = useState("");
-  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [passwordError, setPasswordError] = useState<string>("");
+  const [generalError, setGeneralError] = useState<string>("");
+  const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
 
   const router = useRouter();
   /**
@@ -60,7 +69,7 @@ export default function SignUpForm() {
    *
    * @param {string} password - The password to validate.
    */
-  const validatePassword = (password: string) => {
+  const validatePassword = (password: string): void => {
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/;
 
@@ -83,7 +92,9 @@ export default function SignUpForm() {
    *
    * @param {React.FormEvent<HTMLFormElement>} e - The form submission event.
    */
-  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignUp = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
 
     if (passwordError) {
@@ -144,7 +155,7 @@ export default function SignUpForm() {
    * Redirects the user to the Google Sign-In page. This function is called
    * when the user clicks the "Sign up with Google" button.
    */
-  const handleGoogleSignUp = () => {
+  const handleGoogleSignUp = (): void => {
     console.log("Redirecting to Google Sign-In...");
   };
 

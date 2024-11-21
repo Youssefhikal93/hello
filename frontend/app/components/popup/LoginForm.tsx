@@ -33,7 +33,7 @@ export default function LoginForm() {
    * implemented to use a service like Firebase, OAuth, etc. to log the user in
    * with their Google account.
    */
-  const handleLoginWithGoogle = () => {
+  const handleLoginWithGoogle = (): void => {
     // Implement Google login here (using a service like Firebase, OAuth, etc.)
     console.log("Logging in with Google...");
   };
@@ -48,7 +48,7 @@ export default function LoginForm() {
    *
    * @param {React.FormEvent} e - The form submission event.
    */
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
 
     // Simple validation
@@ -103,7 +103,7 @@ export default function LoginForm() {
    * the state of the `showPassword` state variable, which controls whether the
    * password input field is displayed as a password or as plain text.
    */
-  const handleShowPassword = () => {
+  const handleShowPassword = (): void => {
     setShowPassword((prev) => !prev);
   };
 
