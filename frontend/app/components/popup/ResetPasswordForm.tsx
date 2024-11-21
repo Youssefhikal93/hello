@@ -9,6 +9,18 @@ import signupWallpaper from "@/app/public/signupWallpaper.png";
 import showPasswordIcon from "@/app/public/showPasswordIcon.svg";
 import { useRouter } from "next/navigation";
 
+/**
+ * A form component that renders a form for users to set a new password
+ * after resetting their password. The form contains fields for a new
+ * password and a confirmation of the new password. The form also renders
+ * a submit button to submit the new password.
+ *
+ * The component handles form validation and submission. If the password
+ * does not meet the requirements, it displays an error message. If the
+ * password and confirmation do not match, it displays an error message.
+ * If the form is submitted successfully, it redirects the user to the
+ * login page.
+ */
 const SetNewPasswordForm: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -20,6 +32,14 @@ const SetNewPasswordForm: React.FC = () => {
 
   const router = useRouter(); // Hook for programmatic navigation
 
+  /**
+   * Validates the provided password against a set of criteria.
+   * Sets an error message if the password does not meet the requirements.
+   * Criteria: Password must be at least 8 characters long, include at least
+   * one uppercase letter, one lowercase letter, one number, and one special character.
+   *
+   * @param {string} password - The password to validate.
+   */
   const validatePassword = (password: string): void => {
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/;
@@ -33,6 +53,17 @@ const SetNewPasswordForm: React.FC = () => {
     }
   };
 
+  /**
+   * Handles the submission of the set new password form by preventing the default form
+   * submission behavior, validating that the new password and confirmation match, and
+   * checking that the password meets the required criteria. If the passwords do not match
+   * or the password is invalid, it sets the appropriate error state. If the passwords match
+   * and are valid, it proceeds with the password update logic and alerts the user of a successful
+   * update. The form fields and error states are reset after a successful submission, and the
+   * user is redirected to the login page.
+   *
+   * @param {React.FormEvent} e - The form submission event.
+   */
   const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
 
@@ -60,10 +91,20 @@ const SetNewPasswordForm: React.FC = () => {
     router.push("/login");
   };
 
+  /**
+   * Toggles the visibility of the password input field by updating the
+   * `passwordVisible` state. This function is typically called when the user
+   * interacts with a button to show or hide the password.
+   */
   const togglePasswordVisibility = (): void => {
     setPasswordVisible(!passwordVisible);
   };
 
+  /**
+   * Toggles the visibility of the confirm password input field by updating the
+   * `confirmPasswordVisible` state. This function is typically called when the
+   * user interacts with a button to show or hide the confirm password.
+   */
   const toggleConfirmPasswordVisibility = (): void => {
     setConfirmPasswordVisible(!confirmPasswordVisible);
   };
