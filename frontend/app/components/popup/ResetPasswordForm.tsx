@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import navLogo from "@/app/public/signupNavLogo.svg";
@@ -29,8 +29,18 @@ const SetNewPasswordForm: React.FC = () => {
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] =
     useState<boolean>(false);
+  const [token, setToken] = useState<string | null>(null);
 
   const router = useRouter(); // Hook for programmatic navigation
+
+  // Extract the token from the URL query string
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const tokenFromUrl = queryParams.get("token");
+    if (tokenFromUrl) {
+      setToken(tokenFromUrl);
+    }
+  }, []);
 
   /**
    * Validates the provided password against a set of criteria.
@@ -41,8 +51,7 @@ const SetNewPasswordForm: React.FC = () => {
    * @param {string} password - The password to validate.
    */
   const validatePassword = (password: string): void => {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W_]{8,}$/;
 
     if (!passwordRegex.test(password)) {
       setPasswordError(
@@ -64,7 +73,7 @@ const SetNewPasswordForm: React.FC = () => {
    *
    * @param {React.FormEvent} e - The form submission event.
    */
-  const handleSubmit = (e: React.FormEvent): void => {
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
@@ -78,17 +87,44 @@ const SetNewPasswordForm: React.FC = () => {
       return;
     }
 
-    console.log(password); // Placeholder for password update logic (API call)
-    alert("Your password has been successfully updated.");
+    if (!token) {
+      alert("Token is missing. Please try again.");
+      return;
+    }
 
-    // Reset the form and error states after successful submit
-    setPassword("");
-    setConfirmPassword("");
-    setPasswordError("");
-    setPasswordMatch(true);
+    // Make API request to update the password
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/reset-password`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            token: token,
+            new_password: password,
+          }),
+        }
+      );
 
-    // Redirect user to the login page after the alert
-    router.push("/login");
+      if (!response.ok) {
+        throw new Error("Password reset failed.");
+      }
+
+      alert("Your password has been successfully updated.");
+
+      // Reset the form and error states after successful submit
+      setPassword("");
+      setConfirmPassword("");
+      setPasswordError("");
+      setPasswordMatch(true);
+
+      // Redirect user to the login page after the alert
+      router.push("/login");
+    } catch (error) {
+      alert("An error occurred. Please try again.");
+    }
   };
 
   /**
@@ -117,6 +153,7 @@ const SetNewPasswordForm: React.FC = () => {
           src={navLogo}
           alt="Logo linking to the homepage"
           className="w-[40px] h-[40px]"
+          priority
         />
       </div>
 
