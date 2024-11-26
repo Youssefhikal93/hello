@@ -10,15 +10,6 @@ import googleIcon from "@/app/public/googleIcon.svg";
 import showPasswordIcon from "@/app/public/showPasswordIcon.svg";
 import { useRouter } from "next/navigation";
 
-// Define types for form data state
-interface FormData {
-  username: string;
-  email: string;
-  password: string;
-  acceptTerms: boolean;
-  receiveUpdates: boolean;
-}
-
 /**
  * The SignUpForm component renders a sign up form with fields for email, password,
  * checkbox for accepting terms and conditions, and an optional checkbox for
@@ -28,7 +19,7 @@ interface FormData {
  * @returns The SignUpForm component.
  */
 export default function SignUpForm() {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
@@ -36,9 +27,9 @@ export default function SignUpForm() {
     receiveUpdates: false,
   });
 
-  const [passwordError, setPasswordError] = useState<string>("");
-  const [generalError, setGeneralError] = useState<string>("");
-  const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
+  const [passwordError, setPasswordError] = useState("");
+  const [generalError, setGeneralError] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const router = useRouter();
   /**
@@ -69,9 +60,8 @@ export default function SignUpForm() {
    *
    * @param {string} password - The password to validate.
    */
-  const validatePassword = (password: string): void => {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/;
+  const validatePassword = (password: string) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W_]{8,}$/;
 
     if (!passwordRegex.test(password)) {
       setPasswordError(
@@ -92,9 +82,7 @@ export default function SignUpForm() {
    *
    * @param {React.FormEvent<HTMLFormElement>} e - The form submission event.
    */
-  const handleSignUp = async (
-    e: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
+  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (passwordError) {
@@ -155,7 +143,7 @@ export default function SignUpForm() {
    * Redirects the user to the Google Sign-In page. This function is called
    * when the user clicks the "Sign up with Google" button.
    */
-  const handleGoogleSignUp = (): void => {
+  const handleGoogleSignUp = () => {
     console.log("Redirecting to Google Sign-In...");
   };
 

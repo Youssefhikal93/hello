@@ -18,11 +18,11 @@ import signupWallpaper from "@/app/public/signupWallpaper.png";
  * @returns The ForgotPasswordForm component.
  **/
 
-const ForgotPasswordForm: React.FC = () => {
-  const [email, setEmail] = useState<string>("");
+export default function ForgotPasswordForm() {
+  const [email, setEmail] = useState("");
 
   // Handle form submission (e.g., to send the recovery link)
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     // Handle the password reset request logic here (e.g., call API)
@@ -116,6 +116,4 @@ const ForgotPasswordForm: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default ForgotPasswordForm;
+}
