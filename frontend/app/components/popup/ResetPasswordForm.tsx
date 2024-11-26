@@ -149,12 +149,14 @@ const SetNewPasswordForm: React.FC = () => {
     <div className="min-h-screen flex flex-col ">
       {/* Navbar */}
       <div className="flex justify-center items-center h-[55px] bg-white">
-        <Image
-          src={navLogo}
-          alt="Logo linking to the homepage"
-          className="w-[40px] h-[40px]"
-          priority
-        />
+        <Link href="/">
+          <Image
+            src={navLogo}
+            alt="Logo linking to the homepage"
+            className="w-[40px] h-[40px]"
+            priority
+          />
+        </Link>
       </div>
 
       <hr className="border-gray-300" />
