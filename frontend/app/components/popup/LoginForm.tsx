@@ -94,7 +94,25 @@ export default function LoginForm() {
     } catch (error) {
       // Handle any errors that occur during the API call
       console.error("Login error:", error);
-      setError("An error occurred while logging in. Please try again later.");
+
+      // Extract the error message
+      let errorMessage =
+        "An error occurred while logging in. Please try again.";
+
+      if (error instanceof Error) {
+        if (
+          "response" in error &&
+          error.response &&
+          typeof error.response === "object"
+        ) {
+          errorMessage =
+            (error.response as any)?.data?.message || error.message;
+        } else {
+          errorMessage = error.message; // Fallback to the generic error message
+        }
+      }
+
+      setError(errorMessage);
     }
   };
 
