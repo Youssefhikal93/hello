@@ -20,14 +20,14 @@ import PasswordSentPopup from "./PasswordSentPopup";
  **/
 
 export default function ForgotPasswordForm() {
-  const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [popupEmail, setPopupEmail] = useState<string>("");
 
   // Handle form submission (e.g., to send the recovery link)
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // Show loading state
@@ -76,6 +76,7 @@ export default function ForgotPasswordForm() {
             src={navLogo}
             alt="Logo linking to the homepage"
             className="w-[40px] h-[40px]"
+            priority
           />
         </Link>
       </div>
