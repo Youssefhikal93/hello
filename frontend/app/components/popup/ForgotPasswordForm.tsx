@@ -6,6 +6,7 @@ import Link from "next/link";
 import navLogo from "@/app/public/signupNavLogo.svg";
 import signupLogo from "@/app/public/signupLogo.svg";
 import signupWallpaper from "@/app/public/signupWallpaper.png";
+import PasswordSentPopup from "./PasswordSentPopup";
 
 /**
  * ForgotPasswordForm is a client-side component that renders a form for users to request a password reset link.
@@ -22,6 +23,8 @@ export default function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showPopup, setShowPopup] = useState<boolean>(false);
+  const [popupEmail, setPopupEmail] = useState<string>("");
 
   // Handle form submission (e.g., to send the recovery link)
   const handleSubmit = async (e: React.FormEvent) => {
@@ -51,7 +54,9 @@ export default function ForgotPasswordForm() {
         );
       } else {
         // Success: Show an alert or message
-        alert("A recovery link has been sent to your email.");
+        setPopupEmail(email); // Save the email for the popup
+        setShowPopup(true);
+        setEmail(""); // Clear the input field
       }
     } catch (error) {
       // Handle any network or unexpected errors
@@ -74,6 +79,14 @@ export default function ForgotPasswordForm() {
           />
         </Link>
       </div>
+
+      {/* Popup confirmation */}
+      {showPopup && (
+        <div className="px-4 sm:px-10">
+          <div className="fixed top-0 left-0 w-full h-full bg-gray-300 bg-opacity-30 z-20"></div>
+          <PasswordSentPopup email={popupEmail} />
+        </div>
+      )}
 
       <hr className="border-gray-300" />
 
