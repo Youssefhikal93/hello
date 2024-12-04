@@ -26,8 +26,10 @@ macro_rules! run_async_query {
     ($pool:expr,$query:expr) => {{
         use crate::database::error::DatabaseError;
         use actix_web::error::ErrorInternalServerError;
+        let pool_clone = $pool.clone(); 
+
         web::block(move || {
-            let mut conn = $pool.get().map_err(DatabaseError::from)?;
+            let mut conn = pool_clone.get().map_err(DatabaseError::from)?;
             $query(&mut conn)
         })
         .await

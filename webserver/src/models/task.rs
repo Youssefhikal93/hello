@@ -48,4 +48,6 @@ pub struct NewTask<'a> {
     pub reward: i64,
     pub completed: bool,
     pub project_id: i32,
+    pub user_id:Option<i32>,
+
 }

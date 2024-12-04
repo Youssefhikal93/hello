@@ -1,10 +1,12 @@
 use actix_web::{get, post, web, HttpResponse, Responder, ResponseError};
 
+use diesel::query_dsl::methods::{FilterDsl, SelectDsl};
+use diesel::{ExpressionMethods, RunQueryDsl};
 use serde::{Deserialize, Serialize};
 
 use crate::database::error::DatabaseError;
 use crate::handlers::error::ApiError;
-use crate::models::user::UserSub;
+use crate::models::user::{self, User, UserSub};
 use crate::run_async_query;
 use crate::schema::tasks::dsl::tasks;
 use crate::services::task_service;
@@ -33,9 +35,19 @@ pub fn task_routes(cfg: &mut web::ServiceConfig) {
 pub async fn create_task(
     pool: web::Data<DbPool>,
     task: web::Json<CreateTaskRequest>,
+    user_sub: UserSub
 ) -> Result<impl Responder, impl ResponseError> {
+    let user_id = run_async_query!(pool, |conn| {
+        use crate::schema::users::dsl::*;
+        
+        // Query for the user using the email (user_sub.0 is the email)
+        users.filter(email.eq(&user_sub.0))
+            .select(id)
+            .first::<i32>(conn)
+            .map_err(DatabaseError::from)
+    })?;
     let create_task = run_async_query!(pool, |conn| {
-        task_service::create_task(conn, &task.description, task.reward, task.project_id)
+        task_service::create_task(conn, &task.description, task.reward, task.project_id,user_id)
             .map_err(DatabaseError::from)
     })?;
     Ok::<HttpResponse, ApiError>(HttpResponse::Created().json(create_task))

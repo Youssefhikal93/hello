@@ -9,12 +9,14 @@ pub fn create_task(
     description: &str,
     reward: i64,
     project_id: i32,
+    user_id: i32
 ) -> Result<Task, Error> {
     let new_task = NewTask {
         description,
         reward,
         completed: false,
         project_id,
+        user_id:Some(user_id)
     };
     let some = diesel::insert_into(tasks::table)
         .values(&new_task)
@@ -70,7 +72,7 @@ mod tests {
         .expect("Failed to register user")
         .id;
 
-        let result = create_task(&mut db.conn(), description, reward, 1);
+        let result = create_task(&mut db.conn(), description, reward, 1,1);
 
         assert!(
             result.is_err(),
@@ -100,7 +102,7 @@ mod tests {
             .expect("Failed to create project")
             .id;
 
-        let result = create_task(&mut db.conn(), description, reward, project_id);
+        let result = create_task(&mut db.conn(), description, reward, project_id,user_id);
         assert!(
             result.is_ok(),
             "Task creation failed when it should have succeeded"
@@ -131,7 +133,7 @@ mod tests {
             .expect("Failed to create project")
             .id;
 
-        let result = create_task(&mut db.conn(), description, reward, project_id);
+        let result = create_task(&mut db.conn(), description, reward, project_id,user_id);
         assert!(
             result.is_ok(),
             "Task creation failed when it should have succeeded"
