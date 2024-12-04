@@ -18,6 +18,7 @@ pub struct CreateTaskRequest {
     description: String,
     reward: i64,
     project_id: i32,
+    title:String
 }
 
 pub fn task_routes(cfg: &mut web::ServiceConfig) {
@@ -47,7 +48,7 @@ pub async fn create_task(
             .map_err(DatabaseError::from)
     })?;
     let create_task = run_async_query!(pool, |conn| {
-        task_service::create_task(conn, &task.description, task.reward, task.project_id,user_id)
+        task_service::create_task(conn, &task.description, task.reward, task.project_id,user_id,&task.title)
             .map_err(DatabaseError::from)
     })?;
     Ok::<HttpResponse, ApiError>(HttpResponse::Created().json(create_task))
@@ -85,6 +86,7 @@ mod tests {
     use crate::database::db;
     use crate::database::test_db::TestDb;
     use crate::handlers::auth_handler::{auth_routes, login, LoginRequest};
+    use crate::schema::tasks::title;
     use crate::services::project_service::create_project;
     use crate::services::user_service;
     use crate::services::user_service::register_user;
@@ -144,6 +146,7 @@ mod tests {
                 description: description.to_string(),
                 reward,
                 project_id: 1,
+                title:"untitled".to_string()
             })
             .to_request();
 
@@ -211,6 +214,7 @@ mod tests {
                 description: description.to_string(),
                 reward,
                 project_id: project.id,
+                title:"untitled".to_string(),
             })
             .to_request();
 

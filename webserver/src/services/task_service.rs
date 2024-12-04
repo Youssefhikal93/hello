@@ -9,14 +9,17 @@ pub fn create_task(
     description: &str,
     reward: i64,
     project_id: i32,
-    user_id: i32
+    user_id: i32,
+    title: &str
 ) -> Result<Task, Error> {
+    // let title:&str;
     let new_task = NewTask {
         description,
         reward,
         completed: false,
         project_id,
-        user_id:Some(user_id)
+        user_id:Some(user_id),
+        title,
     };
     let some = diesel::insert_into(tasks::table)
         .values(&new_task)
@@ -50,6 +53,8 @@ pub(crate) fn get_task_by_id(
 
 #[cfg(test)]
 mod tests {
+    use tasks::title;
+
     use crate::database::test_db::TestDb;
     use crate::services::project_service::create_project;
     use crate::services::user_service::register_user;
@@ -72,7 +77,7 @@ mod tests {
         .expect("Failed to register user")
         .id;
 
-        let result = create_task(&mut db.conn(), description, reward, 1,1);
+        let result = create_task(&mut db.conn(), description, reward, 1,1,"title");
 
         assert!(
             result.is_err(),
@@ -102,7 +107,7 @@ mod tests {
             .expect("Failed to create project")
             .id;
 
-        let result = create_task(&mut db.conn(), description, reward, project_id,user_id);
+        let result = create_task(&mut db.conn(), description, reward, project_id,user_id, "title");
         assert!(
             result.is_ok(),
             "Task creation failed when it should have succeeded"
@@ -133,7 +138,7 @@ mod tests {
             .expect("Failed to create project")
             .id;
 
-        let result = create_task(&mut db.conn(), description, reward, project_id,user_id);
+        let result = create_task(&mut db.conn(), description, reward, project_id,user_id,"title");
         assert!(
             result.is_ok(),
             "Task creation failed when it should have succeeded"

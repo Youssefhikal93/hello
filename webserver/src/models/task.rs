@@ -2,7 +2,9 @@ use diesel::prelude::*;
 use serde::{Deserialize, Serialize};
 
 use crate::models::project::Project;
+use crate::models::user::User;
 use crate::schema::tasks;
+
 
 #[derive(
     Queryable, Selectable, Serialize, Deserialize, Debug, Associations, Identifiable, PartialEq,
@@ -17,8 +19,15 @@ pub struct Task {
     pub completed: bool,
     pub user_id: Option<i32>,
     pub project_id: i32,
+    // pub progress:Progress,
+    pub title:String
 }
-
+#[derive(Debug, Serialize, Deserialize, PartialEq)]
+pub enum Progress {
+    ToDo,
+    InProgress,
+    Completed,
+}
 pub struct TaskResponse {
     pub id: i32,
     pub description: String,
@@ -26,6 +35,7 @@ pub struct TaskResponse {
     pub completed: bool,
     pub user_id: Option<i32>,
     pub project_id: i32,
+    title: String,
 }
 
 impl From<Task> for TaskResponse {
@@ -37,6 +47,7 @@ impl From<Task> for TaskResponse {
             completed: task.completed,
             project_id: task.project_id,
             user_id: task.user_id,
+            title:task.title
         }
     }
 }
@@ -49,5 +60,21 @@ pub struct NewTask<'a> {
     pub completed: bool,
     pub project_id: i32,
     pub user_id:Option<i32>,
+    // pub progress: Progress,
+    pub title: &'a str
+}
 
+impl Task {
+    pub fn with_assignees(self, assignees: Vec<User>) -> TaskWithAssignees {
+        TaskWithAssignees {
+            task: self,
+            assignees,
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct TaskWithAssignees {
+    pub task: Task,
+    pub assignees: Vec<User>,
 }
