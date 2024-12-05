@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import Image, { StaticImageData } from "next/image";
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,11 +8,13 @@ type InfoCardProps = {
     title: string;
     bodyText: string[];
     imageSrc: StaticImageData;
+    isComingSoon?: boolean;
+    linkTarget: string;
 };
 
 export const INFOCARD_BUTTON_TEXT = "+ info"; // Corrected typo
 
-const InfoCard = ({ title, bodyText, imageSrc }: InfoCardProps) => {
+const InfoCard = ({ title, bodyText, imageSrc, isComingSoon, linkTarget }: InfoCardProps) => {
     return (
         <Card className="flex flex-col bg-transparent border-none">
             {/* Card Header */}
@@ -22,18 +25,23 @@ const InfoCard = ({ title, bodyText, imageSrc }: InfoCardProps) => {
 
             {/* Card Content (Benefits) */}
             <CardContent className="flex-grow">
-                <ul className="list-disc px-6 space-y-2 text-white">
+                <ul className="list-disc px-6 space-y-2 text-white font-light">
                     {bodyText.map((text, index) => (
                         <li key={index}>{text}</li>
                     ))}
                 </ul>
             </CardContent>
-
-            {/* Card Footer (Button) */}
+            {/* Card Footer (Button or Coming Soon Text) */}
             <CardFooter className="flex justify-end mt-auto">
-                <Button className="mt-4 px-6 py-2 bg-white text-black rounded-md">
-                    {INFOCARD_BUTTON_TEXT}
-                </Button>
+                {isComingSoon ? (
+                    <p className="mt-4 text-3xl	text-white font-light">Coming Soon!</p>
+                ) : (
+                    <Link href={linkTarget} passHref>
+                        <Button className="mt-4 px-6 py-2 bg-white text-black rounded-md hover:bg-greyv1">
+                            {INFOCARD_BUTTON_TEXT}
+                        </Button>
+                    </Link>
+                )}
             </CardFooter>
         </Card>
     );
