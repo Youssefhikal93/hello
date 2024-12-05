@@ -1,8 +1,10 @@
 use diesel::prelude::*;
 use diesel::result::Error;
 
-use crate::models::task::{NewTask, Task};
-use crate::schema::tasks;
+use crate::models::task::{NewTask, Progress, Task, TaskWithAssignees};
+use crate::models::user::User;
+use crate::schema::tasks::{self};
+use crate::schema::user_tasks;
 
 pub fn create_task(
     conn: &mut PgConnection,
@@ -12,7 +14,6 @@ pub fn create_task(
     user_id: i32,
     title: &str
 ) -> Result<Task, Error> {
-    // let title:&str;
     let new_task = NewTask {
         description,
         reward,
@@ -20,6 +21,7 @@ pub fn create_task(
         project_id,
         user_id:Some(user_id),
         title,
+        progress:Progress::ToDo
     };
     let some = diesel::insert_into(tasks::table)
         .values(&new_task)
@@ -53,8 +55,6 @@ pub(crate) fn get_task_by_id(
 
 #[cfg(test)]
 mod tests {
-    use tasks::title;
-
     use crate::database::test_db::TestDb;
     use crate::services::project_service::create_project;
     use crate::services::user_service::register_user;

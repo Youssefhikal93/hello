@@ -1,9 +1,13 @@
-use diesel::prelude::*;
+use diesel::pg::{Pg, PgValue};
+use diesel::{prelude::*, serialize};
 use serde::{Deserialize, Serialize};
+use diesel::deserialize::{self, FromSql, FromSqlRow};
+use diesel::expression::AsExpression;
+use diesel::sql_types::Text;
 
 use crate::models::project::Project;
 use crate::models::user::User;
-use crate::schema::tasks;
+use crate::schema::tasks::{self};
 
 
 #[derive(
@@ -19,15 +23,10 @@ pub struct Task {
     pub completed: bool,
     pub user_id: Option<i32>,
     pub project_id: i32,
-    // pub progress:Progress,
+    pub progress:Progress,
     pub title:String
 }
-#[derive(Debug, Serialize, Deserialize, PartialEq)]
-pub enum Progress {
-    ToDo,
-    InProgress,
-    Completed,
-}
+
 pub struct TaskResponse {
     pub id: i32,
     pub description: String,
@@ -35,7 +34,9 @@ pub struct TaskResponse {
     pub completed: bool,
     pub user_id: Option<i32>,
     pub project_id: i32,
-    title: String,
+    pub title: String,
+    pub progress: String
+    
 }
 
 impl From<Task> for TaskResponse {
@@ -47,7 +48,12 @@ impl From<Task> for TaskResponse {
             completed: task.completed,
             project_id: task.project_id,
             user_id: task.user_id,
-            title:task.title
+            title:task.title,
+            progress: match task.progress {
+                Progress::ToDo => "to_do".to_string(),
+                Progress::InProgress => "in_progress".to_string(),
+                Progress::Completed => "completed".to_string(),
+            },            
         }
     }
 }
@@ -60,10 +66,11 @@ pub struct NewTask<'a> {
     pub completed: bool,
     pub project_id: i32,
     pub user_id:Option<i32>,
-    // pub progress: Progress,
+    pub progress: Progress,
     pub title: &'a str
 }
 
+//user to task many to many relationship
 impl Task {
     pub fn with_assignees(self, assignees: Vec<User>) -> TaskWithAssignees {
         TaskWithAssignees {
@@ -77,4 +84,43 @@ impl Task {
 pub struct TaskWithAssignees {
     pub task: Task,
     pub assignees: Vec<User>,
+}
+
+
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, AsExpression, FromSqlRow)]
+#[diesel(sql_type = Text)]
+pub enum Progress {
+    ToDo,
+    InProgress,
+    Completed,
+}
+
+use diesel::serialize::{IsNull, Output, ToSql, WriteTuple};
+use std::io::Write;
+
+impl ToSql<Text, Pg> for Progress {
+    fn to_sql<'b>(&'b self, out: &mut Output<'b, '_, Pg>) -> serialize::Result {
+        match *self {
+            Progress::ToDo => out.write_all(b"to_do")?,
+            Progress::InProgress => out.write_all(b"in_progress")?,
+            Progress::Completed => out.write_all(b"completed")?,
+        }
+        Ok(IsNull::No)
+    }
+}
+
+impl FromSql<Text, Pg> for Progress {
+    fn from_sql(bytes: PgValue<'_>) -> deserialize::Result<Self> {
+        // Convert the raw bytes to a string
+        let value = <String as FromSql<Text, Pg>>::from_sql(bytes)?;
+        
+        // Match the string value to an enum variant
+        match value.as_str() {
+            "to_do" => Ok(Progress::ToDo),
+            "in_progress" => Ok(Progress::InProgress),
+            "completed" => Ok(Progress::Completed),
+            _ => Err("Unrecognized enum it should be between the following values(to_do , in_prgress , completed)".into()),
+        }
+    }
 }
