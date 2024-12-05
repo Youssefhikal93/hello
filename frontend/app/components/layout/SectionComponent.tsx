@@ -67,7 +67,7 @@ const SectionComponent: React.FC<SectionComponentProps> = ({
                                 src={placeholderImage}
                                 alt="Placeholder Image"
                                 layout="responsive"
-                                className="rounded-lg object-cover"
+                                className="rounded-lg object-cover w-full"
                             />
                         </div>
                     </div>
