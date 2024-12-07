@@ -23,8 +23,8 @@ pub struct Task {
     pub completed: bool,
     pub user_id: Option<i32>,
     pub project_id: i32,
+    pub title:String,
     pub progress:Progress,
-    pub title:String
 }
 
 pub struct TaskResponse {
@@ -48,7 +48,7 @@ impl From<Task> for TaskResponse {
             completed: task.completed,
             project_id: task.project_id,
             user_id: task.user_id,
-            title:task.title,
+            title:task.title,     
             progress: match task.progress {
                 Progress::ToDo => "to_do".to_string(),
                 Progress::InProgress => "in_progress".to_string(),
@@ -66,8 +66,8 @@ pub struct NewTask<'a> {
     pub completed: bool,
     pub project_id: i32,
     pub user_id:Option<i32>,
+    pub title: &'a str,
     pub progress: Progress,
-    pub title: &'a str
 }
 
 //user to task many to many relationship
@@ -90,6 +90,7 @@ pub struct TaskWithAssignees {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, AsExpression, FromSqlRow)]
 #[diesel(sql_type = Text)]
+#[serde(rename_all = "snake_case")]
 pub enum Progress {
     ToDo,
     InProgress,
@@ -120,7 +121,8 @@ impl FromSql<Text, Pg> for Progress {
             "to_do" => Ok(Progress::ToDo),
             "in_progress" => Ok(Progress::InProgress),
             "completed" => Ok(Progress::Completed),
-            _ => Err("Unrecognized enum it should be between the following values(to_do , in_prgress , completed)".into()),
-        }
+            _ => Err(format!("Unrecognized enum value '{}' for Progress; it should be 'to_do', 'in_progress', or 'completed'", value).into()),        }
     }
 }
+
+
