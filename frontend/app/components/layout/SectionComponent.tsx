@@ -5,10 +5,10 @@ import { Button } from "@/components/ui/button";
 interface SubSection {
     title: string;
     description: string;
-  }
+}
 
 interface SectionComponentProps {
-    icon: StaticImageData;  
+    icon: StaticImageData;
     sectionTitle: string;
     sectionSubtitle: string;
     sectionDescription: string;
@@ -17,7 +17,7 @@ interface SectionComponentProps {
     backgroundClassName: string;
     placeholderImage: StaticImageData;
     idstring: string;
-  }
+}
 
 const SectionComponent: React.FC<SectionComponentProps> = ({
     icon,
@@ -31,25 +31,25 @@ const SectionComponent: React.FC<SectionComponentProps> = ({
     idstring,
 }) => {
     return (
-        <div id={`${idstring}`}  className={`w-full py-20 ${backgroundClassName}`}>
+        <div id={`${idstring}`} className={`w-full py-20 ${backgroundClassName}`}>
             <div className="max-w-[1440px] mx-auto px-6 h-auto flex flex-col space-y-8">
 
                 {/* Top Section (Icon, Title, Subtitle, Description) */}
-                <div className="text-white space-y-6 flex flex-col items-center lg:items-start">
-                    <div className="w-25 h-25 mb-6">
-                        <Image src={icon} alt="Icon" width={118} height={108} />
+                <div className="text-white space-y-6 flex flex-col items-start">
+                    <div className="mb-6">
+                        <Image src={icon} alt="Icon" className="object-contain w-auto h-auto max-w-[118px] max-h-[108px]" />
                     </div>
 
-                    <h2 className="text-5xl font-extrabold leading-tight">{sectionTitle}</h2>
-                    <p className="text-xl font-semibold text-white">{sectionSubtitle}</p>
-                    <p className="text-base font-extralight text-white leading-relaxed pb-10">{sectionDescription}</p>
+                    <h2 className="text-5xl font-extrabold leading-tight text-left">{sectionTitle}</h2>
+                    <p className="text-xl font-semibold text-white text-left">{sectionSubtitle}</p>
+                    <p className="text-base font-extralight text-white leading-relaxed pb-10 text-left">{sectionDescription}</p>
                 </div>
 
                 {/* Flex Container for Projects and Image */}
-                <div className="flex flex-col lg:flex-row items-center lg:items-start gap-10">
+                <div className="flex flex-col lg:flex-row items-start gap-10">
 
                     {/* Left Content (Text Sections) */}
-                    <div className="flex-1 space-y-8 text-white text-center lg:text-left">
+                    <div className="flex-1 space-y-8 text-white text-left">
                         {subSections.map((subSection, index) => (
                             <div key={index}>
                                 <h3 className="text-2xl font-bold pb-5">{subSection.title}</h3>
@@ -61,20 +61,19 @@ const SectionComponent: React.FC<SectionComponentProps> = ({
                     </div>
 
                     {/* Right Content (Image Placeholder) */}
-                    <div className="flex flex-col items-center lg:items-end space-y-6">
+                    <div className="flex flex-col items-start space-y-6">
                         <div className="w-full sm:w-[685px] rounded-lg mx-auto">
                             <Image
                                 src={placeholderImage}
                                 alt="Placeholder Image"
-                                layout="responsive"
-                                className="rounded-lg object-cover w-full"
+                                className="w-[790px] h-[450px] rounded-lg object-cover"
                             />
                         </div>
                     </div>
                 </div>
 
                 {/* Button Section */}
-                <div className="flex justify-center lg:justify-end">
+                <div className="flex justify-start">
                     <Button className="w-full sm:w-auto px-8 py-4 text-black bg-white font-medium rounded-lg text-lg shadow-md hover:shadow-lg hover:bg-greyv1">
                         {buttonText}
                     </Button>

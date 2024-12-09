@@ -49,15 +49,13 @@ const Footer = () => {
           <Image
             src={logo}
             alt="FlowerWork Logo"
-            width={40}
-            height={40}
-            className="hover:opacity-80 transition-opacity duration-300"
+            className="w-10 h-10 hover:opacity-80 transition-opacity duration-300"
           />
         </Link>
         <Link href="#" className="hover:underline">About FlowerWork</Link>
         <Link href="#" className="hover:underline">Contact Us</Link>
-        <Link href="#" className="hover:underline">Help & Support</Link>
-        <Link href="#" className="hover:underline">All About Beta</Link>
+        <Link href="#" className="hover:underline">Terms & Conditions</Link>
+        <Link href="#" className="hover:underline">Privacy Policy</Link>
       </div>
 
       {/* Social Media Icons */}

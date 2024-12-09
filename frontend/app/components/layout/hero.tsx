@@ -77,9 +77,8 @@ const Hero = () => {
 
           {/* Scroll Instruction */}
           <div
-            className={`ext-center text-white text-sm mb-2 ${
-              !hasScrolled ? "animate-pulse" : ""
-            }`}
+            className={`text-center text-white text-sm mb-2 ${!hasScrolled ? "animate-pulse" : ""
+              } block sm:hidden`}
           >
             Swipe or scroll to view more →
           </div>

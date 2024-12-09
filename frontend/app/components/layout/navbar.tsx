@@ -62,9 +62,7 @@ const Navbar: React.FC<NavbarProps> = ({ className, ...props }) => {
                   <Image
                     src={user}
                     alt="usericon"
-                    width={16}
-                    height={16}
-                    className="h-4 w-4 md:h-5 md:w-5"
+                    className="h-4 w-4 md:h-5 md:w-5 object-contain"
                   />
                 </Button>
               </Link>

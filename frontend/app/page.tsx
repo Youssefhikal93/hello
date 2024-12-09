@@ -8,40 +8,37 @@ export default function Home() {
   return (
     <div className="w-full">
       {/* Header Section */}
-      <header className="relative z-30">
-        <Navbar className="z-40" />
+      <header className="relative">
+        <Navbar className="" />
       </header>
 
       {/* Hero Image Container */}
-      <div className="relative w-full max-h-[1020px]">
+      <div className="relative w-full max-h-screen">
         {/* Large and Medium Screen Content */}
         <div className="hidden md:block">
           <Image
             src={heroimage}
             alt="sample-image"
-            width={1920}
-            height={1080}
-            className="w-full object-cover"
+            className="w-full h-auto object-cover"
           />
         </div>
 
         {/* Mobile Screen Content */}
         <div
-          className="block md:hidden bg-cover bg-center bg-black/50 w-full h-full flex flex-col items-center justify-start px-4 py-8 space-y-6"
+          className="block md:hidden bg-cover bg-center relative w-full h-auto flex flex-col items-center justify-start px-4 py-8 space-y-6"
           style={{
-            backgroundImage: `url(${mobileBackground.src})`, // Background Image
+            backgroundImage: `url('${mobileBackground.src}')`, // Background Image
           }}
         >
-          <div className="absolute inset-0 bg-black opacity-55 z-0"></div>
+          <div className="absolute inset-0 bg-black bg-opacity-50 z-0"></div>
           {/* Logo */}
           <Image
             src={logo}
             alt="logo"
             width={200}
             height={200}
-            className="w-auto h-auto z-10"
+            className="w-auto z-10"
           />
-
           {/* First Text */}
           <p className="text-purplev1 text-center  font-bold z-10">
             Hire workforce effortlessly and streamline workflows

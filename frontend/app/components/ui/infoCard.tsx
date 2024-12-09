@@ -19,8 +19,8 @@ const InfoCard = ({ title, bodyText, imageSrc, isComingSoon, linkTarget }: InfoC
         <Card className="flex flex-col bg-transparent border-none">
             {/* Card Header */}
             <CardHeader className="text-left">
-                <Image src={imageSrc} alt={title} className='mb-10'/>
-                <CardTitle className="font-montserrat text-white font-bold text-3xl leading-[42px]">{title}</CardTitle>
+                <Image src={imageSrc} alt={title} className="width:auto height:auto"/>
+                <CardTitle className="font-montserrat text-white font-bold text-3xl leading-[42px] pt-5">{title}</CardTitle>
             </CardHeader>
 
             {/* Card Content (Benefits) */}
