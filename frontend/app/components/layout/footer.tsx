@@ -52,7 +52,7 @@ const Footer = () => {
             className="w-10 h-10 hover:opacity-80 transition-opacity duration-300"
           />
         </Link>
-        <Link href="#" className="hover:underline">About FlowerWork</Link>
+        <Link href="/about-us" className="hover:underline">About FlowerWork</Link>
         <Link href="#" className="hover:underline">Contact Us</Link>
         <Link href="#" className="hover:underline">Terms & Conditions</Link>
         <Link href="#" className="hover:underline">Privacy Policy</Link>
