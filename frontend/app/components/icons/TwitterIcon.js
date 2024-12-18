@@ -5,6 +5,5 @@ const DiscordIcon = () => {
     </svg>
     );
   };
-  
+
   export default DiscordIcon;
-  
